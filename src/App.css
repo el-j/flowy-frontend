@@ -32,7 +32,48 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.projectOverviewPrevImg > img{
+  max-width: 100%;
+  display:inline-block;
+}
+
+.projectOverviewTextElements {
+
+}
+.btn-primary {
+  color: #333;
+  background-color: #dadada;
+  border-color: #dbdbdb
+}
+
+.btn-primary:hover {
+  color: #333;
+  background-color: #dedede;
+  border-color: #dddddd
+}
+
+.btn-primary:focus, .btn-primary.focus {
+  box-shadow: 0 0 0 .2rem rgba(255, 255 , 255, 0.5)
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+  color: #333;
+  background-color: #dadada;
+  border-color: #dbdbdb
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show>.btn-primary.dropdown-toggle {
+  color: #333;
+  background-color: #dfdfdf;
+  border-color: #000
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .show>.btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 .2rem rgba(255, 255 , 255, 0.5)
 }
