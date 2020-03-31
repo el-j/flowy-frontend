@@ -38,6 +38,18 @@
   }
 }
 
+input[type="file"] {
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
+  width: 1px;
+  height: 1px;
+}
+
+/* button > label {
+  margin: 0;
+} */
+
 .projectOverviewPrevImg > img{
   max-width: 100%;
   display:inline-block;

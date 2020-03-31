@@ -13,14 +13,13 @@ import { NewProject, NewProjectDetails, YourProjects } from '../../components'
 
 class Overview extends React.Component{
   state = {
+      isLoading: false,
       isLoaded: false,
       uploaded: false,
       projects: [],
       newProject: {
-        sketchfile: '',
-        mmdfile: '',
-        xmlfile: '',
-        name: ''
+        name: '',
+        files: ''
       },
       createProgress: false
   }
@@ -35,7 +34,7 @@ class Overview extends React.Component{
         projects: result,
       }
       console.log('the response', response);
-      this.setState(response)
+      this.setState({...response})
     } ,(error) => {
             response = {
               isLoaded: true,
@@ -43,74 +42,74 @@ class Overview extends React.Component{
             }
             console.log('there is an error',error);
             // console.log(response)
-            this.setState(response)
+            this.setState({...response})
           })
   }
 
   handleChange = (e) => {
-    console.log(e.target);
+    // console.log(e.target);
     const temp = this.state.newProject
 
     switch (e.target.id) {
       case 'newProjectName':
           temp.name = e.target.value
         break;
-      case 'newMMD':
-        temp.mmdfile = e.target.files
-
-        break;
-      case 'newSketch':
-      temp.sketchfile = e.target.files
-
-        break;
-      case 'newXML':
-      temp.xmlfile = e.target.files
-
-        break;
-      default:
-
     }
     this.setState({newProject: temp})
 
   }
-  handleSubmit = (e) => {
-    console.log(e);
-       e.preventDefault()
+  handleSubmit = (event) => {
+    console.log( 'from handle handleSubmit:',event,this.state)
+    event.preventDefault()
        let response = {}
        var formData = new FormData();
-       for (const key of Object.keys(this.state.newProject.sketchfile)) {
-           formData.append('imgCollection', this.state.newProject.sketchfile[key])
+       let files = this.state.newProject.files
+       let name = this.state.newProject.name
+       for (var i = 0; i < files.length; i++) {
+         formData.append('file',files[i],files[i].name)
        }
-       uploadProjectData(`${this.state.newProject.name}`).then(result =>{
-         console.log(result)
+       let thatState = this.state
+       formData.append('projectName',name)
+       uploadProjectData(formData,name).then(result =>{
+         console.log("resulte after upload ProjectData",result,this.state,thatState)
          response = {
            uploaded: true,
-           createProgress:false
+           createProgress:false,
+           projects: result
          }
-
-         this.setState(response)
+         console.log(this.state);
+         this.setState({...response})
+         console.log(this.state);
        } ,(error) => {
                response = {
                  uploaded: false,
                  createProgress:false
                }
-               this.setState(response)
+               console.log(error,' oder was?');
+               this.setState({...response})
              })
    }
 
-  handleCreateNewProject = (e) => {
+  handleCreateNewProject = event => {
+    event.persist()
+    this.setState({isLoading:true})
+    console.log(this.state);
     let response = {}
-    const {name,xml,sketch,mmd} = this.state.newProject
-    console.log("CREATE NEW PROJECT NOW >>>> NAME:",this.state.newProject.name);
+    const {name,xml,sketch,mmd, files} = this.state.newProject
+    const mynewProject = this.state.newProject
+    mynewProject.files = event.target.files
+
+    console.log("CREATE NEW PROJECT NOW >>>> NAME:",this.state.newProject.name, event.target.files);
     createProject(this.state.newProject.name).then(result =>{
-      console.log("response result",result)
+      console.log("response result",result,result.body)
       response = {
         isLoaded: true,
         projects: result.projects,
-        createProgress:true
+        createProgress:true,
+        newProject: mynewProject
       }
+        this.setState({...response}, this.handleSubmit(event))
 
-      this.setState(response)
     } ,(error) => {
             response = {
               isLoaded: true,
@@ -118,8 +117,9 @@ class Overview extends React.Component{
               createProgress:false
             }
             console.log("we got error response",error);
-            this.setState(response)
+            this.setState({...response})
           })
+
   }
 
   handleRemove = (e) => {
@@ -145,38 +145,21 @@ class Overview extends React.Component{
 
   render(){
     const { projects, newProject, createProgress } = this.state
-    console.log(createProgress,this.state);
       return(
           <Container>
             <Row>
-            {!createProgress?(
               <Col lg={12}>
                 <NewProject
                   handleChange={this.handleChange}
                   value={newProject.name}
                   handleCreateNewProject={this.handleCreateNewProject}
+                  handleSubmit={this.handleSubmit}
                   />
               </Col>
-            ):(
-              <>
-              <Col lg={12}>
-                <NewProjectDetails
-                  onSubmit={this.handleSubmit}
-                  handleChange={this.handleChange}
-                  newProject={this.state.newProject}
-                  handleRemove={this.handleRemove}
-                  />
-
-              </Col>
-
-              </>
-              )
-            }
           </Row>
           <Row>
             <Col>
-
-              <YourProjects projects={projects}/>
+              <YourProjects key='yourprojects' projects={projects}/>
             </Col>
         </Row>
         </Container>

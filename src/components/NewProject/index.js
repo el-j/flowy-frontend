@@ -5,7 +5,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 
-const NewProject = ({handleChange, value,handleCreateNewProject}) => {
+const NewProject = ({handleChange,handleSubmit, value,handleCreateNewProject}) => {
   return (
       <>
       <Row style={{marginTop:'2rem'}}>
@@ -15,7 +15,7 @@ const NewProject = ({handleChange, value,handleCreateNewProject}) => {
       </Row>
       <Row>
         <Col>
-        <InputGroup className="mb-3">
+        <InputGroup className="mb-3" >
           <FormControl
             placeholder="New Project Name"
             aria-label="New Project Name"
@@ -23,15 +23,26 @@ const NewProject = ({handleChange, value,handleCreateNewProject}) => {
             aria-describedby="basic-addon2"
             onChange={handleChange}
             value={value}
-
           />
           <InputGroup.Append>
-            <Button variant="outline-secondary" onClick={handleCreateNewProject}>+</Button>
+            <input
+              placeholder="+"
+              aria-label="+"
+              aria-describedby="upload files"
+              id="uploadFiles"
+              onChange={handleCreateNewProject}
+              type="file"
+              multiple
+            />
+            <label htmlFor="uploadFiles" className={'btn btn-outline-secondary'}>+</label>
+
           </InputGroup.Append>
         </InputGroup>
         </Col>
       </Row>
     </>)
 }
+// <form encType="multipart/form-data" method="post">
+// </form>
 
 export default NewProject
