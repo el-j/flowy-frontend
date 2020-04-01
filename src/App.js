@@ -8,6 +8,7 @@ import {
   useParams
 } from "react-router-dom";
 
+import {useRoutes} from 'hookrouter';
 
 import MerMaidProject from "./views/mermaid"
 import Overview from "./views/Overview"
@@ -19,6 +20,13 @@ import MyNavbar from "./components/myNavbar"
 import MyComponent from "./components/fetchApi"
 
 // import Topics from "./views/topics"
+function ProjectView() {
+  // We can call useParams() here to get the params,
+  // or in any child element as well!
+  let { project } = useParams()
+  // ...
+}
+
 
 export default function App() {
   return (
@@ -31,6 +39,9 @@ export default function App() {
           </Route>
           <Route path="/">
             <Overview />
+          </Route>
+          <Route path="/project/:projectname">
+            <ProjectView />
           </Route>
         </Switch>
       </div>

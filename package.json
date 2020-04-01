@@ -8,6 +8,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.4.1",
+    "hookrouter": "^1.2.3",
     "mermaid": "^8.4.8",
     "react": "^16.13.0",
     "react-bootstrap": "^1.0.0",
@@ -38,5 +39,5 @@
       "last 1 safari version"
     ]
   },
-   "proxy": "http://localhost:4000"
+  "proxy": "http://localhost:4000"
 }

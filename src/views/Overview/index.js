@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { withRouter } from 'react-router-dom';
 
 /*bootstrap imports */
 import Col from 'react-bootstrap/Col';
@@ -12,6 +12,7 @@ import {getProjectsFromApi, createProject,uploadProjectData, removeProject} from
 import { NewProject, NewProjectDetails, YourProjects } from '../../components'
 
 class Overview extends React.Component{
+
   state = {
       isLoading: false,
       isLoaded: false,
@@ -122,24 +123,31 @@ class Overview extends React.Component{
 
   }
 
-  handleRemove = (e) => {
+  handleOpenProject = (projectName) => {
+    let path = `/project/${projectName}`;
+
+    console.log(path, this.props.history)
+    this.props.history.push(path)
+    }
+
+  handleRemoveProject = (projectName) => {
     let response = {}
-    const {name,xml,sketch,mmd} = this.state.newProject
-    console.log("REMOVE NEW PROJECT NOW >>>> ",this.state.newProject.name);
-    removeProject(this.state.newProject.name).then(result =>{
+    console.log("REMOVE NEW PROJECT NOW >>>> ",projectName);
+    removeProject(projectName).then(result =>{
       console.log("response result",result)
       response = {
         isLoaded: true,
-        createProgress:false
+        createProgress:false,
+        projects: result
       }
-      this.setState(response)
+      this.setState({...response})
     } ,(error) => {
             response = {
               isLoaded: true,
               createProgress:false
             }
             console.log("we got error response",error);
-            this.setState(response)
+            this.setState({...response})
           })
   }
 
@@ -159,11 +167,16 @@ class Overview extends React.Component{
           </Row>
           <Row>
             <Col>
-              <YourProjects key='yourprojects' projects={projects}/>
+              <YourProjects
+                key='yourprojects'
+                projects={projects}
+                openProject={this.handleOpenProject}
+                removeProject={this.handleRemoveProject}
+                />
             </Col>
         </Row>
         </Container>
       )
     }
 }
-export default Overview
+export default withRouter(Overview)

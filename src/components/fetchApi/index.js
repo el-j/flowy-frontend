@@ -28,7 +28,7 @@ return fetch(url, {
 export const getProjectsFromApi = () => fetch(`${api}/getProjects`).then(res => res.json())
 
 export const createProject = (newProjectName) => fetch(`${api}/createProject/:${newProjectName}`).then(res => res)
-export const removeProject = (newProjectName) => fetch(`${api}/removeProject/:${newProjectName}`).then(res => res)
+export const removeProject = (newProjectName) => fetch(`${api}/removeProject/:${newProjectName}`).then(res => res.json())
 
 export const uploadProjectData = (incomedata,projectName) => postData(`${api}/uploadProjectData/:${projectName}`,incomedata).then(res=> res.json())
 

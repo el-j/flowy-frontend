@@ -263,7 +263,6 @@ class MerMaidProject extends React.Component {
                         }
                       }})
 
-
                       reactGraph.nodes =  mytempnodes
 
                     let readySvg = setSvgContent(mysvgTree)
@@ -274,7 +273,6 @@ class MerMaidProject extends React.Component {
                     response.mmd[key].data = thismmd.data
                     response.mmd[key].svg = readySvg
                     response.reactGraph =  reactGraph
-
                     return readySvg
                   })
 
