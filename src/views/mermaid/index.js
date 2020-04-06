@@ -14,10 +14,10 @@ import FlowChart from '../../components/FlowChart'
 //     // Do stuff here
 //     console.log(el.tagName);
 // });
-
-String.prototype.replaceAll = function(f, r) {
-  return this.split(f).join(r);
-}
+//
+// String.prototype.replaceAll = function(f, r) {
+//   return this.split(f).join(r);
+// }
 
 const convertPolyToPath = (poly) => {
   var svgNS = poly.ownerSVGElement.namespaceURI;
@@ -71,12 +71,12 @@ const getPorts = (allConnections, tree, counter) => {
 
   let ports = {}
   let portcounter = 1
-  Array.from(allConnections).forEach((node, i) => {
+  allConnections.forEach((node, i) => {
     console.log(node, tree, counter)
     console.log("WE GET THE PORTS NOW:", node, "in the hole tree:", tree[counter])
 
-    let from = tree.filter(thisnode => {
-      // console.log(node.name)
+    let from = Object.filter(tree,thisnode => {
+      console.log("our node name",node.id,node,node.name)
       return node.from.includes(thisnode.name)
     })
 
@@ -134,7 +134,7 @@ const makelinks = (allConnections, tree, counter) => {
     console.log(node, tree, counter)
     console.log("WE MAKE THE LINKS NOW:", node, "in the hole tree:")
 
-    let from = tree.filter(thisnode => {
+    let from = Object.filter(tree,thisnode => {
       // console.log(node.name)
       return node.from.includes(thisnode.name)
     })

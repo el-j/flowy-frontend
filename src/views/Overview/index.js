@@ -1,5 +1,4 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 
 /*bootstrap imports */
 import Col from 'react-bootstrap/Col';
@@ -8,160 +7,102 @@ import Container from 'react-bootstrap/Container';
 
 // import Projects from '../../dataMocks/projects.js'
 import {getProjectsFromApi, createProject,uploadProjectData, removeProject} from '../../components/fetchApi'
+import useFetchApi from '../../components/fetchApi/useFetchApi.js'
 
 import { NewProject, NewProjectDetails, YourProjects } from '../../components'
 
-class Overview extends React.Component{
+const Overview = (props) => {
+  const myData = useFetchApi('getProjects')
+  const [projects,setProjects] = useState()
+  const [newProject,setNewProject] = useState({name:'',files:[]})
+  const [isLoaded,setIsLoaded] = useState(false)
+  const [uploaded,setUploaded] = useState(false)
+  const [createProgress,setCreateProgress] = useState(false)
+  const [projectRedirect,setProjectRedirect] = useState({path:'',loadProject:false})
 
-  state = {
-      isLoading: false,
-      isLoaded: false,
-      uploaded: false,
-      projects: [],
-      newProject: {
-        name: '',
-        files: ''
-      },
-      createProgress: false
-  }
 
-  componentDidMount = () => {
-    let response = {}
-    console.log("We get from Api now",this.state);
-    getProjectsFromApi().then(result =>{
-      console.log("myresult from api call",result)
-      response = {
-        isLoaded: true,
-        projects: result,
-      }
-      console.log('the response', response);
-      this.setState({...response})
-    } ,(error) => {
-            response = {
-              isLoaded: true,
-              projects: []
-            }
-            console.log('there is an error',error);
-            // console.log(response)
-            this.setState({...response})
-          })
-  }
+    useEffect(() => {
+          setProjects(myData)
+          setIsLoaded(true)
+    },[myData])
 
-  handleChange = (e) => {
-    // console.log(e.target);
-    const temp = this.state.newProject
+  const handleOpenProject = (projectName) => {
+    let path = `/project/${projectName}`;
+    setProjectRedirect({ path:path, loadProject:true })
 
-    switch (e.target.id) {
-      case 'newProjectName':
-          temp.name = e.target.value
-        break;
     }
-    this.setState({newProject: temp})
 
+  const handleChange = (e) => {
+    const temp = e.target.value
+    setNewProject({name:temp,files:[]})
   }
-  handleSubmit = (event) => {
-    console.log( 'from handle handleSubmit:',event,this.state)
-    event.preventDefault()
-       let response = {}
+
+  const handleCreateNewProject = event => {
+    event.persist()
+
+    console.log("CREATE NEW PROJECT NOW >>>> NAME:",newProject);
+    createProject(newProject.name).then(result =>{
+      console.log("response result",result,result.body,newProject.name,event.target.files)
+      setIsLoaded(true)
+      setCreateProgress(true)
+      handleSubmit(event)
+
+    } ,(error) => {
+            console.log("we got error response",error);
+            setProjects([])
+            setNewProject('')
+            setIsLoaded(false)
+          })
+        }
+
+  const handleSubmit = event => {
+      event.preventDefault()
        var formData = new FormData();
-       let files = this.state.newProject.files
-       let name = this.state.newProject.name
+       let files = event.target.files
+       let name = newProject.name
        for (var i = 0; i < files.length; i++) {
          formData.append('file',files[i],files[i].name)
        }
-       let thatState = this.state
        formData.append('projectName',name)
        uploadProjectData(formData,name).then(result =>{
-         console.log("resulte after upload ProjectData",result,this.state,thatState)
-         response = {
-           uploaded: true,
-           createProgress:false,
-           projects: result
-         }
-         console.log(this.state);
-         this.setState({...response})
-         console.log(this.state);
+         setProjects(result)
+         setUploaded(true)
+         setCreateProgress(false)
        } ,(error) => {
-               response = {
-                 uploaded: false,
-                 createProgress:false
-               }
-               console.log(error,' oder was?');
-               this.setState({...response})
+               setProjects([])
+               setUploaded(false)
+               setCreateProgress(false)
              })
    }
 
-  handleCreateNewProject = event => {
-    event.persist()
-    this.setState({isLoading:true})
-    console.log(this.state);
-    let response = {}
-    const {name,xml,sketch,mmd, files} = this.state.newProject
-    const mynewProject = this.state.newProject
-    mynewProject.files = event.target.files
-
-    console.log("CREATE NEW PROJECT NOW >>>> NAME:",this.state.newProject.name, event.target.files);
-    createProject(this.state.newProject.name).then(result =>{
-      console.log("response result",result,result.body)
-      response = {
-        isLoaded: true,
-        projects: result.projects,
-        createProgress:true,
-        newProject: mynewProject
-      }
-        this.setState({...response}, this.handleSubmit(event))
-
-    } ,(error) => {
-            response = {
-              isLoaded: true,
-              projects: [],
-              createProgress:false
-            }
-            console.log("we got error response",error);
-            this.setState({...response})
-          })
-
-  }
-
-  handleOpenProject = (projectName) => {
-    let path = `/project/${projectName}`;
-
-    console.log(path, this.props.history)
-    this.props.history.push(path)
-    }
-
-  handleRemoveProject = (projectName) => {
+  const handleRemoveProject = (projectName) => {
     let response = {}
     console.log("REMOVE NEW PROJECT NOW >>>> ",projectName);
     removeProject(projectName).then(result =>{
       console.log("response result",result)
-      response = {
-        isLoaded: true,
-        createProgress:false,
-        projects: result
-      }
-      this.setState({...response})
+      setProjects(result)
+      setIsLoaded(true)
     } ,(error) => {
-            response = {
-              isLoaded: true,
-              createProgress:false
-            }
             console.log("we got error response",error);
-            this.setState({...response})
+            setProjects([])
+            setIsLoaded(false)
           })
-  }
+      }
 
-  render(){
-    const { projects, newProject, createProgress } = this.state
       return(
+        <>
+        {console.log(projectRedirect)}
+          {
+            // projectRedirect.loadProject? <Redirect to={`${projectRedirect.path}`} />:null
+          }
           <Container>
             <Row>
               <Col lg={12}>
                 <NewProject
-                  handleChange={this.handleChange}
+                  handleChange={handleChange}
                   value={newProject.name}
-                  handleCreateNewProject={this.handleCreateNewProject}
-                  handleSubmit={this.handleSubmit}
+                  handleCreateNewProject={handleCreateNewProject}
+                  handleSubmit={handleSubmit}
                   />
               </Col>
           </Row>
@@ -170,13 +111,14 @@ class Overview extends React.Component{
               <YourProjects
                 key='yourprojects'
                 projects={projects}
-                openProject={this.handleOpenProject}
-                removeProject={this.handleRemoveProject}
+                openProject={handleOpenProject}
+                removeProject={handleRemoveProject}
                 />
             </Col>
         </Row>
         </Container>
+      </>
       )
     }
-}
-export default withRouter(Overview)
+
+export default Overview

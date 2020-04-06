@@ -1,15 +1,15 @@
 import React from "react";
 import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
 
-
+import {A} from 'hookrouter';
 const MyNavbar = () => (
 <>
   <Navbar bg="dark" variant="dark">
     <Navbar.Brand href="/">Navbar</Navbar.Brand>
     <Nav className="mr-auto">
-      <Nav.Link href="/">MerMaidProject</Nav.Link>
-      <Nav.Link href="/textIdToScreen">Textid To Screen</Nav.Link>
-      <Nav.Link href="/FlowChart">FlowChart</Nav.Link>
+      <A href="/">Overview</A>
+      <A href="/project/:projectName">Load Project</A>
+
     </Nav>
     <Form inline>
       <FormControl type="text" placeholder="Search" className="mr-sm-2" />

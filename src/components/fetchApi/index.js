@@ -33,7 +33,7 @@ export const removeProject = (newProjectName) => fetch(`${api}/removeProject/:${
 export const uploadProjectData = (incomedata,projectName) => postData(`${api}/uploadProjectData/:${projectName}`,incomedata).then(res=> res.json())
 
 
-export const getFiles = (state) => fetch(`${api}/reload`).then(res => res.json())
+export const loadProject = (projectname) => fetch(`${api}/loadProject/:${projectname}`).then(res => res.json())
 export const getAllFiles = (state) => fetch(`${api}/getallfiles`).then(res => res.json())
 
 export const loadFiles = (filetype) => fetch(`${api}/loadfile/:${filetype}`).then(res => res.json())
@@ -41,7 +41,7 @@ export const loadFiles = (filetype) => fetch(`${api}/loadfile/:${filetype}`).the
 export const loadPngs = (filetype) => fetch(`${api}/loadpngs`).then(res => res.json())
 
 export default {
-  getFiles,
+  loadProject,
   loadFiles,
   getAllFiles,
   getProjectsFromApi,

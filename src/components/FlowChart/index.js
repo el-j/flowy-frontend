@@ -2,7 +2,7 @@ import React from "react";
 import { FlowChartWithState, INodeDefaultProps } from "@mrblenny/react-flow-chart";
 import styled from 'styled-components'
 
-import simpleExample from './simpleExample.js'
+// import simpleExample from './simpleExample.js'
 
 const Outer = styled.div`
   background-color:#fff;
@@ -31,13 +31,19 @@ const DecisionInner = styled.div`
   transform: translate(0px,40px) rotate(-45deg)
 `
 
-
+const NodeOuterCustom = ({node, config}) => {
+  return (
+    <div>
+    gaga
+    </div>
+  )
+}
 /**
  * Create the custom component,
  * Make sure it has the same prop signature
  */
 const NodeInnerCustom = ({ node, config }) => {
-  console.log(INodeDefaultProps);
+  // console.log(node);
   switch (node.type) {
     case 'decision':
     return (
@@ -70,13 +76,9 @@ const NodeInnerCustom = ({ node, config }) => {
 
 
 const FlowChart = ({chartData}) => {
-  let myData = chartData
-  if (chartData === undefined) {
-    myData = simpleExample
-  }
-
-  return (<FlowChartWithState initialValue={myData} Components={{
-            NodeInner: NodeInnerCustom
+  return (<FlowChartWithState initialValue={chartData} Components={{
+            NodeInner: NodeInnerCustom,
+            NodeOuter: NodeOuterCustom
           }} />
   )
 }
