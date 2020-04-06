@@ -1,31 +1,13 @@
 import React, {useState} from 'react';
-import { loadProject, loadFiles } from '../../components/fetchApi'
+import ReactDOM from 'react-dom'
+import { loadProject, loadFiles, saveProject } from '../../components/fetchApi'
 import mermaid from 'mermaid'
 import FlowChart from '../../components/FlowChart'
-
-// Array.prototype.forEach.call(els, function(el) {
-//     // Do stuff here
-//     console.log(el.tagName);
-// });
+import Options from '../../components/ProjectOptions'
 
 String.prototype.replaceAll = function(f,r){return this.split(f).join(r);}
-//
-// const convertPolyToPath = (poly) =>{
-//   var svgNS = poly.ownerSVGElement.namespaceURI;
-//   var path = document.createElementNS(svgNS,'path');
-//   var points = poly.getAttribute('points').split(/\s+|,/);
-//   var x0=points.shift(), y0=points.shift();
-//   var pathdata = 'M'+x0+','+y0+'L'+points.join(' ');
-//   if (poly.tagName=='polygon') pathdata+='z';
-//   path.setAttribute('d',pathdata);
-//   path.setAttribute('id','test');
-//   poly.parentNode.replaceChild(path,poly);
-//   return
-// }
 
-
-
-
+const flowchartRef = React.createRef();
 // export default const ProjectView = () => {
 class ProjectView extends React.Component {
     constructor(props) {
@@ -35,9 +17,13 @@ class ProjectView extends React.Component {
         isLoaded: true,
         project: {}
       }
+      this.flowchartRef = flowchartRef
+
       this.loadProject = loadProject.bind(this);
       this.loadFiles = loadFiles.bind(this);
       this.handleClick = this.handleClick.bind(this);
+      this.handleSave = this.handleSave.bind(this);
+      this.saveProject = saveProject.bind(this);
     }
 
   // const [error, setError] = useState(null)
@@ -54,26 +40,43 @@ class ProjectView extends React.Component {
           isLoaded: true,
           project:result
         };
-
-
         const newState = {... this.state ,...response}
         this.setState(newState)
-
       },
       (error) => {
         response = {
           isLoaded: true,
           error
         }
-        // console.log(response)
         this.setState(response)
-      }
-    )
-
+      })
   }
 
   handleClick(){ console.log("yes")}
 
+
+  handleSave(e){
+    let response = {}
+    let  thatData = this.state.project
+    thatData.projectJson = this.flowchartRef.current.state
+    this.saveProject(this.state.project.name,thatData).then(
+      (result) => {
+        response = {
+          error: null,
+          isLoaded: true,
+          project:result
+        };
+        const newState = {... this.state ,...response}
+        this.setState(newState)
+      },
+      (error) => {
+        response = {
+          isLoaded: true,
+          error
+        }
+        this.setState(response)
+      })
+  }
 
   render() {
     const { error, isLoaded, project } = this.state;
@@ -84,12 +87,15 @@ class ProjectView extends React.Component {
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
-      console.log(this.state)
       return (
         <div className='container-fluid'>
-                      {this.state.project&&this.state.project.projectJson?(
-                <FlowChart chartData={this.state.project.projectJson}/>
+              {this.state.project&&this.state.project.projectJson?(
+                <>
+                  <Options handleSave={this.handleSave}/>
+                  <FlowChart id={'projectFlowGraph'} ref={flowchartRef} chartData={this.state.project.projectJson}/>
+                </>
                 ):(null)}
+
 
         </div>
       );

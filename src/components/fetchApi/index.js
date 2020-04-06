@@ -4,6 +4,7 @@ export const api = 'http://localhost:4000/api'
 
 function postData(url, data) {
   // Default options are marked with *
+  console.log(url,data);
 return fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     body: data // body data type must match "Content-Type" header
@@ -24,6 +25,27 @@ return fetch(url, {
 
 }
 
+function saveProjectData(url, data) {
+  // Default options are marked with *
+  console.log(url,data);
+return fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    headers: {
+        'Content-Type': 'application/json',
+      },
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+    // mode: '*cors', // no-cors, *cors, same-origin
+    // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    // credentials: 'omit', // include, *same-origin, omit
+    // enctype:"multipart/form-data",
+    // redirect: 'follow', // manual, *follow, error
+    // referrerPolicy: 'no-referrer', // no-referrer, *client
+  // return await response.json(); // parses JSON response into native JavaScript objects
+  // console.log("this is the response from post files",data);
+
+}
+
 
 export const getProjectsFromApi = () => fetch(`${api}/getProjects`).then(res => res.json())
 
@@ -31,6 +53,7 @@ export const createProject = (newProjectName) => fetch(`${api}/createProject/:${
 export const removeProject = (newProjectName) => fetch(`${api}/removeProject/:${newProjectName}`).then(res => res.json())
 
 export const uploadProjectData = (incomedata,projectName) => postData(`${api}/uploadProjectData/:${projectName}`,incomedata).then(res=> res.json())
+export const saveProject = (projectName,projectJson) => saveProjectData(`${api}/saveProject/:${projectName}`,projectJson).then(res=> res.json())
 
 
 export const loadProject = (projectname) => fetch(`${api}/loadProject/:${projectname}`).then(res => res.json())
@@ -47,5 +70,6 @@ export default {
   getProjectsFromApi,
   createProject,
   removeProject,
-  uploadProjectData
+  uploadProjectData,
+  saveProject
 }

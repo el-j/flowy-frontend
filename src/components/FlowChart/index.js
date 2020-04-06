@@ -5,7 +5,7 @@ import styled from 'styled-components'
 // import simpleExample from './simpleExample.js'
 
 const Outer = styled.div`
-  background-color:#fff;
+   background-color:#fff;
   max-width: 300px;
   display:block;
   word-break: break-all;
@@ -22,45 +22,45 @@ const DecisionOuter = styled.div`
   display:block;
   word-break: break-all;
   transform: rotate(45deg);
-
-  /* max-height: 200px; */
 `
+
+const DarkBox = styled.div`
+background-color: #fff;
+max-width: 300px;
+display: block;
+word-break: break-all;
+
+`
+
 
 const DecisionInner = styled.div`
   padding: 20px;
   transform: translate(0px,40px) rotate(-45deg)
 `
 
-const NodeOuterCustom = ({node, config}) => {
-  return (
-    <div>
-    gaga
-    </div>
-  )
-}
+
 /**
  * Create the custom component,
  * Make sure it has the same prop signature
  */
-const NodeInnerCustom = ({ node, config }) => {
-  // console.log(node);
+
+const NodeInnerCustom = ({node,config},props) => {
+  // console.log(node,props)
   switch (node.type) {
     case 'decision':
     return (
       <DecisionOuter>
-        <div>
         <DecisionInner>
         <h5>{node.text}</h5>
         <p>{node.type} <i>{node.id}</i></p>
         </DecisionInner>
-        </div>
       </DecisionOuter>
     )
       break;
 
     default:
     return (
-    <Outer>
+    <Outer id={node.id} pos={{x:node.position.x, y:node.position.y}}>
       <div style={{display:'block', width: '100%'}}>
       <img src={node.path} style={{width: 'inherit'}} />
       </div>
@@ -75,12 +75,44 @@ const NodeInnerCustom = ({ node, config }) => {
 }
 
 
-const FlowChart = ({chartData}) => {
-  return (<FlowChartWithState initialValue={chartData} Components={{
-            NodeInner: NodeInnerCustom,
-            NodeOuter: NodeOuterCustom
-          }} />
+/*
+NOT WORKIN AS NOT FITTING CONNECOTRS AND LINKS ANYMORE!
+*/
+// const NodeCustom = React.forwardRef((props, ref) => {
+//   let node = props.node
+//   let children = props.children
+//   let otherProps = props
+//   console.log(props);
+//   if (node.type === 'decision') {
+//     return (
+//       <DecisionOuter ref={ref} {...otherProps}>
+//         {children}
+//       </DecisionOuter>
+//     )
+//   } else {
+//     return (
+//       <DarkBox ref={ref} {...otherProps}>
+//         {children}
+//       </DarkBox>
+//     )
+//   }
+// })
+
+
+const FlowChart = React.forwardRef((props,ref) => {
+  console.log(props,ref)
+  let chartData = props.chartData
+    return (<FlowChartWithState
+              ref={ref}
+              initialValue={chartData}
+              config={{
+              }}
+              Components={{
+                // Node: NodeCustom,
+                NodeInner:NodeInnerCustom
+              }}
+              />
   )
-}
+})
 
 export default FlowChart

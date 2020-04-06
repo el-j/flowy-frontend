@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { navigate } from "hookrouter";
 /*bootstrap imports */
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -18,9 +18,7 @@ const Overview = (props) => {
   const [isLoaded,setIsLoaded] = useState(false)
   const [uploaded,setUploaded] = useState(false)
   const [createProgress,setCreateProgress] = useState(false)
-  const [projectRedirect,setProjectRedirect] = useState({path:'',loadProject:false})
-
-
+  
     useEffect(() => {
           setProjects(myData)
           setIsLoaded(true)
@@ -28,8 +26,7 @@ const Overview = (props) => {
 
   const handleOpenProject = (projectName) => {
     let path = `/project/${projectName}`;
-    setProjectRedirect({ path:path, loadProject:true })
-
+    navigate(path);
     }
 
   const handleChange = (e) => {
@@ -91,10 +88,6 @@ const Overview = (props) => {
 
       return(
         <>
-        {console.log(projectRedirect)}
-          {
-            // projectRedirect.loadProject? <Redirect to={`${projectRedirect.path}`} />:null
-          }
           <Container>
             <Row>
               <Col lg={12}>
