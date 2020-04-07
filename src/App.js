@@ -1,40 +1,17 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams
-} from "react-router-dom";
+import {useRoutes} from 'hookrouter';
 
-
-import MerMaidProject from "./views/mermaid"
-import Overview from "./views/Overview"
-import TextIdToScreen from "./views/textIdToScreen"
-
-// import FlowChart from "./views/FlowChart"
-
+import Routes from './routes'
 import MyNavbar from "./components/myNavbar"
-import MyComponent from "./components/fetchApi"
 
-// import Topics from "./views/topics"
 
 export default function App() {
+  const routeResult = useRoutes(Routes)
   return (
-    <Router>
-      <div>
-        <MyNavbar />
-        <Switch>
-          <Route path="/textIdToScreen">
-            <TextIdToScreen />
-          </Route>
-          <Route path="/">
-            <MerMaidProject/>
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+    <>
+      <MyNavbar />
+      { routeResult || <> no page found </> }
+    </>
   );
 }
 

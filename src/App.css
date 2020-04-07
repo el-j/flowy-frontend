@@ -1,3 +1,45 @@
+svg {
+  z-index:5000;
+}
+
+
+body, #root {
+  margin: 0;
+  width: 100%;
+}
+
+.container-fluid {
+  padding: 0;
+}
+.projectCard::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: rgb(255, 255, 255);
+  position: absolute;
+  border-radius: 0.5rem;
+  z-index: 0;
+  opacity: 0.2;
+}
+
+.projectCardWrapper > .row > div  {
+  padding: 1rem;
+}
+.projectCardWrapper > .row {
+  z-index: 2000;
+  background-color: #eee;
+  border-radius: 0.5rem;
+  margin:0.5rem 0.5rem;
+}
+
+.projectOverviewTextElements {
+  padding: 2rem 1rem;
+  mix-blend-mode: difference;
+  color: #fff;
+  z-index: 3000;
+}
+
 .App {
   text-align: center;
 }
@@ -32,7 +74,60 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+input[type="file"] {
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
+  width: 1px;
+  height: 1px;
+}
+
+/* button > label {
+  margin: 0;
+} */
+
+.projectOverviewPrevImg > img{
+  max-width: 100%;
+  display:inline-block;
+}
+
+.projectOverviewTextElements {
+
+}
+.btn-primary {
+  color: #333;
+  background-color: #dadada;
+  border-color: #dbdbdb
+}
+
+.btn-primary:hover {
+  color: #333;
+  background-color: #dedede;
+  border-color: #dddddd
+}
+
+.btn-primary:focus, .btn-primary.focus {
+  box-shadow: 0 0 0 .2rem rgba(255, 255 , 255, 0.5)
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+  color: #333;
+  background-color: #dadada;
+  border-color: #dbdbdb
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show>.btn-primary.dropdown-toggle {
+  color: #333;
+  background-color: #dfdfdf;
+  border-color: #000
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .show>.btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 .2rem rgba(255, 255 , 255, 0.5)
 }
