@@ -9,10 +9,8 @@ export default function App() {
   const routeResult = useRoutes(Routes)
   return (
     <>
-      <div>
-        <MyNavbar />
-      {routeResult || <>no page found</>}
-      </div>
+      <MyNavbar />
+      { routeResult || <> no page found </> }
     </>
   );
 }
