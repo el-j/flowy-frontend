@@ -6,20 +6,47 @@ import FlowChart from '../../components/FlowChart'
 import Options from '../../components/ProjectOptions'
 import useFetchApi from '../../components/fetchApi/useFetchApi.js'
 
-const ProjectView = (props) => {
+const emptyProject = (name) => {
+  return ({name: name,
+  files:[],
+  projectJson:{
+    offset: {
+      x: 0,
+      y: 0
+    },
+    nodes: {},
+    links: {},
+    selected: {},
+    hovered: {}
+  }})
+}
 
+const ProjectView = (props) => {
       const myprojectName = props.projectName.slice(1)
       const apiUrl = `loadProject/:${myprojectName}`
       const loadProject = useFetchApi(apiUrl)
-
-      const [error,setError]= useState(null)
+      const [error,setError] = useState(null)
       const [isLoaded,setIsLoaded]= useState(false)
       const [project,setProject]= useState()
       const flowchartRef = React.createRef();
 
       useEffect(() => {
+        if (loadProject.length === 0) {
+          let temp = emptyProject(myprojectName)
+          setProject(temp)
+          setIsLoaded(true)
+        }
+        else if (loadProject) {
+          if (loadProject.projectJson) {
             setProject(loadProject)
             setIsLoaded(true)
+          }
+          else {
+            let temp = emptyProject(myprojectName)
+            setProject(temp)
+            setIsLoaded(true)
+          }
+        }
       },[loadProject])
 
       const handleClick = ()=>{ console.log("yes")}
@@ -46,7 +73,6 @@ const ProjectView = (props) => {
       } else if (!isLoaded) {
         return <div>Loading...</div>;
       } else {
-        console.log(project.projectJson);
       return (
         <div className='container-fluid'>
               {project&&project.projectJson?(

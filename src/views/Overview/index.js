@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { navigate } from "hookrouter";
+import styled from 'styled-components'
 /*bootstrap imports */
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -10,6 +11,11 @@ import {createProject,uploadProjectData, removeProject} from '../../components/f
 import useFetchApi from '../../components/fetchApi/useFetchApi.js'
 
 import { NewProject, NewProjectDetails, YourProjects } from '../../components'
+
+const Outer= styled.div`
+position:absolut;
+  margin-top:100px;
+`
 
 const Overview = (props) => {
   const myData = useFetchApi('getProjects')
@@ -50,7 +56,22 @@ const Overview = (props) => {
             setIsLoaded(false)
           })
         }
+        const handleCreateEmptyProject = event => {
+          event.persist()
+          console.log("CREATE EMPTY PROJECT NOW >>>> NAME:",newProject);
+          createProject(newProject.name).then(result =>{
+            console.log("response result",result,result.body,newProject.name,event.target.files)
+            setIsLoaded(true)
+            setCreateProgress(true)
+            handleOpenProject(newProject.name)
 
+          } ,(error) => {
+                  console.log("we got error response",error);
+                  setProjects([])
+                  setNewProject('')
+                  setIsLoaded(false)
+                })
+              }
   const handleSubmit = event => {
       event.preventDefault()
        var formData = new FormData();
@@ -86,17 +107,21 @@ const Overview = (props) => {
       }
 
       return(
-        <>
           <Container>
+
             <Row>
               <Col lg={12}>
-                <NewProject
-                  handleChange={handleChange}
-                  value={newProject.name}
-                  handleCreateNewProject={handleCreateNewProject}
-                  handleSubmit={handleSubmit}
-                  />
+                <Outer>
+                  <NewProject
+                    handleChange={handleChange}
+                    value={newProject.name}
+                    handleCreateNewProject={handleCreateNewProject}
+                    handleCreateEmptyProject={handleCreateEmptyProject}
+                    handleSubmit={handleSubmit}
+                    />
+                </Outer>
               </Col>
+
           </Row>
           <Row>
             <Col>
@@ -111,8 +136,8 @@ const Overview = (props) => {
 
             </Col>
         </Row>
+
         </Container>
-      </>
       )
     }
 

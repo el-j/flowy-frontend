@@ -3,19 +3,23 @@ import styled from 'styled-components'
 import SidebarItem from './SidebarItem'
 import Button from 'react-bootstrap/Button';
 
+import TreeView from '../TreeView'
+
 const StyledSidebar = styled.div`
-  width: 300px;
+  width: 350px;
   background: white;
   position:absolute;
   display: block;
   overflow-y: scroll;
-  right:0;
+  overflow-x: hidden;
+  right: -15px;
   top:0;
-  max-height: 100%;
+  height: 100%;
 `
 
 const Inner = styled.div`
   padding: 30px;
+  margin-top:56px;
   display:block;
   left:0;
   background: #fafafa;
@@ -34,21 +38,11 @@ const Sidebar = ({items, handleSave}) => {
       <Button className={'btn-block'}onClick={(e)=>handleSave(e)}>Save</Button>
     </Inner>
      <Message>
-       Drag and drop these items onto the canvas.
+       no message here
      </Message>
-     {Object.keys(items).map((item,key) => {
-       console.log(items[item].id,item,key)
-      return(
-        <SidebarItem
-         name={items[item].name}
-         type={items[item].type}
-         ports={items[item].ports}
-         properties={ {
-           custom: 'property',
-         }}
-       />)
-     })}
 
    </StyledSidebar>)}
+
+   // <TreeView items={items} />
 
    export default Sidebar

@@ -6,11 +6,11 @@ import Sidebar from '../SideBar'
 
 const Outer = styled.div`
   background-color:#fff;
-  max-width: 300px;
+  width: 350px;
   position: fixed;
   /* bottom: 20px; */
   height: 100%;
-  right: 0px;
+  left: 0;
   z-index:6000;
   display:block;
   word-break: break-all;

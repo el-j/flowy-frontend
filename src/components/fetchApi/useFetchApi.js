@@ -7,20 +7,24 @@
 import { useState, useEffect } from "react";
 
 
-export default function useFetchApi(url) {
+const useFetchApi = (url) => {
+   const [data, dataSet] = useState(false)
+   let api =`http://localhost:4000/api`
 
-  let api =`http://localhost:4000/api`
-  console.log(url);
   if (url !== undefined) {
       api =`${api}/${url}`
+    }
+
+  async function fetchMyApi() {
+    let response = await fetch(api)
+    response = await response.json()
+    dataSet(response)
   }
-  const [data, setData] = useState([]);
-  console.log('try to fetch',api)
+
   useEffect(() => {
-    fetch(api)
-      .then(response => response.json())
-      .then(data => setData(data));
+    fetchMyApi();
   }, []);
   console.log(data)
-  return data;
+  return data
 }
+export default useFetchApi
