@@ -7,7 +7,7 @@ import ProjectView from "./views/ProjectView"
 
 const routes = {
   "/": () => <Overview />,
-  "/project/:projectname": ({projectName}) => <ProjectView projectName={projectName}/>,
+  "/project/:projectname": ({projectname}) => <ProjectView projectName={projectname}/>,
 };
 
 

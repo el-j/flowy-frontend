@@ -45,7 +45,6 @@ const DecisionInner = styled.div`
  */
 
 const NodeInnerCustom = ({node,config},props) => {
-  // console.log(node,props)
   switch (node.type) {
     case 'decision':
     return (
@@ -100,7 +99,6 @@ NOT WORKIN AS NOT FITTING CONNECOTRS AND LINKS ANYMORE!
 
 
 const FlowChart = React.forwardRef((props,ref) => {
-  console.log(props,ref)
   let chartData = props.chartData
     return (<FlowChartWithState
               ref={ref}

@@ -5,48 +5,55 @@ import Button from 'react-bootstrap/Button';
 
 const api = 'http://localhost:4000'
 
-const YourProjects = ({projects,inkey,openProject,removeProject}) => {
-  return(<>
-    <Row key={`projectheadline${inkey}`} style={{marginTop:'2rem'}}>
-      <Col>
-        <h2>Your Projects</h2>
-      </Col>
-    </Row>
-    <Row key={`projectshere${inkey}`}>
-    {projects?(
-      (Object.keys(projects).length !== 0)?(
-        Object.keys(projects).map((project,key) => {
-        let preview = projects[project].files.find(file => {
-              if(file.type === 'png') {
-              return(file)
-              }
-        })
-        return(
-            <Col key={'projects'+key+inkey} lg={6} style={{backgroundColor:'#fefefe', padding:'8px', textAlign:'left'}}>
-              <Button variant="custom" className={'btn-block btn-primary projectOverview'} onClick={()=>openProject(projects[project].name)} style={{textAlign:'left'}}>
-                <Row>
-                  <Col lg={8} className={'projectOverviewTextElements'}>
-                    <h3>{projects[project].name}</h3>
-                    <p>{projects[project].info}</p>
-                  </Col>
-                  <Col lg={4} className={'projectOverviewPrevImg align-middle'}>
-                  <img src={`${api}/${project}/${preview.filename}.${preview.type}`}/>
+const ProjectCard = ({project, key, openProject, removeProject}) => {
 
-                  </Col>
-                </Row>
-                <Button variant="danger" onClick={()=>removeProject(projects[project].name)} style={{textAlign:'left'}}>Delete Project</Button>
-              </Button>
-            </Col>
+  let preview = project.files.find(file => {
+    if(file.type === 'png') {
+      return(file)
+      }
+  })
+  console.log(project);
+  if (!preview) {
+    preview = {filename:'placeholder',type:'png'}
+  }
+  return(<Row className={'projectCard'} style = {{
+                backgroundImage: `url(${api}/${project.name}/${preview.filename}.${preview.type})`,
+                backgroundSize: 'cover'
+              }}>
+          <Col lg={12} className={'projectOverviewTextElements'}>
+            <h3>{project.name}</h3>
+            <p>{project.info}</p>
+          </Col>
+          <Col lg={6}>
+            <Button variant="primary" className={'btn-block'} onClick={()=>openProject(project.name)}>Open Project</Button>
+          </Col>
+          <Col lg={6}>
+            <Button variant="danger" className={'btn-block'} onClick={()=>removeProject(project.name)}>Delete Project</Button>
+          </Col>
+        </Row>
+    )
+}
+
+
+
+const YourProjects = ({projects,inkey,openProject,removeProject}) => {
+return(
+  <Row>
+  {(Object.keys(projects).length !== 0)?(
+    Object.keys(projects).map((project,key) => {
+        return(
+          <Col key={'project'+key+project.name} lg={6} className={'projectCardWrapper'}>
+            <ProjectCard project={projects[project]} openProject={openProject} removeProject={removeProject}/>
+        </Col>
           )
       })):(<>
             <Col key={'noproject'}>
               <h5>you do not have any Projects yet or there is a problem with the server connection ...</h5>
             </Col>
             </>)
-          ):null
     }
     </Row>
-  </>)
+    )
 }
 
 export default YourProjects

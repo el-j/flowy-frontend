@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 
 // import Projects from '../../dataMocks/projects.js'
-import {getProjectsFromApi, createProject,uploadProjectData, removeProject} from '../../components/fetchApi'
+import {createProject,uploadProjectData, removeProject} from '../../components/fetchApi'
 import useFetchApi from '../../components/fetchApi/useFetchApi.js'
 
 import { NewProject, NewProjectDetails, YourProjects } from '../../components'
@@ -18,14 +18,14 @@ const Overview = (props) => {
   const [isLoaded,setIsLoaded] = useState(false)
   const [uploaded,setUploaded] = useState(false)
   const [createProgress,setCreateProgress] = useState(false)
-  
+
     useEffect(() => {
           setProjects(myData)
           setIsLoaded(true)
     },[myData])
 
   const handleOpenProject = (projectName) => {
-    let path = `/project/${projectName}`;
+    let path = `/project/:${projectName}`;
     navigate(path);
     }
 
@@ -36,7 +36,6 @@ const Overview = (props) => {
 
   const handleCreateNewProject = event => {
     event.persist()
-
     console.log("CREATE NEW PROJECT NOW >>>> NAME:",newProject);
     createProject(newProject.name).then(result =>{
       console.log("response result",result,result.body,newProject.name,event.target.files)
@@ -101,12 +100,15 @@ const Overview = (props) => {
           </Row>
           <Row>
             <Col>
-              <YourProjects
-                key='yourprojects'
-                projects={projects}
-                openProject={handleOpenProject}
-                removeProject={handleRemoveProject}
-                />
+             {
+               projects?<YourProjects
+                 key='yourprojects'
+                 projects={projects}
+                 openProject={handleOpenProject}
+                 removeProject={handleRemoveProject}
+                 />:<></>
+            }
+
             </Col>
         </Row>
         </Container>

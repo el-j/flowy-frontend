@@ -1,106 +1,63 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom'
 import { loadProject, loadFiles, saveProject } from '../../components/fetchApi'
 import mermaid from 'mermaid'
 import FlowChart from '../../components/FlowChart'
 import Options from '../../components/ProjectOptions'
+import useFetchApi from '../../components/fetchApi/useFetchApi.js'
 
-String.prototype.replaceAll = function(f,r){return this.split(f).join(r);}
+const ProjectView = (props) => {
 
-const flowchartRef = React.createRef();
-// export default const ProjectView = () => {
-class ProjectView extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        error: null,
-        isLoaded: true,
-        project: {}
+      const myprojectName = props.projectName.slice(1)
+      const apiUrl = `loadProject/:${myprojectName}`
+      const loadProject = useFetchApi(apiUrl)
+
+      const [error,setError]= useState(null)
+      const [isLoaded,setIsLoaded]= useState(false)
+      const [project,setProject]= useState()
+      const flowchartRef = React.createRef();
+
+      useEffect(() => {
+            setProject(loadProject)
+            setIsLoaded(true)
+      },[loadProject])
+
+      const handleClick = ()=>{ console.log("yes")}
+
+      const handleSave = (e) => {
+        let response = {}
+        let  thatData = project
+        thatData.projectJson = flowchartRef.current.state
+        saveProject(project.name,thatData).then(
+          (result) => {
+            setProject(result)
+            setIsLoaded(true)
+            setError(false)
+          },
+          (error) => {
+            setProject({})
+            setIsLoaded(false)
+            setError(error)
+          })
       }
-      this.flowchartRef = flowchartRef
 
-      this.loadProject = loadProject.bind(this);
-      this.loadFiles = loadFiles.bind(this);
-      this.handleClick = this.handleClick.bind(this);
-      this.handleSave = this.handleSave.bind(this);
-      this.saveProject = saveProject.bind(this);
-    }
-
-  // const [error, setError] = useState(null)
-  // const [isLoaded, setIsLoaded] = useState(false)
-  // const [htmlGraph, setHtmlGraph] = useState([])
-  // const [reactGraph, setReactGraph] = useState([])
-
-  componentDidMount() {
-    let response = {}
-    this.loadProject('IAA').then(
-      (result) => {
-        response = {
-          error: null,
-          isLoaded: true,
-          project:result
-        };
-        const newState = {... this.state ,...response}
-        this.setState(newState)
-      },
-      (error) => {
-        response = {
-          isLoaded: true,
-          error
-        }
-        this.setState(response)
-      })
-  }
-
-  handleClick(){ console.log("yes")}
-
-
-  handleSave(e){
-    let response = {}
-    let  thatData = this.state.project
-    thatData.projectJson = this.flowchartRef.current.state
-    this.saveProject(this.state.project.name,thatData).then(
-      (result) => {
-        response = {
-          error: null,
-          isLoaded: true,
-          project:result
-        };
-        const newState = {... this.state ,...response}
-        this.setState(newState)
-      },
-      (error) => {
-        response = {
-          isLoaded: true,
-          error
-        }
-        this.setState(response)
-      })
-  }
-
-  render() {
-    const { error, isLoaded, project } = this.state;
-    // console.log(this.state);
-
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
+      if (error) {
+        return <div>Error: {error.message}</div>;
+      } else if (!isLoaded) {
+        return <div>Loading...</div>;
+      } else {
+        console.log(project.projectJson);
       return (
         <div className='container-fluid'>
-              {this.state.project&&this.state.project.projectJson?(
+              {project&&project.projectJson?(
                 <>
-                  <Options handleSave={this.handleSave}/>
-                  <FlowChart id={'projectFlowGraph'} ref={flowchartRef} chartData={this.state.project.projectJson}/>
+                  <Options handleSave={handleSave} items={project.projectJson.nodes}/>
+                  <FlowChart id={'projectFlowGraph'} ref={flowchartRef} chartData={project.projectJson}/>
                 </>
                 ):(null)}
-
-
         </div>
       );
     }
-  }
 }
 
 export default ProjectView
