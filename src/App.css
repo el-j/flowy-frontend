@@ -1,5 +1,5 @@
 svg {
-  z-index:5000;
+  /* z-index:1; */
 }
 
 
@@ -11,6 +11,12 @@ body, #root {
 .container-fluid {
   padding: 0;
 }
+
+.modal-dialog {
+  z-index: 12000
+}
+
+
 .projectCard::before {
   content: '';
   display: block;
