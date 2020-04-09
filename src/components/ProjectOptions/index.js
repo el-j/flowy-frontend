@@ -11,16 +11,16 @@ const Outer = styled.div`
   /* bottom: 20px; */
   height: 100%;
   left: 0;
-  z-index:6000;
+  z-index:900;
   display:block;
   word-break: break-all;
 `
 
 
-const Options = ({handleSave,items}) => {
+const Options = ({handleConfigureNode,handleSave,items,newItem}) => {
   return(<Outer>
 
-    <Sidebar items={items} handleSave={handleSave}/>
+    <Sidebar items={items} handleSave={handleSave} handleConfigureNode={handleConfigureNode} newItem={newItem}/>
     </Outer>)
 }
 

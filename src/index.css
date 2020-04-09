@@ -15,9 +15,9 @@ code {
 }
 
 
-.svg > svg{
+/* .svg > svg{
   width: inherit !important;
-}
+} */
 
 .screen {
   padding: 4px;
