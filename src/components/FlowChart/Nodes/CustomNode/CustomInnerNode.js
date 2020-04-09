@@ -43,7 +43,7 @@ const CustomInnerNode = ({node,config},props) => {
 
     default:
     return (
-    <Outer id={node.id} pos={{x:node.position.x, y:node.position.y}}>
+    <Outer id={node.id} >
       <div style={{display:'block', width: '100%'}}>
       <img src={node.path} style={{width: 'inherit'}} />
       </div>
