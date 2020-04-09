@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import SidebarItem from './SidebarItem'
 import Button from 'react-bootstrap/Button';
 
+
+
 import TreeView from '../TreeView'
 
 const StyledSidebar = styled.div`
@@ -31,15 +33,35 @@ padding: 10px;
 background: rgba(0,0,0,0.05);
 `
 
-const Sidebar = ({items, handleSave}) => {
+const AddNode = (props) => {
+  console.log(props);
+
+  return(<>
+    <SidebarItem
+    itemRef={props.itemRef}
+    handleConfigureNode={props.onClick}
+    node={props.node}
+    />
+
+    </>)
+}
+
+const Sidebar = ({items, itemRef, handleSave,handleConfigureNode,newItem}) => {
+
   return(<StyledSidebar>
     <Inner>
       <p>Save the current working State</p>
-      <Button className={'btn-block'}onClick={(e)=>handleSave(e)}>Save</Button>
+      <Button className={'btn-block'} onClick={(e)=>handleSave(e)}>Save</Button>
     </Inner>
      <Message>
        no message here
      </Message>
+
+     <AddNode
+     onClick={handleConfigureNode}
+     node={{...newItem}}
+     itemRef={itemRef}
+     />
 
    </StyledSidebar>)}
 
