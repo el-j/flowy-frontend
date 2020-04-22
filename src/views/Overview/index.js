@@ -7,10 +7,10 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 
 // import Projects from '../../dataMocks/projects.js'
-import {createProject,uploadProjectData, removeProject} from '../../components/fetchApi'
+import {createProject,uploadProjectData, removeProject, api } from '../../components/fetchApi'
 import useFetchApi from '../../components/fetchApi/useFetchApi.js'
 
-import { NewProject, NewProjectDetails, YourProjects } from '../../components'
+import { NewProjectInput, YourProjects } from '../../components'
 
 const Outer= styled.div`
 position:absolut;
@@ -35,43 +35,35 @@ const Overview = (props) => {
     navigate(path);
     }
 
+  const handleNewProject = (projectName) => {
+    let path = `/newproject/:${projectName}`;
+    navigate(path);
+    }
+
   const handleChange = (e) => {
     const temp = e.target.value
     setNewProject({name:temp,files:[]})
   }
 
-  const handleCreateNewProject = event => {
+
+
+  const handleCreateEmptyProject = event => {
     event.persist()
-    console.log("CREATE NEW PROJECT NOW >>>> NAME:",newProject);
+    console.log("CREATE EMPTY PROJECT NOW >>>> NAME:",newProject);
     createProject(newProject.name).then(result =>{
       console.log("response result",result,result.body,newProject.name,event.target.files)
       setIsLoaded(true)
       setCreateProgress(true)
-      handleSubmit(event)
+      handleNewProject(newProject.name)
 
     } ,(error) => {
             console.log("we got error response",error);
             setProjects([])
             setNewProject('')
             setIsLoaded(false)
-          })
-        }
-        const handleCreateEmptyProject = event => {
-          event.persist()
-          console.log("CREATE EMPTY PROJECT NOW >>>> NAME:",newProject);
-          createProject(newProject.name).then(result =>{
-            console.log("response result",result,result.body,newProject.name,event.target.files)
-            setIsLoaded(true)
-            setCreateProgress(true)
-            handleOpenProject(newProject.name)
+      })
+  }
 
-          } ,(error) => {
-                  console.log("we got error response",error);
-                  setProjects([])
-                  setNewProject('')
-                  setIsLoaded(false)
-                })
-              }
   const handleSubmit = event => {
       event.preventDefault()
        var formData = new FormData();
@@ -112,10 +104,9 @@ const Overview = (props) => {
             <Row>
               <Col lg={12}>
                 <Outer>
-                  <NewProject
+                  <NewProjectInput
                     handleChange={handleChange}
                     value={newProject.name}
-                    handleCreateNewProject={handleCreateNewProject}
                     handleCreateEmptyProject={handleCreateEmptyProject}
                     handleSubmit={handleSubmit}
                     />
