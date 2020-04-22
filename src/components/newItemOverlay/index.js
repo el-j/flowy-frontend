@@ -1,12 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
+import Dropdown from 'react-bootstrap/Dropdown';
 
-import CustomNodePreview from '../FlowChart/Nodes/CustomNodePreview'
+import CustomNodePreviewEdit from '../FlowChart/Nodes/CustomNodePreviewEdit'
 
 import styled from 'styled-components'
 
@@ -25,9 +24,14 @@ const StyledNodePreviewCol = styled.div`
     background: #dadada;
     width: inherit;
 `
-
-
-const PortList = ({port,key,handleDeletePort}) => (
+const PortList = ({thisnode,type,handleDeletePort}) => (
+Object.keys(thisnode.ports).map((port,key) => {
+  if (thisnode.ports[port].type === type) {
+    return (
+      <PortListItem key={port+key+'o'} port={port} handleDeletePort={handleDeletePort}/>
+      )}})
+)
+const PortListItem = ({port,key,handleDeletePort}) => (
   <StyledPortList >
   <Row key={port+key} style={{borderBottom:'2px solid #ddd', padding: '0.4rem', backgroundColor:'#eee'}}>
     <Col lg="9">
@@ -57,57 +61,66 @@ const NewItemOverlay = ({handleChange,value,submit,show,handleClose,handleDelete
     return(
     <Modal show={show} onHide={handleClose} size="lg">
       <Modal.Header closeButton>
-        <Modal.Title>Configure New Node</Modal.Title>
+        <Modal.Title>Configure New Node </Modal.Title>
+
+        <Dropdown style={{marginLeft: '1rem'}}>
+          <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+            NodeType: {thisnode.type}
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item>Default Node</Dropdown.Item>
+            <Dropdown.Item>Decision</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </Modal.Header>
       <Modal.Body>
           {(Object.keys(thisnode).length > 0)?(
 
-            <StyledNodePreviewRow as={Row} className="justify-content-center">
+          <StyledNodePreviewRow as={Row} className="justify-content-center">
             <Col lg={{span: 3}}>
-            <Row><Col lg={4}>
-            <h6>Inputs</h6></Col><Col >
-            <Button id={'addInput'} style={{height:'2rem', lineHeight:'1rem'}} className={'btn-block'} onClick={handleAdd}>
-            +
-            </Button>
-            </Col></Row>
-            {
-            Object.keys(thisnode.ports).map((port,key) => {
-              if (thisnode.ports[port].type === 'input') {
-                return (
-                  <PortList key={port+key+'i'} port={port} handleDeletePort={handleDeletePort}/>
-                  )}})
-            }
-
-
+              <Row>
+                <Col lg={4}>
+                  <h6>Inputs</h6></Col>
+                <Col >
+                  <Button id={'addInput'} style={{height:'2rem', lineHeight:'1rem'}} className={'btn-block'} onClick={handleAdd}>
+                    +
+                  </Button>
+                </Col>
+              </Row>
+              <PortList
+                  thisnode={thisnode}
+                  type='input'
+                  handleDeletePort={handleDeletePort}
+                />
             </Col>
             <StyledNodePreviewCol as={Col} lg={5}  className="text-center">
-              <CustomNodePreview thisnode={thisnode} ref={itemRef}/>
+              <CustomNodePreviewEdit thisnode={thisnode} ref={itemRef}/>
             </StyledNodePreviewCol>
             <Col lg={{span: 3}}>
-            <Row><Col lg={4}>
-            <h6>Outputs</h6></Col><Col >
-            <Button id={'addOutput'} style={{height:'2rem', lineHeight:'1rem'}} className={'btn-block'} onClick={handleAdd}>
-            +
-            </Button>
-            </Col></Row>
-            {
-            Object.keys(thisnode.ports).map((port,key) => {
-              if (thisnode.ports[port].type === 'output') {
-                return (
-                  <PortList key={port+key+'o'} port={port} handleDeletePort={handleDeletePort}/>
-                  )}})
-            }
-
+              <Row>
+                <Col lg={4}>
+                  <h6>Outputs</h6>
+                </Col>
+                <Col >
+                  <Button id={'addOutput'} style={{height:'2rem', lineHeight:'1rem'}} className={'btn-block'} onClick={handleAdd}>
+                  +
+                  </Button>
+                </Col>
+              </Row>
+              <PortList
+                thisnode={thisnode}
+                type='output'
+                handleDeletePort={handleDeletePort}
+                />
             </Col>
           </StyledNodePreviewRow>
           )
             :null}
 
       </Modal.Body>
-
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>Close</Button>
-        <Button variant="primary">Save changes</Button>
       </Modal.Footer>
   </Modal>)
 }

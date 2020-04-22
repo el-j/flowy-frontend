@@ -1,6 +1,10 @@
 import React from "react";
 import { FlowChartWithState, INodeDefaultProps } from "@mrblenny/react-flow-chart";
 import styled from 'styled-components'
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 
 const Outer = styled.div`
    background-color:#fff;
@@ -44,11 +48,30 @@ const CustomInnerNode = ({node,config},props) => {
     default:
     return (
     <Outer id={node.id} >
-      <div style={{display:'block', width: '100%'}}>
-      <img src={node.path} style={{width: 'inherit'}} />
-      </div>
       <Inner>
-      <h5>{node.name}</h5>
+      <Form.Group>
+        <Form.Row>
+          <Col>
+            <Form.Control size="sm" type="text" placeholder="Node Name" type={'file'} value={node.name} />
+            <Button block>Add Image</Button>
+          </Col>
+        </Form.Row>
+      </Form.Group>
+        <Form.Group>
+          <Form.Row>
+            <Col>
+              <Form.Control size="sm" type="text" placeholder="Node Name" value={node.name} />
+            </Col>
+          </Form.Row>
+        </Form.Group>
+        <Form.Group>
+          <Form.Row>
+            <Col>
+              <Form.Control size="sm" type="text" placeholder="description" value={node.description} />
+            </Col>
+          </Form.Row>
+        </Form.Group>
+
 
       <i><p>NodeType: {node.type} NodeId: {node.id}</p></i>
 

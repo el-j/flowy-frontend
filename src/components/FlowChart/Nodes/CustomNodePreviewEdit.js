@@ -2,11 +2,11 @@ import React, {useState, useEffect} from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import CustomNode from './CustomNode'
-import CustomInnerNode from './CustomNode/CustomInnerNode'
+import CustomInnerNodeEdit from './CustomNode/CustomInnerNodeEdit'
 import CustomPort from './CustomNode/CustomPort'
 
 
-const CustomNodePreview = React.forwardRef((props, ref) =>{
+const CustomNodePreviewEdit = React.forwardRef((props, ref) =>{
 let thisnode = props.thisnode
 return (<>
   <CustomNode node={{...thisnode}} ref={ref} style={{position:'relative'}}>
@@ -21,7 +21,7 @@ return (<>
             )}})
       }
   </Row>
-  <CustomInnerNode type='screen' node={{...thisnode}} />
+  <CustomInnerNodeEdit type='screen' node={{...thisnode}} />
   <Row className="justify-content-center">
     {
     Object.keys(thisnode.ports).map((port,key) => {
@@ -39,4 +39,4 @@ return (<>
 })
 
 
-export default CustomNodePreview
+export default CustomNodePreviewEdit
