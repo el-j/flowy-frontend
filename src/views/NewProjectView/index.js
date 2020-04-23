@@ -11,11 +11,6 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import Uppy from '@uppy/core'
-import Tus from '@uppy/tus'
-import { DragDrop } from '@uppy/react'
-
-
 import { createProject, uploadProjectData, removeProject, api } from '../../components/fetchApi'
 import { loadProject, loadFiles, saveProject } from '../../components/fetchApi'
 import useFetchApi from '../../components/fetchApi/useFetchApi.js'
@@ -32,6 +27,7 @@ const emptyProject = (name) => {
   return ({
     name: name,
     description: '',
+    mmd: '',
     id: '',
     files:[],
     projectJson:{
@@ -52,10 +48,13 @@ const NewProjectView = (props) => {
   const apiUrl = `loadProject/:${myprojectName}`
   const apiUpload = `${api}/uploadProjectData/:${myprojectName}`
   const [newProject,setNewProject]= useState(emptyProject(myprojectName))
+  const [uploaded,setUploaded] = useState(false)
+  const [createProgress,setCreateProgress] = useState(false)
+  const [imagePreviewUpload, setImagePreviewUpload] = useState([])
+  const [mermaidPreview, setMermaidPreview] = useState('')
 
   const handleChange = (e) => {
     const temp = e.target.value
-    console.log(e.target.id);
     switch (e.target.id) {
       case 'newProjectName':
               setNewProject({...newProject, name:temp})
@@ -63,66 +62,102 @@ const NewProjectView = (props) => {
       case 'newProjectDescription':
               setNewProject({...newProject, description:temp})
         break;
-      case 'newProjectImages':
-              setNewProject({...newProject, images:temp})
+      case 'newProjectMmd':
+              setNewProject({...newProject, mmd:temp})
+              setMermaidPreview(temp)
         break;
-      case 'newProjectMermaid':
-              setNewProject({...newProject, mermaid:temp})
-        break;
-      default:
-
     }
   }
-  const uppy = Uppy({
-    meta: { type: 'avatar' },
-    restrictions: { maxNumberOfFiles: 1 },
-    autoProceed: true
-  })
-  uppy.use(Tus, { endpoint: apiUpload })
 
-  uppy.on('complete', (result) => {
-    console.log(result);
-    const url = result.successful[0].uploadURL
-    // store.dispatch({
-      //   type: 'SET_USER_AVATAR_URL',
-      //   payload: { url: url }
-      // })
-    })
+  const handleOpenProject = (projectName) => {
+    let path = `/project/:${projectName}`;
+    navigate(path);
+    }
 
-  const handleUploadFiles = () => {
+  const _handleDeleteImage = (e) => {
+      console.log(e.target.id, newProject.files, imagePreviewUpload);
+      let thisone = e.target.id
+      let index = imagePreviewUpload.filter(img => img.name !== thisone)
 
-
+      let newTemp = Array.from(newProject.files)
+      let test = newTemp.filter(file => file.name !== thisone)
+      setImagePreviewUpload(index)
+      setNewProject({...newProject, files: test})
+      console.log(newProject.files,imagePreviewUpload);
   }
+
+  const _handleMmdChange = (e) => {
+      e.preventDefault();
+      console.log(e.target.files[0],newProject.files);
+      if (e.target.files) {
+        let temp = newProject.files
+        temp.push(e.target.files[0])
+
+        setNewProject({...newProject, files: temp })
+        console.log("after we set the new files with temp",newProject, imagePreviewUpload);
+        const reader = new FileReader();
+        reader.onloadend = (content => {
+          setMermaidPreview(reader.result)
+        })
+        // reader.addEventListener('error');
+        reader.readAsText(e.target.files[0]);
+      }
+    }
+  const _handleImageChange = (e) => {
+      e.preventDefault();
+      if (e.target.files) {
+        let temp = newProject.files
+
+       /* Get files in array form */
+       const files = Array.from(e.target.files);
+       /* Map each file to a promise that resolves to an array of image URI's */
+       Promise.all(files.map(file => {
+          temp.push(file)
+            console.log(file.name);
+           return (new Promise((resolve,reject) => {
+               const reader = new FileReader();
+               reader.addEventListener('load', (ev) => {
+                   resolve({prev:ev.target.result, name:file.name});
+               });
+               reader.addEventListener('error', reject);
+               reader.readAsDataURL(file);
+           }));
+       }))
+       .then(images => {
+          setNewProject({...newProject,files:temp})
+           /* Once all promises are resolved, update state with image URI array */
+          setImagePreviewUpload(...imagePreviewUpload, images)
+       }, error => {
+           console.error(error);
+       });
+     }
+  }
+
   const handleSubmit = event => {
       event.preventDefault()
        var formData = new FormData();
-       let files = event.target.files
+       let files = newProject.files
        let name = newProject.name
+       let description = newProject.description
+       let mermaid = mermaidPreview
+       // setNewProject({...newProject, files: files})
        for (var i = 0; i < files.length; i++) {
-         formData.append('file',files[i],files[i].name)
+         formData.append('file',files[i])
+         formData.append('filename',files[i].name)
        }
        formData.append('projectName',name)
+       formData.append('projectDescription',description)
+       formData.append('projectMermaid',mermaid)
        uploadProjectData(formData,name).then(result =>{
-         // setUploaded(true)
-         // setCreateProgress(false)
+         setUploaded(true)
+         setCreateProgress(true)
+         handleOpenProject(name)
        } ,(error) => {
-               // setUploaded(false)
-               // setCreateProgress(false)
+               setUploaded(false)
+               setCreateProgress(true)
              })
    }
-  const handleCreateNewProject = event => {
-    event.persist()
-    console.log("CREATE NEW PROJECT NOW >>>> NAME:",newProject);
-    createProject(newProject.name).then(result =>{
-      console.log("response result",result,result.body,newProject.name,event.target.files)
-      handleSubmit(event)
 
-    } ,(error) => {
-            console.log("we got error response",error);
-
-          })
-        }
-        console.log(props,newProject)
   return(
     <Container>
     <Row>
@@ -159,91 +194,76 @@ const NewProjectView = (props) => {
           <Form.Text className="text-muted">
           Descripe your Project with a few words.
           </Form.Text>
-        </Form.Group>
+      </Form.Group>
 
-        <Form.Group controlId="projectImages">
+      <Form.Group controlId="projectImages">
         <Form.Label>Project Images</Form.Label>
-        <Button className={'btn-block'}>
-        Upload Images
-        </Button>
-        <DragDrop
-       uppy={uppy}
-       locale={{
-         strings: {
-           // Text to show on the droppable area.
-           // `%{browse}` is replaced with a link that opens the system file selection dialog.
-           dropHereOr: 'Drop here or %{browse}',
-           // Used as the label for the link that opens the system file selection dialog.
-           browse: 'browse'
-         }
-       }}
-     />
-        <InputGroup className="mb-3" >
-          <Form.Control
-            placeholder="New Project Images"
-            aria-label="New Project Images"
-            id="newProjectImages"
-            aria-describedby="basic-addon2"
-            onChange={handleChange}
-            value={newProject.files}
-          />
-
-
-          <InputGroup.Append>
-            <input
+        <InputGroup>
+          <input
               placeholder="+"
               aria-label="+"
               aria-describedby="upload files"
               id="uploadImageFiles"
-              onChange={handleCreateNewProject}
+              onChange={_handleImageChange}
               type="file"
               multiple
             />
-            <label htmlFor="uploadImageFiles" className={'btn btn-outline-secondary'}>+</label>
-          </InputGroup.Append>
+            <label
+              htmlFor="uploadImageFiles"
+              className={'btn-block btn btn-outline-secondary'}
+              >
+              Upload Image Files
+            </label>
         </InputGroup>
         <Form.Text className="text-muted">
-        Upload your project images
+          Upload your project images
         </Form.Text>
       </Form.Group>
+      {(imagePreviewUpload !== undefined && imagePreviewUpload.length > 0) ? <>
+        <Row>
+        {imagePreviewUpload.map((img,key) => {
+        return(<Col lg={3} onClick={_handleDeleteImage} key={img.name}><img id={img.name} style={{display:'inline-block', width: 'inherit'}} src={`${img.prev}`}/></Col>)
+        })}
+        </Row>
 
+      </>:<>no images uploaded</>}
       <Form.Group controlId="projectMermaid">
-      <Form.Label>Project Mermaid (mmd)</Form.Label>
-      <Button className={'btn-block'}>
-      Upload Mermaid File
+        <Form.Label>Project Mermaid (mmd)</Form.Label>
+          <InputGroup>
+            <input
+              placeholder="+"
+              aria-label="+"
+              aria-describedby="upload files"
+              id="uploadMmdFile"
+              onChange={_handleMmdChange}
+              type="file"
+            />
+            <label
+              htmlFor="uploadMmdFile"
+              className={'btn-block btn btn-outline-secondary'}
+              >
+              Project Mermaid (mmd)
+            </label>
+          </InputGroup>
+          {console.log(mermaidPreview)}
+          {mermaidPreview ?   <Form.Control
+              as="textarea"
+              rows="5"
+              placeholder="New Project Description"
+              aria-label="New Project Description"
+              id="newProjectMmd"
+              aria-describedby="basic-addon2"
+              onChange={handleChange}
+              value={mermaidPreview}
+            />:null}
+        <Form.Text className="text-muted">
+        The Name of your Project
+        </Form.Text>
+      </Form.Group>
+      <Button variant="primary" type="submit" onClick={handleSubmit}>
+        Submit
       </Button>
-
-      <InputGroup className="mb-3" >
-
-
-        <Form.Control
-          placeholder="New Project Mermaid"
-          aria-label="New Project Mermaid"
-          id="newProjectMermaid"
-          aria-describedby="basic-addon2"
-          onChange={handleChange}
-          value={newProject.files}
-        />
-        <InputGroup.Append>
-          <input
-            placeholder="+"
-            aria-label="+"
-            aria-describedby="upload mmd file"
-            id="uploadMmdFile"
-            onChange={handleCreateNewProject}
-            type="file"
-          />
-          <label htmlFor="uploadMmdFile" className={'btn btn-outline-secondary'}>+</label>
-        </InputGroup.Append>
-      </InputGroup>
-      <Form.Text className="text-muted">
-      The Name of your Project
-      </Form.Text>
-    </Form.Group>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-        </Form>
+    </Form>
     </Outer>
     </Col>
     </Row>

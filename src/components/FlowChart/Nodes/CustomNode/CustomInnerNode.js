@@ -34,8 +34,13 @@ const CustomInnerNode = ({node,config},props) => {
     return (
         <DecisionWrapper>
           <DecisionInner>
-          <h5>{node.text}</h5>
-          <p>{node.type} <i>{node.id}</i></p>
+          <h5>{node.name}</h5>
+          <p>{node.text}</p>
+          <p className="figure-caption text-center" style={{padding: '4px',
+          margin: 0,
+          transform: 'translate(20px,10px )',
+          position: 'absolute',
+          zIndex: 1000}}><i >NodeType: {node.type}<br /> NodeId: {node.id}</i></p>
           </DecisionInner>
         </DecisionWrapper>
     )
@@ -49,10 +54,14 @@ const CustomInnerNode = ({node,config},props) => {
       </div>
       <Inner>
       <h5>{node.name}</h5>
-
-      <i><p>NodeType: {node.type} NodeId: {node.id}</p></i>
+      <p>{node.text}</p>
 
       </Inner>
+      <p className="figure-caption" style={{padding: '4px',
+      margin: 0,
+      transform: 'translateY(10px)',
+      position: 'absolute',
+      zIndex: 1000}}><i >NodeType: {node.type}<br /> NodeId: {node.id}</i></p>
     </Outer>
     )
   }

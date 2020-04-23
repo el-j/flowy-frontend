@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Col from 'react-bootstrap/Col';
+import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 
 const Outer = styled.div`
@@ -32,7 +33,7 @@ const DecisionInner = styled.div`
 
 `
 
-const CustomInnerNode = ({node,config},props) => {
+const CustomInnerNodeEdit = ({node,config,handleChange,handlePictureChange},props) => {
   switch (node.type) {
     case 'decision':
     return (
@@ -47,27 +48,55 @@ const CustomInnerNode = ({node,config},props) => {
 
     default:
     return (
+
     <Outer id={node.id} >
       <Inner>
       <Form.Group>
         <Form.Row>
           <Col>
-            <Form.Control size="sm" type="text" placeholder="Node Name" type={'file'} value={node.name} />
-            <Button block>Add Image</Button>
+          <InputGroup>
+            <input
+              placeholder="+"
+              aria-label="+"
+              aria-describedby="upload files"
+              id="changeNodeImage"
+              onChange={e => handleChange(e,node.id)}
+              type="file"
+            />
+            <label
+              htmlFor="changeNodeImage"
+              className={'btn-block btn btn-outline-secondary'}
+              >
+          Change Image
+            </label>
+          </InputGroup>
+
           </Col>
         </Form.Row>
       </Form.Group>
-        <Form.Group>
+        <Form.Group controlId='changeNodeName'>
           <Form.Row>
             <Col>
-              <Form.Control size="sm" type="text" placeholder="Node Name" value={node.name} />
+              <Form.Control
+              size="sm"
+              type="text"
+              placeholder="Node Name"
+              value={node.name}
+              onChange={e => handleChange(e,node.id)}
+            />
             </Col>
           </Form.Row>
         </Form.Group>
-        <Form.Group>
+        <Form.Group controlId='changeNodeDescription'>
           <Form.Row>
             <Col>
-              <Form.Control size="sm" type="text" placeholder="description" value={node.description} />
+              <Form.Control
+              size="sm"
+              type="text"
+              placeholder="description"
+              value={node.text}
+              onChange={e => handleChange(e,node.id)}
+               />
             </Col>
           </Form.Row>
         </Form.Group>
@@ -82,4 +111,4 @@ const CustomInnerNode = ({node,config},props) => {
 
 }
 
-export default CustomInnerNode
+export default CustomInnerNodeEdit

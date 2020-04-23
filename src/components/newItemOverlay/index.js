@@ -52,11 +52,30 @@ const PortListItem = ({port,key,handleDeletePort}) => (
 
 
 
-const NewItemOverlay = ({handleChange,value,submit,show,handleClose,handleDeletePort, node,itemRef,handleAdd}) => {
-  const [thisnode,setThisnode] = useState({})
-  useEffect(() => {
-    setThisnode(node)
-  },[node])
+const NewItemOverlay = ({handleChange,value,submit,show,handleClose,handleDeletePort, node,itemRef,handleAdd }) => {
+  // const [thisnode,setThisnode] = useState(node)
+  // const [showModal, setShowModal] = useState(show)
+    // useEffect(() => {
+    //   console.log(selected.type);
+    //   if (selected.type) {
+    //       console.log('we have selected', selected.id);
+    //       let thisSelectedNode = Object.keys(chart.nodes).filter(node => {
+    //         if (node === selected.id) {
+    //           return node
+    //         }
+    //       })
+    //       console.log("the selected node",chart.nodes[thisSelectedNode[0]]);
+    //       setThisnode(chart.nodes[thisSelectedNode[0]])
+    //
+    //   }else {
+    //     console.log("NOTHING SELECTED:",node);
+    //     setThisnode(node)
+    //   }
+    // },[node])
+
+    // useEffect(() => {
+    //   setShowModal(show)
+    // },[show])
 
     return(
     <Modal show={show} onHide={handleClose} size="lg">
@@ -65,7 +84,7 @@ const NewItemOverlay = ({handleChange,value,submit,show,handleClose,handleDelete
 
         <Dropdown style={{marginLeft: '1rem'}}>
           <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-            NodeType: {thisnode.type}
+            NodeType: {node.type}
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
@@ -75,7 +94,7 @@ const NewItemOverlay = ({handleChange,value,submit,show,handleClose,handleDelete
         </Dropdown>
       </Modal.Header>
       <Modal.Body>
-          {(Object.keys(thisnode).length > 0)?(
+          {(Object.keys(node).length > 0)?(
 
           <StyledNodePreviewRow as={Row} className="justify-content-center">
             <Col lg={{span: 3}}>
@@ -83,19 +102,23 @@ const NewItemOverlay = ({handleChange,value,submit,show,handleClose,handleDelete
                 <Col lg={4}>
                   <h6>Inputs</h6></Col>
                 <Col >
-                  <Button id={'addInput'} style={{height:'2rem', lineHeight:'1rem'}} className={'btn-block'} onClick={handleAdd}>
+                  <Button
+                    id={'addInput'}
+                    style={{height:'2rem', lineHeight:'1rem'}}
+                    className={'btn-block'}
+                    onClick={handleAdd}>
                     +
                   </Button>
                 </Col>
               </Row>
               <PortList
-                  thisnode={thisnode}
+                  thisnode={node}
                   type='input'
                   handleDeletePort={handleDeletePort}
                 />
             </Col>
             <StyledNodePreviewCol as={Col} lg={5}  className="text-center">
-              <CustomNodePreviewEdit thisnode={thisnode} ref={itemRef}/>
+              <CustomNodePreviewEdit thisnode={node} ref={itemRef} handleChange={handleChange}/>
             </StyledNodePreviewCol>
             <Col lg={{span: 3}}>
               <Row>
@@ -103,13 +126,17 @@ const NewItemOverlay = ({handleChange,value,submit,show,handleClose,handleDelete
                   <h6>Outputs</h6>
                 </Col>
                 <Col >
-                  <Button id={'addOutput'} style={{height:'2rem', lineHeight:'1rem'}} className={'btn-block'} onClick={handleAdd}>
+                  <Button
+                  id={'addOutput'}
+                  style={{height:'2rem', lineHeight:'1rem'}}
+                  className={'btn-block'}
+                  onClick={handleAdd}>
                   +
                   </Button>
                 </Col>
               </Row>
               <PortList
-                thisnode={thisnode}
+                thisnode={node}
                 type='output'
                 handleDeletePort={handleDeletePort}
                 />

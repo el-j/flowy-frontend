@@ -1,25 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { FlowChartWithState, INodeDefaultProps } from "@mrblenny/react-flow-chart";
+import { FlowChartWithState, FlowChart, INodeDefaultProps } from "@mrblenny/react-flow-chart";
 import { cloneDeep, mapValues } from 'lodash'
 import CustomNode from './Nodes/CustomNode'
 import CustomInnerNode from './Nodes/CustomNode/CustomInnerNode'
 import CustomPort from './Nodes/CustomNode/CustomPort'
 
-const FlowChart = React.forwardRef((props,ref) => {
-  let chartData = cloneDeep(props.chartData)
-    return (<FlowChartWithState
+const MyFlowChart = React.forwardRef((props,ref) => {
+    let chartData = cloneDeep(props.chartData)
+    return (<FlowChart
+      callbacks={props.stateActions}
       ref={ref}
       Components={{
         Node: CustomNode,
         NodeInner:CustomInnerNode,
         // Port: CustomPort
       }}
+      chart={chartData}
       // config={{ smartRouting: true }}
-      initialValue={chartData}
-              />
+      />
   )
 })
 
 
-export default FlowChart
+export default MyFlowChart

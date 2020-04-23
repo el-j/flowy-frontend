@@ -34,7 +34,7 @@ background: rgba(0,0,0,0.05);
 `
 
 const AddNode = (props) => {
-  console.log(props);
+  // console.log(props);
 
   return(<>
     <SidebarItem
@@ -46,16 +46,27 @@ const AddNode = (props) => {
     </>)
 }
 
-const Sidebar = ({items, itemRef, handleSave,handleConfigureNode,newItem}) => {
-
+const Sidebar = ({items, itemRef, handleSave,handleConfigureNode,newItem, selected}) => {
+  // console.log(selected)
   return(<StyledSidebar>
     <Inner>
       <p>Save the current working State</p>
       <Button className={'btn-block'} onClick={(e)=>handleSave(e)}>Save</Button>
     </Inner>
-     <Message>
-       no message here
-     </Message>
+
+     {selected.type
+        ? <Message>
+            <div>Type: {selected.type}</div>
+            <div>ID: {selected.id}</div>
+            <br/>
+            {/*
+              We can re-use the onDeleteKey action. This will delete whatever is selected.
+              Otherwise, we have access to the state here so we can do whatever we want.
+            */}
+
+          </Message>
+        : <Message>Click on a Node, Port or Link</Message> }
+
 
      <AddNode
      onClick={handleConfigureNode}

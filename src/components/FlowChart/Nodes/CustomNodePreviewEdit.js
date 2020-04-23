@@ -8,6 +8,7 @@ import CustomPort from './CustomNode/CustomPort'
 
 const CustomNodePreviewEdit = React.forwardRef((props, ref) =>{
 let thisnode = props.thisnode
+console.log(thisnode)
 return (<>
   <CustomNode node={{...thisnode}} ref={ref} style={{position:'relative'}}>
   <Row className="justify-content-center">
@@ -21,7 +22,7 @@ return (<>
             )}})
       }
   </Row>
-  <CustomInnerNodeEdit type='screen' node={{...thisnode}} />
+  <CustomInnerNodeEdit type='screen' node={{...thisnode}} handleChange={props.handleChange} />
   <Row className="justify-content-center">
     {
     Object.keys(thisnode.ports).map((port,key) => {
