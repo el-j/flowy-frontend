@@ -25,6 +25,7 @@ const Outer= styled.div`
 
 const emptyProject = (name) => {
   return ({
+    projectId: name,
     name: name,
     description: '',
     mmd: '',
@@ -57,7 +58,7 @@ const NewProjectView = (props) => {
     const temp = e.target.value
     switch (e.target.id) {
       case 'newProjectName':
-              setNewProject({...newProject, name:temp})
+              setNewProject({...newProject, name:temp, projectId:temp})
         break;
       case 'newProjectDescription':
               setNewProject({...newProject, description:temp})
@@ -138,6 +139,7 @@ const NewProjectView = (props) => {
        var formData = new FormData();
        let files = newProject.files
        let name = newProject.name
+       let projectId = newProject.projectId
        let description = newProject.description
        let mermaid = mermaidPreview
        // setNewProject({...newProject, files: files})
@@ -146,6 +148,7 @@ const NewProjectView = (props) => {
          formData.append('filename',files[i].name)
        }
        formData.append('projectName',name)
+       formData.append('projectId',projectId)
        formData.append('projectDescription',description)
        formData.append('projectMermaid',mermaid)
        uploadProjectData(formData,name).then(result =>{

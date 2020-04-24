@@ -42,7 +42,7 @@ const Overview = (props) => {
 
   const handleChange = (e) => {
     const temp = e.target.value
-    setNewProject({name:temp,files:[]})
+    setNewProject({projectId:temp,name:temp,files:[]})
   }
 
 
@@ -50,12 +50,11 @@ const Overview = (props) => {
   const handleCreateEmptyProject = event => {
     event.persist()
     console.log("CREATE EMPTY PROJECT NOW >>>> NAME:",newProject);
-    createProject(newProject.name).then(result =>{
+    createProject(newProject.projectId).then(result =>{
       console.log("response result",result,result.body,newProject.name,event.target.files)
       setIsLoaded(true)
       setCreateProgress(true)
-      handleNewProject(newProject.name)
-
+      handleNewProject(newProject.projectId)
     } ,(error) => {
             console.log("we got error response",error);
             setProjects([])
@@ -69,11 +68,13 @@ const Overview = (props) => {
        var formData = new FormData();
        let files = event.target.files
        let name = newProject.name
+       let projectId = newProject.projectId
        for (var i = 0; i < files.length; i++) {
          formData.append('file',files[i],files[i].name)
        }
        formData.append('projectName',name)
-       uploadProjectData(formData,name).then(result =>{
+       formData.append('projectId',projectId)
+       uploadProjectData(formData,projectId).then(result =>{
          setProjects(result)
          setUploaded(true)
          setCreateProgress(false)

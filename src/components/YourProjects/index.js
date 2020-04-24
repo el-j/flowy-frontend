@@ -17,7 +17,7 @@ const ProjectCard = ({project, key, openProject, removeProject}) => {
     preview = {filename:'placeholder',type:'png'}
   }
   return(<Row className={'projectCard'} style = {{
-                backgroundImage: `url(${api}/${project.name}/${preview.filename}.${preview.type})`,
+                backgroundImage: `url(${api}/${project.projectId}/${preview.filename}.${preview.type})`,
                 backgroundSize: 'cover'
               }}>
           <Col lg={12} className={'projectOverviewTextElements'}>
@@ -25,10 +25,10 @@ const ProjectCard = ({project, key, openProject, removeProject}) => {
             <p>{project.info}</p>
           </Col>
           <Col lg={6}>
-            <Button variant="primary" className={'btn-block'} onClick={()=>openProject(project.name)}>Open Project</Button>
+            <Button variant="primary" className={'btn-block'} onClick={()=>openProject(project.projectId)}>Open Project</Button>
           </Col>
           <Col lg={6}>
-            <Button variant="danger" className={'btn-block'} onClick={()=>removeProject(project.name)}>Delete Project</Button>
+            <Button variant="danger" className={'btn-block'} onClick={()=>removeProject(project.projectId)}>Delete Project</Button>
           </Col>
         </Row>
     )

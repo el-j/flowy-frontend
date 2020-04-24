@@ -24,7 +24,6 @@ const useFetchApi = (url) => {
   useEffect(() => {
     fetchMyApi();
   }, []);
-  console.log(data)
   return data
 }
 export default useFetchApi

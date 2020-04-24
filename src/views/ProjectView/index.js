@@ -3,15 +3,19 @@ import ReactDOM from 'react-dom'
 import { loadProject, loadFiles, saveProject } from '../../components/fetchApi'
 import mermaid from 'mermaid'
 import MyFlowChart from '../../components/FlowChart'
-import Options from '../../components/ProjectOptions'
+import RightPanel from '../../components/RightPanel'
+import LeftPanel from '../../components/LeftPanel'
 import useFetchApi from '../../components/fetchApi/useFetchApi.js'
 import NewItemOverlay from '../../components/newItemOverlay'
 import { actions } from "@mrblenny/react-flow-chart";
 import { cloneDeep, mapValues } from 'lodash'
 
 const emptyProject = (name) => {
-  return ({name: name,
+  return ({
+    projectId: name,
+    name: name,
   files:[],
+  description: '',
   projectJson:{
     offset: {
       x: 0,
@@ -27,6 +31,8 @@ const emptyProject = (name) => {
 let item = {
   id: "node1",
   type: "input-output",
+  name: 'Your Node Name',
+  text: 'Your Node Description',
   position: {
     x: 300,
     y: 100
@@ -35,6 +41,7 @@ let item = {
     port1: {
       id: "port1",
       type: "input",
+      connected:false,
       properties: {
         value: "yes"
       }
@@ -42,6 +49,7 @@ let item = {
     port2: {
       id: "port2",
       type: "output",
+      connected:false,
       properties: {
         value: "no"
       }
@@ -90,20 +98,26 @@ const ProjectView = (props) => {
       //    console.log("yes")
       //  }
        useEffect(()=>{
+
+
          if (chart.selected) {
          if (!chart.selected.type) {
            console.log("NOTHING SELECTED:",item);
            setNewItem(item)
          }
-         else {
+         else if (chart.selected.type === 'node'){
            console.log('we have selected', chart.selected.id);
            let thisSelectedNode = Object.keys(chart.nodes).filter(node => {
              if (node === chart.selected.id) {
                return node
              }
            })
-           console.log("the selected node",chart.nodes[thisSelectedNode[0]]);
+           // console.log("the selected node",chart.nodes[thisSelectedNode[0]]);
            setNewItem(chart.nodes[thisSelectedNode[0]])
+         }
+         else {
+           console.log('we have selected', chart.selected.id, chart.selected.type);
+           setNewItem(item)
          }
          }
        },[chart])
@@ -112,7 +126,7 @@ const ProjectView = (props) => {
         let response = {}
         let  thatData = project
         thatData.projectJson = chart
-        saveProject(project.name,thatData).then(
+        saveProject(project.projectId,thatData).then(
           (result) => {
             setProject(result)
             setChart(result.projectJson)
@@ -131,6 +145,7 @@ const ProjectView = (props) => {
         let thisSelectedNode
         let thisSelectedNodeName
         let thisChart = chart
+        let thisProject = project
         if (nodeId) {
             thisSelectedNodeName = Object.keys(chart.nodes).filter(node => {
             if (node === nodeId) {
@@ -157,15 +172,27 @@ const ProjectView = (props) => {
           console.log('we change',id, "TODO: Upload new file and remove the old one");
           // thisSelectedNode.picture = value
             break;
+          case 'changeProjectName':
+          console.log('we change',id,value);
+          thisProject.name = value
+            break;
+          case 'changeProjectDescription':
+          console.log('we change',id,value);
+          thisProject.description = value
+            break;
           default:
 
         }
+        if (thisSelectedNode) {
         thisChart.nodes[thisSelectedNodeName[0]] = thisSelectedNode
+        thisProject.projectJson = thisChart
         setChart({...chart, ...thisChart})
+        }
+        setProject({...project, ...thisProject})
       }
       const handleConfigureNode = (e) => {
         setNewItemCreate(true)
-        console.log(e)
+        // console.log(e)
       }
 
       const stateActionsCallbacks = Object.keys(actions).reduce((obj,key,idx) => {
@@ -181,7 +208,8 @@ const ProjectView = (props) => {
      //
      useEffect(() => {
        if (chart.selected) {
-         if (chart.selected.type) {
+         console.log(chart.selected);
+         if (chart.selected.type === 'node') {
          let name = chart.selected.id
          // console.log("the selected node",chart);
          let thisSelectedNode = Object.keys(chart.nodes).filter(node => {
@@ -198,12 +226,24 @@ const ProjectView = (props) => {
          setNewItem(thisItem)
         }
        }
+
      },[newItem])
 
 
 
 
     const handleDeletePort = port => {
+
+      // TODO: WE CANNOT REMOVE A PORT THAT IS CONNECTED!!!
+      //
+      // if (chart.links) {
+      //   let thisLinkedNode = Object.keys(chart.links).filter(link => {
+      //     if (chart.links[link].from.nodeId === chart.selected.id || chart.links[link].to.nodeId === chart.selected.id) {
+      //       return link
+      //     }
+      //   })
+      //   console.log("WE HAVE A LINKED NODE",chart.links[thisLinkedNode[0]]);
+      // }
       console.log(port)
       let ports = newItem.ports
       let allPorts = Object.keys(ports)
@@ -239,6 +279,7 @@ const ProjectView = (props) => {
           temp = {[thisPortId]:{
           id: thisPortId,
           type: type,
+          connected:false,
             properties: {
               value: ''
             }}
@@ -258,37 +299,44 @@ const ProjectView = (props) => {
         <div className='container-fluid'>
               {project&&project.projectJson?(
                 <>
-                  <NewItemOverlay
-                    handleAdd={handleAddPort }
+                {
+                  //   <MerMaid />
+                  //   <NodeList />
+                  // </LeftPanel>
+                  // {console.log(flowchartRef)}
+                }
+                  <LeftPanel
+                    project={project}
+                    chart={chart}
+                    handleChange={handleChange}
+                  />
+                  <RightPanel
+                    newItem={newItem}
+                    itemRef={itemRef}
+                    chart={chart}
+                    handleSave={handleSave}
+                    handleAddPort={handleAddPort}
                     handleDeletePort={handleDeletePort }
                     handleChange={handleChange}
                     handleClose={() =>setNewItemCreate(false)}
-                    node={{...newItem}}
-                    submit={'value'}
-                    show={newItemCreate}
-                    // itemRef={itemRef}
-                    chart={chart}
                     selected={chart.selected}
                   />
-                  {console.log(flowchartRef)}
-                  <Options
-                    handleSave={handleSave}
-                    newItem={newItem}
-                    itemRef={itemRef}
-                    handleConfigureNode={handleConfigureNode}
-                    chart={chart}
-                    selected={chart.selected}
-                    />
                   <MyFlowChart
                     id={'projectFlowGraph'}
                     stateActions={stateActionsCallbacks}
                     ref={flowchartRef}
                     chartData={chart}/>
+
+
+
+
                 </>
                 ):(null)}
             </div>
       );
     }
 }
-
+// <ProjectObtions />
+// <RightPanel >
+// </RightPanel>
 export default ProjectView
