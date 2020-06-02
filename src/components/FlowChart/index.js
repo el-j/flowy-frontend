@@ -8,9 +8,10 @@ import CustomPort from './Nodes/CustomNode/CustomPort'
 
 const MyFlowChart = React.forwardRef((props,ref) => {
     let chartData = cloneDeep(props.chartData)
-    return (<FlowChart
+    return (
+      <div ref={ref}>
+      <FlowChart
       callbacks={props.stateActions}
-      ref={ref}
       Components={{
         Node: CustomNode,
         NodeInner:CustomInnerNode,
@@ -19,6 +20,7 @@ const MyFlowChart = React.forwardRef((props,ref) => {
       chart={chartData}
       // config={{ smartRouting: true }}
       />
+      </div>
   )
 })
 
