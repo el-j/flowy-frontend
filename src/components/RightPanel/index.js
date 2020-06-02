@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 
 import styled from 'styled-components'
+import Button from 'react-bootstrap/Button';
 
 import Sidebar from '../SideBar'
 
@@ -15,7 +16,13 @@ const Outer = styled.div`
   z-index:900;
 `
 
+const Inner = styled.div`
+  padding: 30px;
 
+  display:block;
+  left:0;
+  background: #fafafa;
+`
 const RightPanel = ({
   items,
   newItem,
@@ -24,19 +31,32 @@ const RightPanel = ({
   handleChange,
   handleAddPort,
   handleDeletePort,
+  handlePrint,
   chart,
+  chartRef
 }) => {
   return(<Outer>
+
         <Sidebar
           items={items}
           newItem={newItem}
           selected={selected}
-          handleSave={handleSave}
           handleChange={handleChange}
           handleAddPort={handleAddPort }
           handleDeletePort={handleDeletePort }
           chart={chart}
+          handlePrint={handlePrint}
           />
+          <Inner>
+            <p>Save the current working State</p>
+            <Button className={'btn-block'} onClick={(e)=>handleSave(e)}>Save</Button>
+          </Inner>
+
+          <Inner>
+            <p>Print the current working State</p>
+            <Button className={'btn-block'} onClick={handlePrint}>Print</Button>
+          </Inner>
+
     </Outer>)
 }
 
