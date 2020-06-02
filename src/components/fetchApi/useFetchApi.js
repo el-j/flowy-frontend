@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 
 const useFetchApi = (url) => {
    const [data, dataSet] = useState(false)
-   let api =`http://localhost:4000/api`
+   let api =`http://localhost:9023/api`
 
   if (url !== undefined) {
       api =`${api}/${url}`
