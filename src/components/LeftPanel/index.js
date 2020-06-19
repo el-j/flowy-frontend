@@ -115,7 +115,9 @@ handleChange
 }) => {
   return(<Outer>
     <Row>
-    {console.log(project)}
+     {
+       //console.log(project)
+     }
       <ProjectRowTitle as={Col} lg={12}>
         <StyledInputTitle
           placeholder='Your Node Name'
@@ -160,7 +162,7 @@ handleChange
     <StyledNodeListRow as={Row}>
       {Object.keys(chart.nodes).length > 0? (
         Object.keys(chart.nodes).map(node => {
-          console.log(node);
+          // console.log(node);
           return (
             <Col lg={12} className='align-self-center'>
               <StyledNodeListItem style= {{

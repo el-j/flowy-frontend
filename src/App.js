@@ -7,6 +7,7 @@ import MyNavbar from "./components/myNavbar"
 
 export default function App() {
   const routeResult = useRoutes(Routes)
+  console.log(routeResult);
   return (
     <>
       <MyNavbar />

@@ -3,7 +3,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 
-const api = 'http://localhost:4000'
+const api = 'http://localhost:9023'
 
 const ProjectCard = ({project, key, openProject, removeProject}) => {
 

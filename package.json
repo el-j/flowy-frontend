@@ -1,9 +1,9 @@
 {
-  "name": "flowy-frontend",
+  "name": "sketchmermaid",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@mrblenny/react-flow-chart": "^0.0.11",
+    "@mrblenny/react-flow-chart": "^0.0.13",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -40,5 +40,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:4000"
+  "proxy": "http://localhost:9023"
 }

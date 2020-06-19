@@ -102,11 +102,11 @@ const ProjectView = (props) => {
 
          if (chart.selected) {
          if (!chart.selected.type) {
-           console.log("NOTHING SELECTED:",item);
+           // console.log("NOTHING SELECTED:",item);
            setNewItem(item)
          }
          else if (chart.selected.type === 'node'){
-           console.log('we have selected', chart.selected.id);
+           // console.log('we have selected', chart.selected.id);
            let thisSelectedNode = Object.keys(chart.nodes).filter(node => {
              if (node === chart.selected.id) {
                return node
@@ -116,7 +116,7 @@ const ProjectView = (props) => {
            setNewItem(chart.nodes[thisSelectedNode[0]])
          }
          else {
-           console.log('we have selected', chart.selected.id, chart.selected.type);
+           // console.log('we have selected', chart.selected.id, chart.selected.type);
            setNewItem(item)
          }
          }
@@ -252,6 +252,15 @@ const ProjectView = (props) => {
       setNewItem({...newItem,ports:{...ports}})
     }
 
+    const handlePrint = () => {
+      console.log(flowchartRef.current);
+
+     //  return print(){
+     //   window.print()
+     // }
+
+    }
+
     const handleAddPort  = event => {
         let id = event.currentTarget.id
         let portAmount = Object.keys(newItem.ports)
@@ -314,10 +323,12 @@ const ProjectView = (props) => {
                     newItem={newItem}
                     itemRef={itemRef}
                     chart={chart}
+                    chartRef={flowchartRef}
                     handleSave={handleSave}
                     handleAddPort={handleAddPort}
                     handleDeletePort={handleDeletePort }
                     handleChange={handleChange}
+                    handlePrint={handlePrint}
                     handleClose={() =>setNewItemCreate(false)}
                     selected={chart.selected}
                   />

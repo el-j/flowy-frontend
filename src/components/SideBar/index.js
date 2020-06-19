@@ -129,7 +129,9 @@ const Sidebar = ({
 
         {(Object.keys(newItem).length > 0 && Object.keys(selected).length > 0)?(
           <>
-          {console.log(newItem, selected)}
+          {
+            // console.log(newItem, selected)
+          }
         <PictureRow>
           <img src={newItem.path} style={{
             width: '100%'
@@ -218,10 +220,7 @@ const Sidebar = ({
      // itemRef={itemRef}
      // />
    }
-     <Inner>
-       <p>Save the current working State</p>
-       <Button className={'btn-block'} onClick={(e)=>handleSave(e)}>Save</Button>
-     </Inner>
+
 
 
    </StyledSidebar>)}
