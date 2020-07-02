@@ -8,8 +8,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import CustomNodePreviewEdit from '../FlowChart/Nodes/CustomNodePreviewEdit'
-import { apiUrl, serverUrl, serverPort } from '../../components/fetchApi'
-import TreeView from '../TreeView'
+import { apiUrl, serverUrl, serverPort } from '../../tools/fetchApi'
+// import TreeView from '../TreeView'
 
 const StyledNodePreviewRow = styled.div`
   padding: 16px;
