@@ -1,10 +1,12 @@
 import React from "react";
 import { FlowChartWithState, INodeDefaultProps } from "@mrblenny/react-flow-chart";
 import styled from 'styled-components'
+import { createProject, uploadProjectData, removeProject, apiUrl,serverPort,serverUrl } from '../../../fetchApi'
+
 
 const Outer = styled.div`
    background-color:#fff;
-  max-width: 300px;
+  max-width: 500px;
   display:block;
   word-break: break-all;
 `
@@ -29,6 +31,7 @@ const DecisionInner = styled.div`
 `
 
 const CustomInnerNode = ({node,config},props) => {
+  console.log(config,node)
   switch (node.type) {
     case 'decision':
     return (
@@ -50,7 +53,7 @@ const CustomInnerNode = ({node,config},props) => {
     return (
     <Outer id={node.id} >
       <div style={{display:'block', width: '100%'}}>
-      <img src={node.path} style={{width: 'inherit'}} />
+      <img src={`${serverUrl}:${serverPort}/${node.path}`} style={{width: 'inherit'}} />
       </div>
       <Inner>
       <h5>{node.name}</h5>

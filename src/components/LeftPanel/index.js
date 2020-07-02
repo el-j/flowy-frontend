@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
+import { createProject, uploadProjectData, removeProject, apiUrl, serverUrl, serverPort } from '../../components/fetchApi'
 
 const StyledNodeListItem = styled.div`
   border-radius: 4px;
@@ -166,7 +167,7 @@ handleChange
           return (
             <Col lg={12} className='align-self-center'>
               <StyledNodeListItem style= {{
-                backgroundImage: `url(${chart.nodes[node].path})`,
+                backgroundImage: `url(${serverUrl}:${serverPort}/${chart.nodes[node].path})`,
                 backgroundSize: 'cover',
             }}>
                 <StyledH6> {chart.nodes[node].name}</StyledH6>

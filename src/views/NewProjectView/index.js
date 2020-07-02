@@ -11,7 +11,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { createProject, uploadProjectData, removeProject, api } from '../../components/fetchApi'
+import { createProject, uploadProjectData, removeProject, apiUrl, serverUrl, serverPort } from '../../components/fetchApi'
 import { loadProject, loadFiles, saveProject } from '../../components/fetchApi'
 import useFetchApi from '../../components/fetchApi/useFetchApi.js'
 
@@ -46,8 +46,8 @@ const emptyProject = (name) => {
 const NewProjectView = (props) => {
   console.log(props)
   const myprojectName = props.projectName.slice(1)
-  const apiUrl = `loadProject/:${myprojectName}`
-  const apiUpload = `${api}/uploadProjectData/:${myprojectName}`
+  const projectUrl = `loadProject/:${myprojectName}`
+  const apiUpload = `${apiUrl}/uploadProjectData/:${myprojectName}`
   const [newProject,setNewProject]= useState(emptyProject(myprojectName))
   const [uploaded,setUploaded] = useState(false)
   const [createProgress,setCreateProgress] = useState(false)
