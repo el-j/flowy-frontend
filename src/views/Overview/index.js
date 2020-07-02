@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 
 // import Projects from '../../dataMocks/projects.js'
-import {createProject,uploadProjectData, removeProject, api } from '../../tools/fetchApi'
+import {createProject,uploadProjectData, removeProject } from '../../tools/fetchApi'
 import useFetchApi from '../../tools/fetchApi/useFetchApi.js'
 
 import { NewProjectInput, YourProjects } from '../../components'
