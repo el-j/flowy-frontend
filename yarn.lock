@@ -1164,13 +1164,13 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@mrblenny/react-flow-chart@^0.0.13":
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/@mrblenny/react-flow-chart/-/react-flow-chart-0.0.13.tgz#aac792543950775e61e406857e474fb2680dc94c"
-  integrity sha512-vK1HDX16yA+p3fA2sypoKIlQdxh3v32/ne2JVPp/riWrjHROJhd/RgRo4cKK+1+U34XvGLQZ1N+/j8f0Y7WgKw==
+"@mrblenny/react-flow-chart@^0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@mrblenny/react-flow-chart/-/react-flow-chart-0.0.14.tgz#be11d06345c7222b41f488b38011b109e48a04b3"
+  integrity sha512-3bFjlmlYuqHpCRCPoA59jok2Vhe59ZKT5g9lb6U5IM+Zk2fIsKmXp8LEcliW0TrHtNMtZw5Gm3/rScrg/DwAFQ==
   dependencies:
     pathfinding "^0.4.18"
-    react-draggable "^4.3.1"
+    react-draggable "^4.4.3"
     react-resize-observer "^1.1.1"
     react-zoom-pan-pinch "^1.6.1"
     uuid "^3.3.2"
@@ -8860,7 +8860,7 @@ react-dom@^16.13.0:
     prop-types "^15.6.2"
     scheduler "^0.19.0"
 
-react-draggable@^4.3.1:
+react-draggable@^4.4.3:
   version "4.4.3"
   resolved "https://registry.yarnpkg.com/react-draggable/-/react-draggable-4.4.3.tgz#0727f2cae5813e36b0e4962bf11b2f9ef2b406f3"
   integrity sha512-jV4TE59MBuWm7gb6Ns3Q1mxX8Azffb7oTtDtBgFkxRvhDp38YAARmRplrj0+XGkhOJB5XziArX+4HUUABtyZ0w==
