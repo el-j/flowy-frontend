@@ -26,7 +26,7 @@ const StyledNodeListItem = styled.div`
     margin-right: 1rem;
     margin-bottom: 0.25rem;
     content: '';
-    opacity: 0.3;
+    opacity: 0.5;
     top: 0;
     left: 0;
     bottom: 0;
@@ -36,10 +36,10 @@ const StyledNodeListItem = styled.div`
     background-color:#000;
 
   }
-  /* &:hover {
+  &:hover {
     transition: all 0.5s;
     opacity: 0.8
-  } */
+  }
 `
 
 const ProjectRowTitle = styled.div`
@@ -70,11 +70,13 @@ z-index:10;
   overflow: hidden;
   white-space: pre-wrap;
   color: #fff;
+  font-weight: 700;
 `
 
 const StyledP = styled.p`
   z-index:10;
   color: #fff;
+  
   `
 
 
@@ -111,7 +113,8 @@ const Outer = styled.div`
 const LeftPanel = ({
 project,
 chart,
-handleChange
+handleChange,
+handleSelected
 }) => {
   return(<Outer>
     <Row>
@@ -165,7 +168,16 @@ handleChange
           // console.log(node);
           return (
             <Col lg={12} className='align-self-center'>
-              <StyledNodeListItem style= {{
+              <StyledNodeListItem
+              id={node}
+              onClick={e=>{
+                let nowSelected = {
+                  type:chart.nodes[node].type,
+                  id: node
+                }
+                handleSelected(nowSelected)
+              }}
+              style= {{
                 backgroundImage: `url(${chart.nodes[node].path})`,
                 backgroundSize: 'cover',
             }}>

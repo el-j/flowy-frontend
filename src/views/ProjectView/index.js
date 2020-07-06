@@ -260,6 +260,13 @@ const ProjectView = (props) => {
      // }
 
     }
+    const handleSelected = selectedNodeObject => {
+      let selected = selectedNodeObject
+      if (selectedNodeObject.id === "") {
+          selected = {}
+      }
+        setChart({...chart, selected: selected})
+    }
 
     const handleAddPort  = event => {
         let id = event.currentTarget.id
@@ -318,6 +325,7 @@ const ProjectView = (props) => {
                     project={project}
                     chart={chart}
                     handleChange={handleChange}
+                    handleSelected={handleSelected}
                   />
                   <RightPanel
                     newItem={newItem}
@@ -337,10 +345,6 @@ const ProjectView = (props) => {
                     stateActions={stateActionsCallbacks}
                     ref={flowchartRef}
                     chartData={chart}/>
-
-
-
-
                 </>
                 ):(null)}
             </div>
