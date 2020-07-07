@@ -132,6 +132,8 @@ const Sidebar = ({
           {
             // console.log(newItem, selected)
           }
+
+          {selected.type === 'node' ? (<>
         <PictureRow>
           <img src={newItem.path} style={{
             width: '100%'
@@ -146,11 +148,7 @@ const Sidebar = ({
               id="changeNodeName"
               value={newItem.name}
               onChange={e => handleChange(e,newItem.id)}
-
             />
-
-
-
           </PictureRowTitle>
         </Row>
         <Row>
@@ -167,7 +165,7 @@ const Sidebar = ({
             />
           </PictureRowTitle>
         </Row>
-
+        </>):<h1>Decicsion</h1>}
         <StyledNodePreviewRow as={Row}>
           <Col lg={{span: 3}}>
               <h6>Inputs</h6>
