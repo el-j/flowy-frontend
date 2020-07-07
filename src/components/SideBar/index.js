@@ -7,8 +7,8 @@ import Row from 'react-bootstrap/Row';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-
 import CustomNodePreviewEdit from '../FlowChart/Nodes/CustomNodePreviewEdit'
+import { apiUrl, serverUrl, serverPort } from '../../components/fetchApi'
 import TreeView from '../TreeView'
 
 const StyledNodePreviewRow = styled.div`
@@ -135,10 +135,15 @@ const Sidebar = ({
 
           {selected.type === 'node' ? (<>
         <PictureRow>
-          <img src={newItem.path} style={{
+          <img src={`${serverUrl}:${serverPort}/${newItem.path}`} style={{
             width: '100%'
           }}/>
         </PictureRow>
+        <Row>
+          <PictureRowTitle as={Col} lg={12}>
+            <p>{newItem.id}</p>
+          </PictureRowTitle>
+        </Row>
         <Row>
           <PictureRowTitle as={Col} lg={12}>
             <StyledInputTitle
@@ -151,6 +156,8 @@ const Sidebar = ({
             />
           </PictureRowTitle>
         </Row>
+
+
         <Row>
           <PictureRowTitle as={Col} lg={12}>
               <StyledInputDescription
@@ -210,7 +217,62 @@ const Sidebar = ({
           </Col>
         </StyledNodePreviewRow></>
         )
-          :<Message>Click on a Node, Port or Link</Message>}
+          : <>
+              {
+                // console.log(newItem, selected)
+              }
+              <PictureRow>
+              <img src={newItem.path} style={{
+                width: '100%'
+              }}/>
+              </PictureRow>
+              <Row>
+                <PictureRowTitle as={Col} lg={12}>
+                    <StyledInputDescription
+                    rows="1"
+                    placeholder='_NewNodeId'
+                    aria-label={newItem.id}
+                    aria-describedby={newItem.id}
+                    id="changeNodeId"
+                    value={newItem.id}
+                    onChange={e => handleChange(e,newItem.id)}
+                    type='text'
+                  />
+                </PictureRowTitle>
+              </Row>
+            <Row>
+              <PictureRowTitle as={Col} lg={12}>
+                <StyledInputTitle
+                  placeholder='Your Node Name'
+                  aria-label={newItem.name}
+                  aria-describedby={newItem.name}
+                  id="changeNodeName"
+                  value={newItem.name}
+                  onChange={e => handleChange(e,newItem.id)}
+
+                />
+
+
+
+              </PictureRowTitle>
+            </Row>
+            <Row>
+              <PictureRowTitle as={Col} lg={12}>
+                  <StyledInputDescription
+                  rows="2"
+                  placeholder='Your Description of the node'
+                  aria-label={newItem.text}
+                  aria-describedby={newItem.text}
+                  id="changeNodeDescription"
+                  value={newItem.text}
+                  onChange={e => handleChange(e,newItem.id)}
+                  type='textarea'
+                />
+              </PictureRowTitle>
+            </Row>
+
+
+          <Message>Click on a Node, Port or Link</Message></>}
      {
      //   <AddNode
      // onClick={handleConfigureNode}

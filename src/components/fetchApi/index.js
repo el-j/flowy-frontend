@@ -1,6 +1,8 @@
 import React from "react";
 
-export const api = 'http://localhost:9023/api'
+export const serverPort = 9023
+export const serverUrl = 'http://localhost'
+export const apiUrl = `${serverUrl}:${serverPort}/api`
 
 function postData(url, data) {
   // Default options are marked with *
@@ -33,18 +35,18 @@ function saveProjectData(url, data) {
 
 }
 
-export const createProject = (newProjectName) => fetch(`${api}/createProject/:${newProjectName}`).then(res => res)
-export const removeProject = (newProjectName) => fetch(`${api}/removeProject/:${newProjectName}`).then(res => res.json())
+export const createProject = (newProjectName) => fetch(`${apiUrl}/createProject/:${newProjectName}`).then(res => res)
+export const removeProject = (newProjectName) => fetch(`${apiUrl}/removeProject/:${newProjectName}`).then(res => res.json())
 
-export const uploadProjectData = (incomedata,projectName) => postData(`${api}/uploadProjectData/:${projectName}`,incomedata).then(res=> res.json())
-export const saveProject = (projectName,projectJson) => saveProjectData(`${api}/saveProject/:${projectName}`,projectJson).then(res=> res.json())
+export const uploadProjectData = (incomedata,projectName) => postData(`${apiUrl}/uploadProjectData/:${projectName}`,incomedata).then(res=> res.json())
+export const saveProject = (projectName,projectJson) => saveProjectData(`${apiUrl}/saveProject/:${projectName}`,projectJson).then(res=> res.json())
 
 
-export const getAllFiles = (state) => fetch(`${api}/getallfiles`).then(res => res.json())
+export const getAllFiles = (state) => fetch(`${apiUrl}/getallfiles`).then(res => res.json())
 
-export const loadFiles = (filetype) => fetch(`${api}/loadfile/:${filetype}`).then(res => res.json())
+export const loadFiles = (filetype) => fetch(`${apiUrl}/loadfile/:${filetype}`).then(res => res.json())
 
-export const loadPngs = (filetype) => fetch(`${api}/loadpngs`).then(res => res.json())
+export const loadPngs = (filetype) => fetch(`${apiUrl}/loadpngs`).then(res => res.json())
 
 export default {
   loadFiles,
@@ -52,5 +54,8 @@ export default {
   createProject,
   removeProject,
   uploadProjectData,
-  saveProject
+  saveProject,
+  apiUrl,
+  serverPort,
+  serverUrl
 }

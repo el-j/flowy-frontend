@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom'
-import { loadProject, loadFiles, saveProject } from '../../components/fetchApi'
+import { loadProject, loadFiles, saveProject, apiUrl } from '../../components/fetchApi'
 import mermaid from 'mermaid'
 import MyFlowChart from '../../components/FlowChart'
 import RightPanel from '../../components/RightPanel'
 import LeftPanel from '../../components/LeftPanel'
 import useFetchApi from '../../components/fetchApi/useFetchApi.js'
+
 import NewItemOverlay from '../../components/newItemOverlay'
 import { actions } from "@mrblenny/react-flow-chart";
 import { cloneDeep, mapValues } from 'lodash'
@@ -29,7 +30,7 @@ const emptyProject = (name) => {
 }
 
 let item = {
-  id: "node1",
+  id: "_NEWNODE",
   type: "input-output",
   name: 'Your Node Name',
   text: 'Your Node Description',
@@ -146,6 +147,7 @@ const ProjectView = (props) => {
         let thisSelectedNodeName
         let thisChart = chart
         let thisProject = project
+        let oldNodeId = nodeId
         if (nodeId) {
             thisSelectedNodeName = Object.keys(chart.nodes).filter(node => {
             if (node === nodeId) {
@@ -165,7 +167,7 @@ const ProjectView = (props) => {
           thisSelectedNode.name = value
             break;
           case 'changeNodeDescription':
-          console.log('we change',id);
+          console.log('we change',id,thisSelectedNode);
           thisSelectedNode.text = value
             break;
           case 'changeNodeImage':
@@ -173,15 +175,24 @@ const ProjectView = (props) => {
           // thisSelectedNode.picture = value
             break;
           case 'changeProjectName':
-          console.log('we change',id,value);
+          console.log('we change',id,value,thisSelectedNode);
           thisProject.name = value
             break;
           case 'changeProjectDescription':
-          console.log('we change',id,value);
+          console.log('we change',id,value,thisSelectedNode);
           thisProject.description = value
             break;
+          case 'changeNodeId':
+          console.log('we change',id,value,thisSelectedNode,oldNodeId);
+          thisSelectedNodeName = Object.keys(chart.nodes).filter(node => {
+          if (node === oldNodeId) {
+            return node
+          }
+          })
+          thisSelectedNode.id = value
+            break;
           default:
-
+          console.log("default happening");
         }
         if (thisSelectedNode) {
         thisChart.nodes[thisSelectedNodeName[0]] = thisSelectedNode
@@ -265,6 +276,7 @@ const ProjectView = (props) => {
       if (selectedNodeObject.id === "") {
           selected = {}
       }
+      console.log(selected);
         setChart({...chart, selected: selected})
     }
 

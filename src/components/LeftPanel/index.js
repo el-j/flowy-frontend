@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
+import { createProject, uploadProjectData, removeProject, apiUrl, serverUrl, serverPort } from '../../components/fetchApi'
 
 const StyledNodeListItem = styled.div`
   border-radius: 4px;
@@ -171,14 +172,16 @@ handleSelected
               <StyledNodeListItem
               id={node}
               onClick={e=>{
+                console.log(chart.nodes[node]);
                 let nowSelected = {
+                  displayType:chart.nodes[node].displayType,
                   type:chart.nodes[node].type,
-                  id: node
+                  id: chart.nodes[node].id
                 }
                 handleSelected(nowSelected)
               }}
               style= {{
-                backgroundImage: `url(${chart.nodes[node].path})`,
+                backgroundImage: `url(${serverUrl}:${serverPort}/${chart.nodes[node].path})`,
                 backgroundSize: 'cover',
             }}>
                 <StyledH6> {chart.nodes[node].name}</StyledH6>

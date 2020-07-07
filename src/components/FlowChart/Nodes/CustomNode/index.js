@@ -20,7 +20,7 @@ const CustomNode = React.forwardRef((props, ref) => {
   let children = props.children
   let otherProps = props
   // console.log("our custom node Props are:",props);
-  if (node.type === 'decision') {
+  if (node.displayType === 'decision') {
     return (
       <DecisionOuter ref={ref} {...otherProps}>
         {children}

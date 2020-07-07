@@ -34,7 +34,7 @@ const DecisionInner = styled.div`
 `
 
 const CustomInnerNodeEdit = ({node,config,handleChange,handlePictureChange},props) => {
-  switch (node.type) {
+  switch (node.displayType) {
     case 'decision':
     return (
         <DecisionWrapper>
