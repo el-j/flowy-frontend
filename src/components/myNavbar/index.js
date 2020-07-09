@@ -13,7 +13,7 @@ const Fixit = styled.div`
 const MyNavbar = () => (
   <Fixit>
     <Navbar bg="dark" variant="dark">
-      <Navbar.Brand href="/">Navbar</Navbar.Brand>
+      <Navbar.Brand href="/">ScreenMapper</Navbar.Brand>
       <Nav className="mr-auto">
         <A href="/">Overview</A>
         <A href="/project/:projectName">Load Project</A>

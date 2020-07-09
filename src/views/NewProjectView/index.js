@@ -11,9 +11,9 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { createProject, uploadProjectData, removeProject, apiUrl, serverUrl, serverPort } from '../../components/fetchApi'
-import { loadProject, loadFiles, saveProject } from '../../components/fetchApi'
-import useFetchApi from '../../components/fetchApi/useFetchApi.js'
+import { createProject, uploadProjectData, removeProject, apiUrl, serverUrl, serverPort } from '../../tools/fetchApi'
+import { loadProject, loadFiles, saveProject } from '../../tools/fetchApi'
+import useFetchApi from '../../tools/fetchApi/useFetchApi.js'
 
 
 
