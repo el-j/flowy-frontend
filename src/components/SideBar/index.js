@@ -122,7 +122,9 @@ const Sidebar = ({
   selected,
   handleAddPort,
   handleDeletePort,
-  handleChange
+  handleChange,
+  uploadRef,
+  changePicture
       }) => {
   // console.log(selected)
   return(<StyledSidebar>
@@ -134,7 +136,18 @@ const Sidebar = ({
           }
 
           {selected.type === 'node' ? (<>
-        <PictureRow>
+        <PictureRow
+          id="changeNodeImage"
+          onClick={handleChange}
+        >
+          <input
+            type="file"
+            id="picctureChange"
+            ref={uploadRef}
+            style={{
+              display: "none"
+            }}
+            onChange={changePicture}/>
           <img src={`${serverUrl}:${serverPort}/${newItem.path}`} style={{
             width: '100%'
           }}/>

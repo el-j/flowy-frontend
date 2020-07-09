@@ -57,7 +57,9 @@ const RightPanel = ({
   chart,
   chartRef,
   handleShowHideRight,
-  showHidePanelRight
+  showHidePanelRight,
+  uploadRef,
+  changePicture
 }) => {
   return(<Outer>
     { showHidePanelRight===true ?(
@@ -71,6 +73,8 @@ const RightPanel = ({
           handleDeletePort={handleDeletePort }
           chart={chart}
           handlePrint={handlePrint}
+          uploadRef={uploadRef}
+          changePicture={changePicture}
           />
           <Inner>
             <p>Save the current working State</p>

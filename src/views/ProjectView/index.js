@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom'
-import { loadProject, loadFiles, saveProject, apiUrl } from '../../tools/fetchApi'
+import { loadProject, loadFiles, saveProject, apiUrl,uploadProjectData } from '../../tools/fetchApi'
 import mermaid from 'mermaid'
 import MyFlowChart from '../../components/FlowChart'
-import RightPanel from '../../components/RightPanel'
+  import RightPanel from '../../components/RightPanel'
 import LeftPanel from '../../components/LeftPanel'
 import useFetchApi from '../../tools/fetchApi/useFetchApi.js'
 
@@ -73,6 +73,7 @@ const ProjectView = (props) => {
       const [newItemCreate,setNewItemCreate]= useState(false)
       const itemRef = React.createRef();
       const flowchartRef = React.createRef();
+      const uploadRef = React.createRef();
 
       useEffect(() => {
         if (loadProject.length === 0) {
@@ -173,7 +174,8 @@ const ProjectView = (props) => {
             break;
           case 'changeNodeImage':
           console.log('we change',id, "TODO: Upload new file and remove the old one");
-          // thisSelectedNode.picture = value
+                console.log(event.currentTarget, uploadRef);
+                uploadRef.current.click();
             break;
           case 'changeProjectName':
           console.log('we change',id,value,thisSelectedNode);
@@ -241,7 +243,30 @@ const ProjectView = (props) => {
 
      },[newItem])
 
+     const changePicture = (e) => {
+       let picName = e.currentTarget.files[0].name
+       let saveChart = chart
+       saveChart.nodes[newItem.id].picture = picName
+       saveChart.nodes[newItem.id].path = `${myprojectName}/${picName}`
+       setChart({...saveChart})
+       console.log(e.currentTarget.files,newItem,chart);
+       var formData = new FormData();
+       let files = e.currentTarget.files
+       for (var i = 0; i < files.length; i++) {
+         formData.append('file',files[i])
+         formData.append('filename',files[i].name)
+       }
 
+       formData.append('projectName',myprojectName)
+       uploadProjectData(formData,myprojectName).then(result =>{
+         console.log("DONE",result);
+         handleSave()
+         // setChart(result[myprojectName].projectJson)
+       } ,(error) => {
+         console.log("ERROR",error);
+             })
+
+     }
 
 
     const handleDeletePort = port => {
@@ -366,6 +391,8 @@ const ProjectView = (props) => {
                     selected={chart.selected}
                     handleShowHideRight={handleShowHideRight}
                     showHidePanelRight={showHidePanelRight}
+                    uploadRef={uploadRef}
+                    changePicture={changePicture}
                   />
                   <MyFlowChart
                     id={'projectFlowGraph'}
