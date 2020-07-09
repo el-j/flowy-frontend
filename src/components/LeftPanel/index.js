@@ -98,13 +98,32 @@ const StyledInputTitle = styled.input`
   border-bottom: 1px solid #dadada;
   font-size: 1.5rem;
 `
+const UiShowHide = styled.div`
+  height:100%;
+  background:#dadada;
+  width:16px;
+  display:block;
+  position: absolute;
+  top:0;
+  left:100%;
+  &:after{
+    content: '';
+    z-index:1000;
+    position:absolute;
+    top:50%;
+    left:2px;
+    width: 0px;
+    height: 0px;
+    -webkit-transform:rotate(360deg);
+    border-style: solid;
+    border-width: 6px 12px 6px 0;
+    border-color: transparent #eee transparent transparent;}
+`
 
 const Outer = styled.div`
   background-color:#fff;
-  width: 350px;
+  max-width: 350px;
   position: fixed;
-  /* bottom: 20px; */
-
   height: 100%;
   left: 0;
   z-index:900;
@@ -115,9 +134,13 @@ const LeftPanel = ({
 project,
 chart,
 handleChange,
-handleSelected
+handleSelected,
+handleShowHide,
+showHidePanel
 }) => {
   return(<Outer>
+    { showHidePanel===true ? (
+  <>
     <Row>
      {
        //console.log(project)
@@ -168,7 +191,7 @@ handleSelected
         Object.keys(chart.nodes).map(node => {
           // console.log(node);
           return (
-            <Col lg={12} className='align-self-center'>
+            <Col lg={12} key={node} className='align-self-center'>
               <StyledNodeListItem
               id={node}
               onClick={e=>{
@@ -189,14 +212,15 @@ handleSelected
               </StyledNodeListItem>
             </Col>
           )
-
         })):null
-
       }
     </StyledNodeListRow>
-
-
-
+    <UiShowHide onClick={handleShowHide} />
+  </>
+):<UiShowHide onClick={handleShowHide}
+    style={{transform:'rotate(180deg)'}}
+/>
+  }
     </Outer>)
 }
 
