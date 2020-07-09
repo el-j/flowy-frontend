@@ -7,13 +7,35 @@ import Sidebar from '../SideBar'
 
 const Outer = styled.div`
   background-color:#fff;
-  width: 350px;
+  max-width: 350px;
   position: fixed;
   /* bottom: 20px; */
 
   height: 100%;
   right: 0;
   z-index:900;
+`
+
+const UiShowHide = styled.div`
+  height:100%;
+  background:#dadada;
+  width:16px;
+  display:block;
+  position: absolute;
+  top:0;
+  left:-16px;
+  &:after{
+    content: '';
+    z-index:1000;
+    position:absolute;
+    top:50%;
+    left:2px;
+    width: 0px;
+    height: 0px;
+    -webkit-transform:rotate(180deg);
+    border-style: solid;
+    border-width: 6px 12px 6px 0;
+    border-color: transparent #eee transparent transparent;}
 `
 
 const Inner = styled.div`
@@ -33,10 +55,13 @@ const RightPanel = ({
   handleDeletePort,
   handlePrint,
   chart,
-  chartRef
+  chartRef,
+  handleShowHideRight,
+  showHidePanelRight
 }) => {
   return(<Outer>
-
+    { showHidePanelRight===true ?(
+      <>
         <Sidebar
           items={items}
           newItem={newItem}
@@ -56,7 +81,12 @@ const RightPanel = ({
             <p>Print the current working State</p>
             <Button className={'btn-block'} onClick={handlePrint}>Print</Button>
           </Inner>
-
+          <UiShowHide onClick={handleShowHideRight} />
+        </>
+        ):<UiShowHide onClick={handleShowHideRight}
+              style={{transform:'rotate(180deg)'}}
+          />
+            }
     </Outer>)
 }
 

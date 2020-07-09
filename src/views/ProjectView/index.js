@@ -67,7 +67,8 @@ const ProjectView = (props) => {
       const [isLoaded,setIsLoaded]= useState(false)
       const [project,setProject] = useState()
       const [chart, setChart] = useState(emptyProject)
-
+      const [showHidePanel,setShowHidePanel] = useState(true)
+      const [showHidePanelRight,setShowHidePanelRight] = useState(true)
       const [newItem,setNewItem]= useState(item)
       const [newItemCreate,setNewItemCreate]= useState(false)
       const itemRef = React.createRef();
@@ -280,6 +281,16 @@ const ProjectView = (props) => {
         setChart({...chart, selected: selected})
     }
 
+    const handleShowHideRight = () => {
+      let state = !showHidePanelRight
+      console.log(state,showHidePanelRight);
+      setShowHidePanelRight(state)
+    }
+    const handleShowHide = () => {
+      let state = !showHidePanel
+      setShowHidePanel(state)
+    }
+
     const handleAddPort  = event => {
         let id = event.currentTarget.id
         let portAmount = Object.keys(newItem.ports)
@@ -338,6 +349,8 @@ const ProjectView = (props) => {
                     chart={chart}
                     handleChange={handleChange}
                     handleSelected={handleSelected}
+                    handleShowHide={handleShowHide}
+                    showHidePanel={showHidePanel}
                   />
                   <RightPanel
                     newItem={newItem}
@@ -351,6 +364,8 @@ const ProjectView = (props) => {
                     handlePrint={handlePrint}
                     handleClose={() =>setNewItemCreate(false)}
                     selected={chart.selected}
+                    handleShowHideRight={handleShowHideRight}
+                    showHidePanelRight={showHidePanelRight}
                   />
                   <MyFlowChart
                     id={'projectFlowGraph'}
