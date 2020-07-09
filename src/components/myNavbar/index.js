@@ -5,7 +5,7 @@ import {A} from 'hookrouter';
 
 const Fixit = styled.div`
   position:fixed;
-  width: 100%;
+  width: 350px;
   z-index:1000;
 `
 

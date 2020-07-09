@@ -34,7 +34,7 @@ const StyledInputTitle = styled.input`
 `
 
 const PictureRow = styled.div`
-  margin-top:56px;
+  /* margin-top:56px; */
   position: relative;
 `
 
