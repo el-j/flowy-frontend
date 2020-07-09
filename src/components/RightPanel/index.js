@@ -33,7 +33,9 @@ const RightPanel = ({
   handleDeletePort,
   handlePrint,
   chart,
-  chartRef
+  chartRef,
+  uploadRef,
+  changePicture
 }) => {
   return(<Outer>
 
@@ -46,6 +48,8 @@ const RightPanel = ({
           handleDeletePort={handleDeletePort }
           chart={chart}
           handlePrint={handlePrint}
+          uploadRef={uploadRef}
+          changePicture={changePicture}
           />
           <Inner>
             <p>Save the current working State</p>
