@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-import { FlowChartWithState, FlowChart, INodeDefaultProps } from "@mrblenny/react-flow-chart";
+import { FlowChart,  LinkDefault, INodeDefaultProps } from "@mrblenny/react-flow-chart";
 import { cloneDeep, mapValues } from 'lodash'
 import CustomNode from './Nodes/CustomNode'
 import CustomInnerNode from './Nodes/CustomNode/CustomInnerNode'
 import CustomPort from './Nodes/CustomNode/CustomPort'
+import CustomLink from './Nodes/CustomNode/CustomLink'
+import styled from 'styled-components'
+
 
 const MyFlowChart = React.forwardRef((props,ref) => {
     let chartData = cloneDeep(props.chartData)
@@ -15,7 +18,8 @@ const MyFlowChart = React.forwardRef((props,ref) => {
       Components={{
         Node: CustomNode,
         NodeInner:CustomInnerNode,
-        // Port: CustomPort
+        Port: CustomPort,
+        Link: CustomLink
       }}
       chart={chartData}
       // config={{ smartRouting: true }}
