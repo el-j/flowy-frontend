@@ -67,6 +67,7 @@ const ProjectView = (props) => {
       const [isLoaded,setIsLoaded]= useState(false)
       const [project,setProject] = useState()
       const [chart, setChart] = useState(emptyProject)
+      const [links, setLinks] = useState({})
       const [showHidePanel,setShowHidePanel] = useState(true)
       const [showHidePanelRight,setShowHidePanelRight] = useState(true)
       const [newItem,setNewItem]= useState(item)
@@ -79,19 +80,22 @@ const ProjectView = (props) => {
         if (loadProject.length === 0) {
           let temp = emptyProject(myprojectName)
           setProject(temp)
-          setIsLoaded(true)
           setChart(temp.projectJson)
+          setLinks(temp.projectJson.links)
+          setIsLoaded(true)
         }
         else if (loadProject) {
           if (loadProject.projectJson) {
             setProject(loadProject)
             setChart(loadProject.projectJson)
+            setLinks(loadProject.projectJson.links)
             setIsLoaded(true)
           }
           else {
             let temp = emptyProject(myprojectName)
             setProject(temp)
             setChart(temp.projectJson)
+            setLinks(temp.projectJson.links)
             setIsLoaded(true)
           }
         }
@@ -101,8 +105,6 @@ const ProjectView = (props) => {
       //    console.log("yes")
       //  }
        useEffect(()=>{
-
-
          if (chart.selected) {
          if (!chart.selected.type) {
            // console.log("NOTHING SELECTED:",item);
@@ -118,12 +120,43 @@ const ProjectView = (props) => {
            // console.log("the selected node",chart.nodes[thisSelectedNode[0]]);
            setNewItem(chart.nodes[thisSelectedNode[0]])
          }
-         else {
-           // console.log('we have selected', chart.selected.id, chart.selected.type);
+         else if (chart.selected.type === 'link'){
+           let thisSelectedLink = Object.keys(chart.links).filter(mylink => {
+             if (mylink === chart.selected.id) {
+               return mylink
+             }
+           })
+           console.log('we have selected',chart.links,chart.links[thisSelectedLink],chart.selected, chart.selected.id, chart.selected.type);
            setNewItem(item)
          }
          }
+         console.log('updateChart');
        },[chart])
+
+       // TODO if a link is deleted the connector status must be updated to unconnected
+       // useEffect(()=>{
+         // console.log(links);
+         // console.log('updateChart links list');
+         // updateConnectors(links)
+       // },[links])
+
+       // const updateConnectors = (links) => {
+        //  let temp = chart.nodes
+        //  let thisLink = Object.keys(links).filter(mylink => {
+        //    let oneNode = Object.keys(temp).filter( thisNode => temp[thisNode].id === links[mylink].from.nodeId)
+        //    console.log(links[mylink].from.nodeId,Object.keys(temp).includes(links[mylink].from.nodeId),temp[Object.keys(temp).filter( thisNode => temp[thisNode].id === links[mylink].from.nodeId)])
+        //   Object.keys(temp).filter(thisNode => {
+        //     if (temp[thisNode].id != links[mylink].from.nodeId || temp[thisNode].id != links[mylink].to.nodeId)
+        //    {
+        //     console.log("insideIF",temp[oneNode], oneNode)
+        //     return oneNode
+        //   }
+        //   }
+        // )}
+        // )
+        //  console.log(temp,thisLink,links);
+        //   // console.log(temp,links);
+       // }
 
       const handleSave = (e) => {
         let response = {}
@@ -215,6 +248,7 @@ const ProjectView = (props) => {
            let newChartTransformer = action(...args);
            let newChart = newChartTransformer(chart);
            setChart({...chart, ...newChart});
+           setLinks({...chart.links,...newChart.links})
            return newChart;
        };
        return obj;
@@ -265,7 +299,6 @@ const ProjectView = (props) => {
        } ,(error) => {
          console.log("ERROR",error);
              })
-
      }
 
 
