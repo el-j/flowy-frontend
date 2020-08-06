@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-import { createProject, uploadProjectData, removeProject, apiUrl, serverUrl, serverPort } from '../../tools/fetchApi'
+import { createProject, uploadProjectData, removeProject, apiUrl, projectDir } from '../../tools/fetchApi'
 
 const StyledNodeListItem = styled.div`
   border-radius: 4px;

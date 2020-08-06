@@ -6,7 +6,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 
 const NewProjectDetails = ({handleRemove, handleChange, newProject, onSubmit}) => {
-  console.log(onSubmit);
+  // console.log(onSubmit);
 
   return(
     <>

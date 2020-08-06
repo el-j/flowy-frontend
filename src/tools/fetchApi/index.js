@@ -2,11 +2,13 @@ import React from "react";
 
 export const serverPort = 9023
 export const serverUrl = 'http://localhost'
+export const serverSubDir = 'projects'
+export const projectDir = `${serverUrl}:${serverPort}/${serverSubDir}`
 export const apiUrl = `${serverUrl}:${serverPort}/api`
 
 function postData(url, data) {
   // Default options are marked with *
-  console.log(url,data);
+  // console.log(url,data);
 return fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     body: data // body data type must match "Content-Type" header
@@ -16,7 +18,7 @@ return fetch(url, {
 
 function saveProjectData(url, data) {
   // Default options are marked with *
-  console.log(url,data);
+  // console.log(url,data);
   return fetch(url, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
@@ -57,5 +59,6 @@ export default {
   saveProject,
   apiUrl,
   serverPort,
-  serverUrl
+  serverUrl,
+  projectDir
 }

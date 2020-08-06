@@ -12,7 +12,7 @@ import FlowChart from '../../components/FlowChart'
 
 // Array.prototype.forEach.call(els, function(el) {
 //     // Do stuff here
-//     console.log(el.tagName);
+//     // console.log(el.tagName);
 // });
 
 String.prototype.replaceAll = function(f, r) {
@@ -37,7 +37,7 @@ const convertPolyToPath = (poly) => {
 const getSvgContent = (svg) => {
   const domparser = new DOMParser();
   svg = domparser.parseFromString(svg, 'image/svg+xml')
-  console.log(svg);
+  // console.log(svg);
   return svg
   // const serializer = new XMLSerializer();
   // return Array.prototype.slice.call(svg.childNodes).map(node => serializer.serializeToString(node)).join('');
@@ -72,8 +72,8 @@ const getPorts = (allConnections, tree, counter) => {
   let ports = {}
   let portcounter = 1
   Array.from(allConnections).forEach((node, i) => {
-    console.log(node, tree, counter)
-    console.log("WE GET THE PORTS NOW:", node, "in the hole tree:", tree[counter])
+    // console.log(node, tree, counter)
+    // console.log("WE GET THE PORTS NOW:", node, "in the hole tree:", tree[counter])
 
     let from = tree.filter(thisnode => {
       // console.log(node.name)
@@ -90,7 +90,7 @@ const getPorts = (allConnections, tree, counter) => {
     let ob = {}
     if (tree[counter].id.includes(from[0].id)) {
       let portname = portcounter
-      console.log(tree[counter].ports.port1,portname, Object.keys(tree[counter]).length, tree[counter]);
+      // console.log(tree[counter].ports.port1,portname, Object.keys(tree[counter]).length, tree[counter]);
       id = `port${portname}`
       ob = {
         from: node.from,
@@ -109,7 +109,7 @@ const getPorts = (allConnections, tree, counter) => {
       if (tree[counter].ports.port1) {
         portname = Object.keys(tree[counter].ports).length + 1
       }
-      console.log(ports,portname);
+      // console.log(ports,portname);
 
       id = `port${portname}`
       ob = {
@@ -131,8 +131,8 @@ const makelinks = (allConnections, tree, counter) => {
 
   let links = {}
   Array.from(allConnections).forEach((node, i) => {
-    console.log(node, tree, counter)
-    console.log("WE MAKE THE LINKS NOW:", node, "in the hole tree:")
+    // console.log(node, tree, counter)
+    // console.log("WE MAKE THE LINKS NOW:", node, "in the hole tree:")
 
     let from = tree.filter(thisnode => {
       // console.log(node.name)
@@ -151,12 +151,12 @@ const makelinks = (allConnections, tree, counter) => {
     for (var variable in from[0].ports) {
       if (from[0].ports.hasOwnProperty(variable)) {
         if (from[0].ports[variable].type === 'input') {
-          console.log("FROM INPUT",variable,from[0].ports[variable]);
+          // console.log("FROM INPUT",variable,from[0].ports[variable]);
           fromDirectionPort = from[0].ports[variable].id
 
         }
         if (from[0].ports[variable].type === 'output') {
-          console.log('FROM OUTPUT',variable,from[0].ports[variable]);
+          // console.log('FROM OUTPUT',variable,from[0].ports[variable]);
           fromDirectionPort = from[0].ports[variable].id
         }
 
@@ -188,7 +188,7 @@ const makelinks = (allConnections, tree, counter) => {
         portId: to[0].ports.port1.id
       }
     }
-    console.log(links);
+    // console.log(links);
     links = {
       ...links,
       [`link${linkname}`]: ob
@@ -269,7 +269,7 @@ class MerMaidProject extends React.Component {
                     }
                   }
                 })
-                console.log(allConnections);
+                // console.log(allConnections);
 
                 let test = mermaid.render(container, temp, cb => {
                   let mysvgTree = getSvgContent(cb)
@@ -300,7 +300,7 @@ class MerMaidProject extends React.Component {
                     // console.log(children);
                     // for (var j = 0; j < children.length; j++) {
                     Array.from(children).forEach(child => {
-                      console.log(child,el);
+                      // console.log(child,el);
                       myHtmlnode.name = el.id
                       myHtmlnode.text = el.getElementsByTagName('tspan')[0].textContent
                       let nodeTransforms = el.getAttribute('transform')
@@ -327,12 +327,12 @@ class MerMaidProject extends React.Component {
                           if (transFromsToXY[1]) {
                             myHtmlnode.position.y = (+myHtmlnode.position.y + +transFromsToXY[1]) * 2.5
                           }
-                          console.log(myHtmlnode.position);
+                          // console.log(myHtmlnode.position);
                           myHtmlnode.position.width = child.getAttribute('width')
                           myHtmlnode.position.height = child.getAttribute('height')
                           myHtmlnode.position.transform = nodeTransforms
                           myHtmlnode.type = 'screen'
-                          console.log(children);
+                          // console.log(children);
 
                           if (nodeIdAsPng(el.id, result.png) === el.id) {
                             myHtmlnode.picture = el.id
@@ -382,7 +382,7 @@ class MerMaidProject extends React.Component {
                   reactGraph.selected = {}
                   reactGraph.hovered = {}
                   let counter2 = 0
-                  console.log(reactGraph.links)
+                  // console.log(reactGraph.links)
 
                   Array.from(htmlGraph).forEach((item, i) => {
                     // item.ports = allConnections[i]
@@ -395,7 +395,7 @@ class MerMaidProject extends React.Component {
 
                   })
                   reactGraph.nodes = mytempnodes
-                  console.log(reactGraph);
+                  // console.log(reactGraph);
 
                   let readySvg = setSvgContent(mysvgTree)
                   if (response.mmd[key].data !== temp) {
@@ -439,7 +439,7 @@ class MerMaidProject extends React.Component {
   }
 
   handleClick() {
-    console.log("yes")
+    // console.log("yes")
   }
 
 
@@ -452,7 +452,7 @@ class MerMaidProject extends React.Component {
       mmd,
       htmlGraph
     } = this.state;
-    console.log(this.state);
+    // console.log(this.state);
 
     if (error) {
       return <div > Error: {

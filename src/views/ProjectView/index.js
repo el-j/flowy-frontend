@@ -29,35 +29,45 @@ const emptyProject = (name) => {
   }})
 }
 
-let item = {
-  id: "_NEWNODE",
-  type: "input-output",
-  name: 'Your Node Name',
+let item = (nodeNr) => {
+return({
+  id: `node${nodeNr}`,
+  type: "node",
+  name: `node${nodeNr}`,
   text: 'Your Node Description',
+  displayType: "screen",
+  path: "/no_image.png",
+  picture: "no_image.png",
   position: {
     x: 300,
-    y: 100
+    y: 100,
+    height:39,
+    width:146.7
   },
+  size:{width:500,height:353},
   ports: {
-    port1: {
+    port1:{
+      connected: false,
+      from: "",
       id: "port1",
-      type: "input",
-      connected:false,
-      properties: {
-        value: "yes"
-      }
+      position: {x: 250, y: 353},
+      properties: {},
+      to: "",
+      type: "output"
     },
     port2: {
+      connected: false,
+      from: "",
       id: "port2",
-      type: "output",
-      connected:false,
-      properties: {
-        value: "no"
-      }
+      position: {x: 250, y: 353},
+      properties: {},
+      to: "",
+      type: "input",
+
     }
   }
+})
 }
-
 
 const ProjectView = (props) => {
       const myprojectName = props.projectName.slice(1)
@@ -70,7 +80,7 @@ const ProjectView = (props) => {
       const [links, setLinks] = useState({})
       const [showHidePanel,setShowHidePanel] = useState(true)
       const [showHidePanelRight,setShowHidePanelRight] = useState(true)
-      const [newItem,setNewItem]= useState(item)
+      const [newItem,setNewItem]= useState(()=>item(0))
       const [newItemCreate,setNewItemCreate]= useState(false)
       const itemRef = React.createRef();
       const flowchartRef = React.createRef();
@@ -102,22 +112,22 @@ const ProjectView = (props) => {
       },[loadProject])
 
       // const handleSelected = () =>{
-      //    console.log("yes")
+      //    // console.log("yes")
       //  }
        useEffect(()=>{
          if (chart.selected) {
          if (!chart.selected.type) {
-           // console.log("NOTHING SELECTED:",item);
+           // // console.log("NOTHING SELECTED:",item);
            setNewItem(item)
          }
          else if (chart.selected.type === 'node'){
-           // console.log('we have selected', chart.selected.id);
+           // // console.log('we have selected', chart.selected.id);
            let thisSelectedNode = Object.keys(chart.nodes).filter(node => {
              if (node === chart.selected.id) {
                return node
              }
            })
-           // console.log("the selected node",chart.nodes[thisSelectedNode[0]]);
+           // // console.log("the selected node",chart.nodes[thisSelectedNode[0]]);
            setNewItem(chart.nodes[thisSelectedNode[0]])
          }
          else if (chart.selected.type === 'link'){
@@ -126,17 +136,17 @@ const ProjectView = (props) => {
                return mylink
              }
            })
-           console.log('we have selected',chart.links,chart.links[thisSelectedLink],chart.selected, chart.selected.id, chart.selected.type);
+           // console.log('we have selected',chart.links,chart.links[thisSelectedLink],chart.selected, chart.selected.id, chart.selected.type);
            setNewItem(item)
          }
          }
-         console.log('updateChart');
+         // console.log('updateChart');
        },[chart])
 
        // TODO if a link is deleted the connector status must be updated to unconnected
        // useEffect(()=>{
-         // console.log(links);
-         // console.log('updateChart links list');
+         // // console.log(links);
+         // // console.log('updateChart links list');
          // updateConnectors(links)
        // },[links])
 
@@ -144,18 +154,18 @@ const ProjectView = (props) => {
         //  let temp = chart.nodes
         //  let thisLink = Object.keys(links).filter(mylink => {
         //    let oneNode = Object.keys(temp).filter( thisNode => temp[thisNode].id === links[mylink].from.nodeId)
-        //    console.log(links[mylink].from.nodeId,Object.keys(temp).includes(links[mylink].from.nodeId),temp[Object.keys(temp).filter( thisNode => temp[thisNode].id === links[mylink].from.nodeId)])
+        //    // console.log(links[mylink].from.nodeId,Object.keys(temp).includes(links[mylink].from.nodeId),temp[Object.keys(temp).filter( thisNode => temp[thisNode].id === links[mylink].from.nodeId)])
         //   Object.keys(temp).filter(thisNode => {
         //     if (temp[thisNode].id != links[mylink].from.nodeId || temp[thisNode].id != links[mylink].to.nodeId)
         //    {
-        //     console.log("insideIF",temp[oneNode], oneNode)
+        //     // console.log("insideIF",temp[oneNode], oneNode)
         //     return oneNode
         //   }
         //   }
         // )}
         // )
-        //  console.log(temp,thisLink,links);
-        //   // console.log(temp,links);
+        //  // console.log(temp,thisLink,links);
+        //   // // console.log(temp,links);
        // }
 
       const handleSave = (e) => {
@@ -177,7 +187,7 @@ const ProjectView = (props) => {
       }
 
       const handleChange = (event,nodeId) => {
-        console.log(event.currentTarget.id,event.currentTarget.value,nodeId)
+        // console.log(event.currentTarget.id,event.currentTarget.value,nodeId)
         let thisSelectedNode
         let thisSelectedNodeName
         let thisChart = chart
@@ -198,28 +208,28 @@ const ProjectView = (props) => {
         // let thisPortId = `port${portAmount}`
         switch (id) {
           case 'changeNodeName':
-          console.log('we change',id,thisSelectedNode);
+          // console.log('we change',id,thisSelectedNode);
           thisSelectedNode.name = value
             break;
           case 'changeNodeDescription':
-          console.log('we change',id,thisSelectedNode);
+          // console.log('we change',id,thisSelectedNode);
           thisSelectedNode.text = value
             break;
           case 'changeNodeImage':
-          console.log('we change',id, "TODO: Upload new file and remove the old one");
-                console.log(event.currentTarget, uploadRef);
+          // console.log('we change',id, "TODO: Upload new file and remove the old one");
+                // console.log(event.currentTarget, uploadRef);
                 uploadRef.current.click();
             break;
           case 'changeProjectName':
-          console.log('we change',id,value,thisSelectedNode);
+          // console.log('we change',id,value,thisSelectedNode);
           thisProject.name = value
             break;
           case 'changeProjectDescription':
-          console.log('we change',id,value,thisSelectedNode);
+          // console.log('we change',id,value,thisSelectedNode);
           thisProject.description = value
             break;
           case 'changeNodeId':
-          console.log('we change',id,value,thisSelectedNode,oldNodeId);
+          // console.log('we change',id,value,thisSelectedNode,oldNodeId);
           thisSelectedNodeName = Object.keys(chart.nodes).filter(node => {
           if (node === oldNodeId) {
             return node
@@ -228,7 +238,7 @@ const ProjectView = (props) => {
           thisSelectedNode.id = value
             break;
           default:
-          console.log("default happening");
+          // console.log("default happening");
         }
         if (thisSelectedNode) {
         thisChart.nodes[thisSelectedNodeName[0]] = thisSelectedNode
@@ -239,7 +249,7 @@ const ProjectView = (props) => {
       }
       const handleConfigureNode = (e) => {
         setNewItemCreate(true)
-        // console.log(e)
+        // // console.log(e)
       }
 
       const stateActionsCallbacks = Object.keys(actions).reduce((obj,key,idx) => {
@@ -256,10 +266,10 @@ const ProjectView = (props) => {
      //
      useEffect(() => {
        if (chart.selected) {
-         console.log(chart.selected);
+         // console.log(chart.selected);
          if (chart.selected.type === 'node') {
          let name = chart.selected.id
-         // console.log("the selected node",chart);
+         // // console.log("the selected node",chart);
          let thisSelectedNode = Object.keys(chart.nodes).filter(node => {
          if (node === name) {
            return node
@@ -283,7 +293,7 @@ const ProjectView = (props) => {
        saveChart.nodes[newItem.id].picture = picName
        saveChart.nodes[newItem.id].path = `${myprojectName}/${picName}`
        setChart({...saveChart})
-       console.log(e.currentTarget.files,newItem,chart);
+       // console.log(e.currentTarget.files,newItem,chart);
        var formData = new FormData();
        let files = e.currentTarget.files
        for (var i = 0; i < files.length; i++) {
@@ -293,11 +303,11 @@ const ProjectView = (props) => {
 
        formData.append('projectName',myprojectName)
        uploadProjectData(formData,myprojectName).then(result =>{
-         console.log("DONE",result);
+         // console.log("DONE",result);
          handleSave()
          // setChart(result[myprojectName].projectJson)
        } ,(error) => {
-         console.log("ERROR",error);
+         // console.log("ERROR",error);
              })
      }
 
@@ -312,18 +322,18 @@ const ProjectView = (props) => {
       //       return link
       //     }
       //   })
-      //   console.log("WE HAVE A LINKED NODE",chart.links[thisLinkedNode[0]]);
+      //   // console.log("WE HAVE A LINKED NODE",chart.links[thisLinkedNode[0]]);
       // }
-      console.log(port)
+      // console.log(port)
       let ports = newItem.ports
       let allPorts = Object.keys(ports)
       let temp = delete ports[port]
-      console.log(temp,ports);
+      // console.log(temp,ports);
       setNewItem({...newItem,ports:{...ports}})
     }
 
     const handlePrint = () => {
-      console.log(flowchartRef.current);
+      // console.log(flowchartRef.current);
 
      //  return print(){
      //   window.print()
@@ -339,9 +349,25 @@ const ProjectView = (props) => {
         setChart({...chart, selected: selected})
     }
 
+    const createNewNode = (e) => {
+      let thisChart = chart
+      console.log(thisChart);
+      let nodeCount = Object.keys(thisChart.nodes).length
+      let newcount = nodeCount+1
+      console.log(nodeCount,newcount);
+      let myNewitem = item(newcount)
+      let newName = `node${newcount}`
+      myNewitem.id = `${newName}`
+      myNewitem.name = `New ${newName}`
+      thisChart.nodes = {...thisChart.nodes,[newName]:myNewitem}
+      console.log(thisChart,myNewitem);
+      // thisChart.nodes
+
+      setChart({...chart,...thisChart})
+    }
     const handleShowHideRight = () => {
       let state = !showHidePanelRight
-      console.log(state,showHidePanelRight);
+      // console.log(state,showHidePanelRight);
       setShowHidePanelRight(state)
     }
     const handleShowHide = () => {
@@ -358,7 +384,7 @@ const ProjectView = (props) => {
         else {
           portAmount = 1
         }
-        console.log(portAmount);
+        // console.log(portAmount);
         let ports = newItem.ports
         let thisPortId = `port${portAmount}`
         let temp = {}
@@ -383,7 +409,7 @@ const ProjectView = (props) => {
           }
           ports = {...ports,...temp}
           setNewItem({...newItem,ports:{...ports}})
-          console.log('change Portname:',newItem);
+          // console.log('change Portname:',newItem);
         }
 
       if (error) {
@@ -400,7 +426,7 @@ const ProjectView = (props) => {
                   //   <MerMaid />
                   //   <NodeList />
                   // </LeftPanel>
-                  // {console.log(flowchartRef)}
+                  // {// console.log(flowchartRef)}
                 }
                   <LeftPanel
                     project={project}
@@ -426,6 +452,7 @@ const ProjectView = (props) => {
                     showHidePanelRight={showHidePanelRight}
                     uploadRef={uploadRef}
                     changePicture={changePicture}
+                    createNewNode={createNewNode}
                   />
                   <MyFlowChart
                     id={'projectFlowGraph'}

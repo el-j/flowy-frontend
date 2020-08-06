@@ -59,7 +59,8 @@ const RightPanel = ({
   handleShowHideRight,
   showHidePanelRight,
   uploadRef,
-  changePicture
+  changePicture,
+  createNewNode
 }) => {
   return(<Outer>
     { showHidePanelRight===true ?(
@@ -76,6 +77,10 @@ const RightPanel = ({
           uploadRef={uploadRef}
           changePicture={changePicture}
           />
+          <Inner>
+            <p>Create Node</p>
+            <Button className={'btn-block'} onClick={(e)=>createNewNode(e)}>Add NODE</Button>
+          </Inner>
           <Inner>
             <p>Save the current working State</p>
             <Button className={'btn-block'} onClick={(e)=>handleSave(e)}>Save</Button>

@@ -3,7 +3,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 
-const api = 'http://localhost:9023'
+import { apiUrl, projectDir } from '../../tools/fetchApi'
 
 const ProjectCard = ({project, key, openProject, removeProject}) => {
 
@@ -12,12 +12,12 @@ const ProjectCard = ({project, key, openProject, removeProject}) => {
       return(file)
       }
   })
-  console.log(project);
+  // console.log(project);
   if (!preview) {
     preview = {filename:'placeholder',type:'png'}
   }
   return(<Row className={'projectCard'} style = {{
-                backgroundImage: `url(${api}/${project.projectId}/${preview.filename}.${preview.type})`,
+                backgroundImage: `url(${projectDir}/${project.name}/${preview.filename}.${preview.type})`,
                 backgroundSize: 'cover'
               }}>
           <Col lg={12} className={'projectOverviewTextElements'}>

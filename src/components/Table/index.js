@@ -9,9 +9,9 @@ export default class Table extends React.Component {
  }
 
  getKeys = function(){
-   console.log(JSON.parse(this.props.data.data));
+   // console.log(JSON.parse(this.props.data.data));
    let temp = JSON.parse(this.props.data.data)
-   console.log(Object.keys(temp.data));
+   // console.log(Object.keys(temp.data));
   return Object.keys(temp.data);
   }
 
@@ -25,7 +25,7 @@ export default class Table extends React.Component {
   getRowsData = function(){
    var items = JSON.parse(this.props.data.data)
    items = Object.entries(items.data)
-   console.log(items);
+   // console.log(items);
    var keys = this.getKeys();
    return items.map((row, index)=>{
    return <tr key={index}><RenderRow key={index} data={row} keys={keys}/></tr>
@@ -35,7 +35,7 @@ export default class Table extends React.Component {
  render() {
  return (
  <div>
- {console.log(this.props)}
+ {// console.log(this.props)}
  <table>
  <thead>
  <tr>{this.getHeader()}</tr>

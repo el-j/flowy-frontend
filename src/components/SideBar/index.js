@@ -8,7 +8,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import CustomNodePreviewEdit from '../FlowChart/Nodes/CustomNodePreviewEdit'
-import { apiUrl, serverUrl, serverPort } from '../../tools/fetchApi'
+import { apiUrl, projectDir,serverUrl,serverPort } from '../../tools/fetchApi'
 // import TreeView from '../TreeView'
 
 const StyledNodePreviewRow = styled.div`
@@ -148,7 +148,7 @@ const Sidebar = ({
               display: "none"
             }}
             onChange={changePicture}/>
-          <img src={`${serverUrl}:${serverPort}/${newItem.path}`} style={{
+          <img src={newItem.path==='/no_image.png'?`${serverUrl}:${serverPort}${newItem.path}`:`${projectDir}/${newItem.path}`} style={{
             width: '100%'
           }}/>
         </PictureRow>
@@ -185,7 +185,10 @@ const Sidebar = ({
             />
           </PictureRowTitle>
         </Row>
-        </>):<h1>Decicsion</h1>}
+        </>):
+        (<h1>Decicsion</h1>)
+      }
+
         <StyledNodePreviewRow as={Row}>
           <Col lg={{span: 3}}>
               <h6>Inputs</h6>
@@ -230,10 +233,11 @@ const Sidebar = ({
           </Col>
         </StyledNodePreviewRow></>
         )
+
           : <>
               {
-                // console.log(newItem, selected)
-              }
+                // console.log("NOW NOTHING SELECTED",newItem, selected)
+             /*
               <PictureRow>
               <img src={newItem.path} style={{
                 width: '100%'
@@ -284,7 +288,7 @@ const Sidebar = ({
               </PictureRowTitle>
             </Row>
 
-
+  */}
           <Message>Click on a Node, Port or Link</Message></>}
      {
      //   <AddNode

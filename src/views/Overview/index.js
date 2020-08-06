@@ -49,14 +49,14 @@ const Overview = (props) => {
 
   const handleCreateEmptyProject = event => {
     event.persist()
-    console.log("CREATE EMPTY PROJECT NOW >>>> NAME:",newProject);
+    // console.log("CREATE EMPTY PROJECT NOW >>>> NAME:",newProject);
     createProject(newProject.projectId).then(result =>{
-      console.log("response result",result,result.body,newProject.name,event.target.files)
+      // console.log("response result",result,result.body,newProject.name,event.target.files)
       setIsLoaded(true)
       setCreateProgress(true)
       handleNewProject(newProject.projectId)
     } ,(error) => {
-            console.log("we got error response",error);
+            // console.log("we got error response",error);
             setProjects([])
             setNewProject('')
             setIsLoaded(false)
@@ -87,13 +87,13 @@ const Overview = (props) => {
 
   const handleRemoveProject = (projectName) => {
     let response = {}
-    console.log("REMOVE NEW PROJECT NOW >>>> ",projectName);
+    // console.log("REMOVE NEW PROJECT NOW >>>> ",projectName);
     removeProject(projectName).then(result =>{
-      console.log("response result",result)
+      // console.log("response result",result)
       setProjects(result)
       setIsLoaded(true)
     } ,(error) => {
-            console.log("we got error response",error);
+            // console.log("we got error response",error);
             setProjects([])
             setIsLoaded(false)
           })

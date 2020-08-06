@@ -1,7 +1,7 @@
 import React from "react";
 import { FlowChartWithState, INodeDefaultProps } from "@mrblenny/react-flow-chart";
 import styled from 'styled-components'
-import { createProject, uploadProjectData, removeProject, apiUrl,serverPort,serverUrl } from '../../../../tools/fetchApi'
+import { createProject, uploadProjectData, removeProject, apiUrl, projectDir, serverUrl, serverPort } from '../../../../tools/fetchApi'
 
 
 const Outer = styled.div`
@@ -31,7 +31,14 @@ const DecisionInner = styled.div`
 `
 
 const CustomInnerNode = ({node,config},props) => {
-  // console.log(config,node)
+  // console.log(node.path)
+  let thisProjectDir = projectDir
+  let thisPicUrl = `${thisProjectDir}/${node.path}`
+  if (node.path === "/no_image.png") {
+    thisProjectDir = `${serverUrl}:${serverPort}`
+    thisPicUrl = `${thisProjectDir}${node.path}`
+    // console.log(thisProjectDir);
+  }
   switch (node.displayType) {
     case 'decision':
     return (
@@ -53,7 +60,7 @@ const CustomInnerNode = ({node,config},props) => {
     return (
     <Outer id={node.id} >
       <div style={{display:'block', width: '100%'}}>
-      <img src={`${serverUrl}:${serverPort}/${node.path}`} style={{width: 'inherit'}} />
+      <img src={`${thisPicUrl}`} style={{width: 'inherit'}} />
       </div>
       <Inner>
       <h5>{node.name}</h5>

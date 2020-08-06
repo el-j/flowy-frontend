@@ -76,7 +76,7 @@ const NewProjectView = (props) => {
     }
 
   const _handleDeleteImage = (e) => {
-      console.log(e.target.id, newProject.files, imagePreviewUpload);
+      // console.log(e.target.id, newProject.files, imagePreviewUpload);
       let thisone = e.target.id
       let index = imagePreviewUpload.filter(img => img.name !== thisone)
 
@@ -84,18 +84,18 @@ const NewProjectView = (props) => {
       let test = newTemp.filter(file => file.name !== thisone)
       setImagePreviewUpload(index)
       setNewProject({...newProject, files: test})
-      console.log(newProject.files,imagePreviewUpload);
+      // console.log(newProject.files,imagePreviewUpload);
   }
 
   const _handleMmdChange = (e) => {
       e.preventDefault();
-      console.log(e.target.files[0],newProject.files);
+      // console.log(e.target.files[0],newProject.files);
       if (e.target.files) {
         let temp = newProject.files
         temp.push(e.target.files[0])
 
         setNewProject({...newProject, files: temp })
-        console.log("after we set the new files with temp",newProject, imagePreviewUpload);
+        // console.log("after we set the new files with temp",newProject, imagePreviewUpload);
         const reader = new FileReader();
         reader.onloadend = (content => {
           setMermaidPreview(reader.result)
@@ -114,7 +114,7 @@ const NewProjectView = (props) => {
        /* Map each file to a promise that resolves to an array of image URI's */
        Promise.all(files.map(file => {
           temp.push(file)
-            console.log(file.name);
+            // console.log(file.name);
            return (new Promise((resolve,reject) => {
                const reader = new FileReader();
                reader.addEventListener('load', (ev) => {

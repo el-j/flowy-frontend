@@ -12,7 +12,7 @@ const Placeholder = () => (<Col lg="1" key={'nokey'} style={{transform:'translat
 
 const CustomNodePreviewEdit = React.forwardRef((props, ref) =>{
 let thisnode = props.thisnode
-console.log(thisnode)
+// console.log(thisnode)
 return (<>
   <CustomNode node={{...thisnode}} ref={ref} style={{position:'relative'}}>
   <Row className="justify-content-center">
