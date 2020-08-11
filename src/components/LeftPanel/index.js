@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-import { createProject, uploadProjectData, removeProject, apiUrl, projectDir } from '../../tools/fetchApi'
+import { createProject, uploadProjectData, removeProject, apiUrl, projectDir, serverUrl, serverPort } from '../../tools/fetchApi'
 
 const StyledNodeListItem = styled.div`
   border-radius: 4px;
@@ -204,7 +204,7 @@ showHidePanel
                 handleSelected(nowSelected)
               }}
               style= {{
-                backgroundImage: `url(${serverUrl}:${serverPort}/${chart.nodes[node].path})`,
+                backgroundImage: `url(${projectDir}/${chart.nodes[node].path})`,
                 backgroundSize: 'cover',
             }}>
                 <StyledH6> {chart.nodes[node].name}</StyledH6>
