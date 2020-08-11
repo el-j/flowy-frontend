@@ -375,6 +375,44 @@ const ProjectView = (props) => {
       setShowHidePanel(state)
     }
 
+    const handleChangePortLabel = (e,port) => {
+      let temp = newItem
+      let myValue = e.currentTarget.value
+      let myChart = chart
+      temp.ports[port].properties.value = myValue
+      let tempLinks = links
+      let otherNode
+      let fromLink = Object.keys(tempLinks).filter(link => {
+          if (tempLinks[link].from.portId === port && chart.selected.id === tempLinks[link].from.nodeId) {
+            return link
+          }
+        })
+        let toLink = Object.keys(tempLinks).filter(link => {
+            if (tempLinks[link].to.portId === port && chart.selected.id === tempLinks[link].to.nodeId) {
+              return link
+            }
+          })
+          if (toLink.length > 0) {
+            tempLinks[toLink[0]].properties.label = myValue
+            // otherNode = myChart.nodes[tempLinks[toLink[0]].from.nodeId]
+            // console.log(otherNode.ports[tempLinks[toLink[0]].from.portId].properties.value);
+            myChart.nodes[tempLinks[toLink[0]].from.nodeId].ports[tempLinks[toLink[0]].from.portId].properties.value = myValue
+
+          }
+          if (fromLink.length > 0) {
+            tempLinks[fromLink[0]].properties.label = myValue
+            console.log(tempLinks[fromLink[0]]);
+            // otherNode = myChart.nodes[tempLinks[fromLink[0]].to.nodeId]
+            // console.log(otherNode.ports[tempLinks[fromLink[0]].to.portId].properties.value);
+            myChart.nodes[tempLinks[toLink[0]].from.nodeId].ports[tempLinks[fromLink[0]].to.portId].properties.value = myValue
+          }
+
+        console.log(fromLink,toLink);
+        setChart({...myChart,links: {...tempLinks}})
+        // setLinks({...tempLinks})
+        setNewItem({...temp})
+    }
+
     const handleAddPort  = event => {
         let id = event.currentTarget.id
         let portAmount = Object.keys(newItem.ports)
@@ -445,6 +483,7 @@ const ProjectView = (props) => {
                     handleAddPort={handleAddPort}
                     handleDeletePort={handleDeletePort }
                     handleChange={handleChange}
+                    handleChangePortLabel={handleChangePortLabel}
                     handlePrint={handlePrint}
                     handleClose={() =>setNewItemCreate(false)}
                     selected={chart.selected}

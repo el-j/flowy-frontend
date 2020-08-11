@@ -60,7 +60,8 @@ const RightPanel = ({
   showHidePanelRight,
   uploadRef,
   changePicture,
-  createNewNode
+  createNewNode,
+  handleChangePortLabel
 }) => {
   return(<Outer>
     { showHidePanelRight===true ?(
@@ -72,6 +73,7 @@ const RightPanel = ({
           handleChange={handleChange}
           handleAddPort={handleAddPort }
           handleDeletePort={handleDeletePort }
+          handleChangePortLabel={handleChangePortLabel}
           chart={chart}
           handlePrint={handlePrint}
           uploadRef={uploadRef}
