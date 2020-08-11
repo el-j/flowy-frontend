@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
+import CheckBox from '../CheckBox'
+
 import { createProject, uploadProjectData, removeProject, apiUrl, projectDir, serverUrl, serverPort } from '../../tools/fetchApi'
 
 const StyledNodeListItem = styled.div`
@@ -136,7 +138,9 @@ chart,
 handleChange,
 handleSelected,
 handleShowHide,
-showHidePanel
+showHidePanel,
+handleChangeSmartRouting,
+smartRouting
 }) => {
   return(<Outer>
     { showHidePanel===true ? (
@@ -169,6 +173,14 @@ showHidePanel
           type='textarea'
         />
       </ProjectRow>
+    </Row>
+    <Row>
+    <CheckBox
+    handleChange={handleChangeSmartRouting}
+    label={smartRouting?"Turn smartRouting OFF":"EXPERIMENTAL: Turn smartRouting ON (can cause freeze)"}
+    checked={smartRouting}
+    checkBoxId={'smartRoutingSwitch'}
+    />
     </Row>
     {Object.keys(chart.nodes).length > 0? (
       <Row>

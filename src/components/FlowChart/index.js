@@ -11,8 +11,16 @@ import styled from 'styled-components'
 
 const MyFlowChart = React.forwardRef((props,ref) => {
     let chartData = cloneDeep(props.chartData)
+    let smartRoutingState = props.smartRouting
     return (
-      <div ref={ref}>
+      <div ref={ref} id={props.id} style={{
+        display:"block",
+        position:"absolute",
+        top:0,
+        left:0,
+        bottom:0,
+        right:0
+      }}>
       <FlowChart
       callbacks={props.stateActions}
       Components={{
@@ -22,7 +30,10 @@ const MyFlowChart = React.forwardRef((props,ref) => {
         Link: CustomLink
       }}
       chart={chartData}
-      // config={{ smartRouting: true }}
+      config={{
+        smartRouting: smartRoutingState,
+        showArrowHead: true
+      }}
       />
       </div>
   )

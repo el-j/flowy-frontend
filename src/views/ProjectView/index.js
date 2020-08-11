@@ -82,6 +82,8 @@ const ProjectView = (props) => {
       const [showHidePanelRight,setShowHidePanelRight] = useState(true)
       const [newItem,setNewItem]= useState(()=>item(0))
       const [newItemCreate,setNewItemCreate]= useState(false)
+      const [smartRouting,setSmartRouting]= useState(false)
+
       const itemRef = React.createRef();
       const flowchartRef = React.createRef();
       const uploadRef = React.createRef();
@@ -111,9 +113,6 @@ const ProjectView = (props) => {
         }
       },[loadProject])
 
-      // const handleSelected = () =>{
-      //    // console.log("yes")
-      //  }
        useEffect(()=>{
          if (chart.selected) {
          if (!chart.selected.type) {
@@ -266,7 +265,6 @@ const ProjectView = (props) => {
      //
      useEffect(() => {
        if (chart.selected) {
-         // console.log(chart.selected);
          if (chart.selected.type === 'node') {
          let name = chart.selected.id
          // // console.log("the selected node",chart);
@@ -284,7 +282,6 @@ const ProjectView = (props) => {
          setNewItem(thisItem)
         }
        }
-
      },[newItem])
 
      const changePicture = (e) => {
@@ -316,20 +313,30 @@ const ProjectView = (props) => {
 
       // TODO: WE CANNOT REMOVE A PORT THAT IS CONNECTED!!!
       //
-      // if (chart.links) {
-      //   let thisLinkedNode = Object.keys(chart.links).filter(link => {
-      //     if (chart.links[link].from.nodeId === chart.selected.id || chart.links[link].to.nodeId === chart.selected.id) {
-      //       return link
-      //     }
-      //   })
-      //   // console.log("WE HAVE A LINKED NODE",chart.links[thisLinkedNode[0]]);
-      // }
-      // console.log(port)
+      if (chart.links) {
+        let thisLinkedNode = Object.keys(chart.links).filter(link => {
+          if (chart.links[link].from.nodeId === chart.selected.id || chart.links[link].to.nodeId === chart.selected.id) {
+            return link
+          }
+        })
+        console.log("WE HAVE A LINKED NODE",chart.links[thisLinkedNode[0]]);
+
+        let temp = chart.links
+        // if (temp[thisLinkedNode[0]].from.portId === port || temp[thisLinkedNode[0]].to.portId === port) {
+        //   console.log("we have the bastard",temp[thisLinkedNode[0]].from);
+        // }
+        delete temp[thisLinkedNode[0]]
+        temp = temp
+        console.log("WE HAVE it Deleted:",temp,thisLinkedNode[0]);
+        // setLinks({...temp})
+      }
       let ports = newItem.ports
       let allPorts = Object.keys(ports)
-      let temp = delete ports[port]
-      // console.log(temp,ports);
-      setNewItem({...newItem,ports:{...ports}})
+      delete ports[port]
+      let temp = ports
+      console.log(temp,ports,links);
+
+      setNewItem({...newItem,ports:{...temp}})
     }
 
     const handlePrint = () => {
@@ -351,7 +358,11 @@ const ProjectView = (props) => {
 
     const createNewNode = (e) => {
       let thisChart = chart
-      console.log(thisChart);
+      let div = flowchartRef.current
+      const centerX = div.offsetWidth / 2 - chart.offset.x;
+      const centerY = div.offsetHeight / 2 - chart.offset.y;
+      const deltaX = centerX/chart.scale
+      const deltaY = centerY/chart.scale
       let nodeCount = Object.keys(thisChart.nodes).length
       let newcount = nodeCount+1
       console.log(nodeCount,newcount);
@@ -359,10 +370,9 @@ const ProjectView = (props) => {
       let newName = `node${newcount}`
       myNewitem.id = `${newName}`
       myNewitem.name = `New ${newName}`
+      myNewitem.position.x = deltaX
+      myNewitem.position.y = deltaY
       thisChart.nodes = {...thisChart.nodes,[newName]:myNewitem}
-      console.log(thisChart,myNewitem);
-      // thisChart.nodes
-
       setChart({...chart,...thisChart})
     }
     const handleShowHideRight = () => {
@@ -375,13 +385,23 @@ const ProjectView = (props) => {
       setShowHidePanel(state)
     }
 
+    const handleChangeSmartRouting = () => {
+      console.log("we chagne the smartRouting", smartRouting);
+      setSmartRouting(!smartRouting)
+    }
+    useEffect(()=>{
+      console.log("we want to rerender", smartRouting);
+      setChart(chart)
+
+    },[smartRouting])
+
     const handleChangePortLabel = (e,port) => {
       let temp = newItem
       let myValue = e.currentTarget.value
       let myChart = chart
       temp.ports[port].properties.value = myValue
       let tempLinks = links
-      let otherNode
+
       let fromLink = Object.keys(tempLinks).filter(link => {
           if (tempLinks[link].from.portId === port && chart.selected.id === tempLinks[link].from.nodeId) {
             return link
@@ -392,25 +412,28 @@ const ProjectView = (props) => {
               return link
             }
           })
-          if (toLink.length > 0) {
-            tempLinks[toLink[0]].properties.label = myValue
-            // otherNode = myChart.nodes[tempLinks[toLink[0]].from.nodeId]
-            // console.log(otherNode.ports[tempLinks[toLink[0]].from.portId].properties.value);
-            myChart.nodes[tempLinks[toLink[0]].from.nodeId].ports[tempLinks[toLink[0]].from.portId].properties.value = myValue
-
-          }
-          if (fromLink.length > 0) {
-            tempLinks[fromLink[0]].properties.label = myValue
-            console.log(tempLinks[fromLink[0]]);
-            // otherNode = myChart.nodes[tempLinks[fromLink[0]].to.nodeId]
-            // console.log(otherNode.ports[tempLinks[fromLink[0]].to.portId].properties.value);
-            myChart.nodes[tempLinks[toLink[0]].from.nodeId].ports[tempLinks[fromLink[0]].to.portId].properties.value = myValue
-          }
-
-        console.log(fromLink,toLink);
-        setChart({...myChart,links: {...tempLinks}})
-        // setLinks({...tempLinks})
-        setNewItem({...temp})
+      if (toLink.length > 0) {
+        if (!tempLinks[toLink[0]].properties) {
+          tempLinks[toLink[0]].properties = {label:'none'}
+        }
+        tempLinks[toLink[0]].properties.label = myValue
+        if (tempLinks[toLink[0]].from.nodeId) {
+          myChart.nodes[tempLinks[toLink[0]].from.nodeId].ports[tempLinks[toLink[0]].from.portId].properties.value = myValue
+        }
+      }
+      if (fromLink.length > 0) {
+        if (!tempLinks[fromLink[0]].properties) {
+          tempLinks[fromLink[0]].properties = {label:'none'}
+        }
+        // console.log(tempLinks,fromLink[0],tempLinks[fromLink[0]],myChart.nodes)
+        tempLinks[fromLink[0]].properties.label = myValue
+        if (tempLinks[fromLink[0]].to.nodeId) {
+          myChart.nodes[tempLinks[fromLink[0]].to.nodeId].ports[tempLinks[fromLink[0]].to.portId].properties.value = myValue
+        }
+      }
+      // setNewItem({...temp})
+      setChart({...myChart})
+      setLinks({...tempLinks})
     }
 
     const handleAddPort  = event => {
@@ -497,7 +520,8 @@ const ProjectView = (props) => {
                     id={'projectFlowGraph'}
                     stateActions={stateActionsCallbacks}
                     ref={flowchartRef}
-                    chartData={chart}/>
+                    chartData={chart}
+                    />
                 </>
                 ):(null)}
             </div>

@@ -152,10 +152,8 @@ const PortListItem = ({
   aria-describedby = {
     label
   }
-  id = "changePortLabel"
-  value = {
-    label
-  }
+  id ={`changePortLabel${port}`}
+  value={label}
   onChange = {
     (e) => handleChangePortLabel(e,port)
   }
@@ -437,6 +435,7 @@ const AddNode = (props) => ( <
                       PortList thisnode = {
                         newItem
                       }
+                      handleChangePortLabel={handleChangePortLabel}
                       type = 'output'
                       handleDeletePort = {
                         handleDeletePort
