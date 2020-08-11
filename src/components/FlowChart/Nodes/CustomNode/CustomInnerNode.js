@@ -15,6 +15,21 @@ const Inner = styled.div`
   padding: 30px;
 `
 
+const PointWrapper = styled.div`
+  background: #fff;
+  border: 4px solid #dadada;
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+`
+
+const PointInner = styled.div`
+  transform: translate(5px,40px);
+  text-align: center;
+  width:180px;
+  height: 140px;
+
+`
 const DecisionWrapper = styled.div`
   transform: rotate(45deg);
   background: #dadada;
@@ -50,11 +65,27 @@ const CustomInnerNode = ({node,config},props) => {
           margin: 0,
           transform: 'translate(20px,10px )',
           position: 'absolute',
-          zIndex: 1000}}><i >NodeType: {node.type}<br /> NodeId: {node.id}</i></p>
+          zIndex: 1000}}><i >Display Type: {node.displayType}<br /> NodeId: {node.id}</i></p>
           </DecisionInner>
         </DecisionWrapper>
     )
       break;
+
+      case 'point':
+      return (
+          <PointWrapper>
+            <PointInner>
+            <h5>{node.name}</h5>
+            <p>{node.text}</p>
+            <p className="figure-caption text-center" style={{padding: '4px',
+            margin: 0,
+            transform: 'translate(40px,10px )',
+            position: 'absolute',
+            zIndex: 1000}}><i >Display Type: {node.displayType}<br /> NodeId: {node.id}</i></p>
+            </PointInner>
+          </PointWrapper>
+      )
+        break;
 
     default:
     return (
@@ -71,7 +102,7 @@ const CustomInnerNode = ({node,config},props) => {
       margin: 0,
       transform: 'translateY(10px)',
       position: 'absolute',
-      zIndex: 1000}}><i >NodeType: {node.type}<br /> NodeId: {node.id}</i></p>
+      zIndex: 1000}}><i >Display Type: {node.displayType}<br /> NodeId: {node.id}</i></p>
     </Outer>
     )
   }

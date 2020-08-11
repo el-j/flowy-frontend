@@ -46,6 +46,16 @@ const CustomInnerNodeEdit = ({node,config,handleChange,handlePictureChange},prop
     )
       break;
 
+    case 'point':
+    return (
+        <DecisionWrapper>
+          <DecisionInner>
+          <h5>{node.text}</h5>
+          ITS A POINT
+          </DecisionInner>
+        </DecisionWrapper>
+    )
+      break;
     default:
     return (
 
