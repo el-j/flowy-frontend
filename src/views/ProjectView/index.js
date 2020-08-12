@@ -392,7 +392,6 @@ const ProjectView = (props) => {
     useEffect(()=>{
       console.log("we want to rerender", smartRouting);
       setChart(chart)
-
     },[smartRouting])
 
     const handleChangePortLabel = (e,port) => {
@@ -496,6 +495,8 @@ const ProjectView = (props) => {
                     handleSelected={handleSelected}
                     handleShowHide={handleShowHide}
                     showHidePanel={showHidePanel}
+                    handleChangeSmartRouting={handleChangeSmartRouting}
+                    smartRouting={smartRouting}
                   />
                   <RightPanel
                     newItem={newItem}
@@ -521,6 +522,7 @@ const ProjectView = (props) => {
                     stateActions={stateActionsCallbacks}
                     ref={flowchartRef}
                     chartData={chart}
+                    smartRouting={smartRouting}
                     />
                 </>
                 ):(null)}
