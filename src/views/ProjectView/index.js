@@ -171,6 +171,14 @@ const ProjectView = (props) => {
         let response = {}
         let  thatData = project
         thatData.projectJson = chart
+
+        console.log(Object.keys(chart.nodes).map(node => {
+          console.log(chart.nodes[node].size,chart.nodes[node].picture,  document.getElementById(chart.nodes[node].picture).clientHeight);
+          let height = document.getElementById(chart.nodes[node].picture).clientHeight;
+          chart.nodes[node].picSize = {height: height, width:chart.nodes[node].size.width}
+          console.log(height, chart.nodes[node].size);
+        }));
+
         saveProject(project.projectId,thatData).then(
           (result) => {
             setProject(result)
@@ -242,6 +250,7 @@ const ProjectView = (props) => {
         if (thisSelectedNode) {
         thisChart.nodes[thisSelectedNodeName[0]] = thisSelectedNode
         thisProject.projectJson = thisChart
+
         setChart({...chart, ...thisChart})
         }
         setProject({...project, ...thisProject})

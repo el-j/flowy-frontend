@@ -49,11 +49,14 @@ const CustomInnerNode = ({node,config},props) => {
   // console.log(node.path)
   let thisProjectDir = projectDir
   let thisPicUrl = `${thisProjectDir}/${node.path}`
+  let picId = node.picture
+
   if (node.path === "/no_image.png") {
     thisProjectDir = `${serverUrl}:${serverPort}`
     thisPicUrl = `${thisProjectDir}${node.path}`
     // console.log(thisProjectDir);
   }
+
   switch (node.displayType) {
     case 'decision':
     return (
@@ -91,7 +94,7 @@ const CustomInnerNode = ({node,config},props) => {
     return (
     <Outer id={node.id} >
       <div style={{display:'block', width: '100%'}}>
-      <img src={`${thisPicUrl}`} style={{width: 'inherit'}} />
+      <img src={`${thisPicUrl}`} style={{width: 'inherit'}} id={`${picId}`}/>
       </div>
       <Inner>
       <h5>{node.name}</h5>
