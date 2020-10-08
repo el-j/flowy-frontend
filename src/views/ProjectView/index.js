@@ -38,6 +38,7 @@ return({
   displayType: "screen",
   path: "/no_image.png",
   picture: "no_image.png",
+  picId:`node${nodeNr}_picId`,
   position: {
     x: 300,
     y: 100,
@@ -170,14 +171,19 @@ const ProjectView = (props) => {
       const handleSave = (e) => {
         let response = {}
         let  thatData = project
-        thatData.projectJson = chart
-
-        console.log(Object.keys(chart.nodes).map(node => {
-          console.log(chart.nodes[node].size,chart.nodes[node].picture,  document.getElementById(chart.nodes[node].picture).clientHeight);
-          let height = document.getElementById(chart.nodes[node].picture).clientHeight;
+// console.log(
+console.log("this is current itemref",itemRef);
+  Object.keys(chart.nodes).map(node => {
+          // chart.nodes[node].picId = `${chart.nodes[node].id}_picId`
+          // console.log(chart.nodes[node].size,chart.nodes[node].picId,  document.getElementById(`${chart.nodes[node].picId}`));
+          // let height = document.getElementById(chart.nodes[node].picId).clientHeight;
+          let height = 400
           chart.nodes[node].picSize = {height: height, width:chart.nodes[node].size.width}
           console.log(height, chart.nodes[node].size);
-        }));
+        })
+      // )
+        thatData.projectJson = chart
+
 
         saveProject(project.projectId,thatData).then(
           (result) => {
@@ -296,6 +302,13 @@ const ProjectView = (props) => {
      const changePicture = (e) => {
        let picName = e.currentTarget.files[0].name
        let saveChart = chart
+       let picId = ''
+       if (!saveChart.nodes[newItem.id].picId) {
+       picId = `${saveChart.nodes[newItem.id].id}:picId`
+       }
+
+       picName = picName.split(' ').join('-')
+       saveChart.nodes[newItem.id].picId = picId
        saveChart.nodes[newItem.id].picture = picName
        saveChart.nodes[newItem.id].path = `${myprojectName}/${picName}`
        setChart({...saveChart})
@@ -378,6 +391,7 @@ const ProjectView = (props) => {
       let myNewitem = item(newcount)
       let newName = `node${newcount}`
       myNewitem.id = `${newName}`
+      myNewitem.picId = `${newName}_picId`
       myNewitem.name = `New ${newName}`
       myNewitem.position.x = deltaX
       myNewitem.position.y = deltaY
