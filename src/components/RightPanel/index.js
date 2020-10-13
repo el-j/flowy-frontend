@@ -54,18 +54,21 @@ const RightPanel = ({
   handleAddPort,
   handleDeletePort,
   handlePrint,
-  chart,
-  chartRef,
   handleShowHideRight,
+  handleChangePortLabel,
+  handleSelected,
+  chart,
+  project,
+  chartRef,
   showHidePanelRight,
   uploadRef,
   changePicture,
   createNewNode,
-  handleChangePortLabel
 }) => {
   return(<Outer>
     { showHidePanelRight===true ?(
       <>
+
         <NodeInspector
           items={items}
           newItem={newItem}
@@ -74,25 +77,14 @@ const RightPanel = ({
           handleAddPort={handleAddPort }
           handleDeletePort={handleDeletePort }
           handleChangePortLabel={handleChangePortLabel}
+          handleSelected={handleSelected}
           chart={chart}
           handlePrint={handlePrint}
           uploadRef={uploadRef}
           changePicture={changePicture}
+          project={project}
           />
-          <Inner>
-            <Button id="addNewNode" className={'btn-block'} onClick={(e)=>createNewNode(e)}>Create NODE</Button>
-            <Button id="addNewDecisionNode" className={'btn-block'} onClick={(e)=>createNewNode(e)}>Create Decision</Button>
-            <Button id="addNewPointNode" className={'btn-block'} onClick={(e)=>createNewNode(e)}>Create Point</Button>
-          </Inner>
-          <Inner>
-            <p>Save the current working State</p>
-            <Button className={'btn-block'} onClick={(e)=>handleSave(e)}>Save</Button>
-          </Inner>
-
-          <Inner>
-            <p>Print the current working State</p>
-            <Button className={'btn-block'} onClick={handlePrint}>Print</Button>
-          </Inner>
+    
           <UiShowHide onClick={handleShowHideRight} />
         </>
         ):<UiShowHide onClick={handleShowHideRight}

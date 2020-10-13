@@ -6,10 +6,9 @@ import MyNavbar from "./components/MyNavbar";
 
 export default function App() {
   const routeResult = useRoutes(Routes);
-  // console.log(routeResult);
   return (
     <>
-      <MyNavbar />
+      <MyNavbar name={routeResult.props.projectName?routeResult.props.projectName.substring(1):null}/>
       {routeResult || <> no page found </>}
     </>
   );

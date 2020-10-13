@@ -5,28 +5,28 @@ import {A} from 'hookrouter';
 
 const Fixit = styled.div`
   position:fixed;
-  width: 350px;
+  max-width: 350px;
   z-index:1000;
+  opacity: 0.5;
 `
 
 
-const MyNavbar = () => (
-  <Fixit>
-    <Navbar bg="dark" variant="dark">
-      <Navbar.Brand href="/">ScreenMapper</Navbar.Brand>
-      <Nav className="mr-auto">
-        <A href="/">Overview</A>
-        <A href="/project/:projectName">Load Project</A>
-
-      </Nav>
-      { /*
-        <Form inline>
-      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-      <Button variant="outline-info">Search</Button>
+const MyNavbar = ({name}) => {
+  if (name) {
+    return(<Fixit>
+      <Navbar bg="dark" variant="dark">
+        <Navbar.Brand href="/">{name}</Navbar.Brand>
+      </Navbar>
+    </Fixit>  )
+  }
+  return (<Navbar bg="dark" variant="dark">
+      <Navbar.Brand href="/">flowy</Navbar.Brand>
+      <Form inline>
+              <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+              <Button variant="outline-info">Search</Button>
       </Form>
-    */}
-    </Navbar>
-  </Fixit>
-)
+
+    </Navbar>)
+}
 
 export default MyNavbar

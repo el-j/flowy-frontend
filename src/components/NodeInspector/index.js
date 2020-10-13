@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components'
 import NodeInspectorItem from './NodeInspectorItem'
+import NodeListOverview from '../NodeListOverview'
+
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -213,9 +215,16 @@ const AddNode = (props) => ( <
         handleAddPort,
         handleDeletePort,
         handleChange,
+        handleShowHide,
+        showHidePanel,
         uploadRef,
         changePicture,
-        handleChangePortLabel
+        handleChangePortLabel,
+        project,
+        chart,
+        handleSelected,
+        handleChangeSmartRouting,
+        smartRouting
       }) => {
         // console.log(selected)
         return ( < StyledNodeInspector >
@@ -443,78 +452,19 @@ const AddNode = (props) => ( <
                       /> <
                       /Col> <
                       /StyledNodePreviewRow></ >
-                    )
+                    ):(<NodeListOverview
+                      project={project}
+                      chart={chart}
+                      handleChange={handleChange}
+                      handleSelected={handleSelected}
+                      handleShowHide={handleShowHide}
+                      showHidePanel={showHidePanel}
+                      handleChangeSmartRouting={handleChangeSmartRouting}
+                      smartRouting={smartRouting}
+                      />)}
 
-                    :
-                    < > {
-                      // console.log("NOW NOTHING SELECTED",newItem, selected)
-                      /*
-              <PictureRow>
-              <img src={newItem.path} style={{
-                width: '100%'
-              }}/>
-              </PictureRow>
-              <Row>
-                <PictureRowTitle as={Col} lg={12}>
-                    <StyledInputDescription
-                    rows="1"
-                    placeholder='_NewNodeId'
-                    aria-label={newItem.id}
-                    aria-describedby={newItem.id}
-                    id="changeNodeId"
-                    value={newItem.id}
-                    onChange={e => handleChange(e,newItem.id)}
-                    type='text'
-                  />
-                </PictureRowTitle>
-              </Row>
-            <Row>
-              <PictureRowTitle as={Col} lg={12}>
-                <StyledInputTitle
-                  placeholder='Your Node Name'
-                  aria-label={newItem.name}
-                  aria-describedby={newItem.name}
-                  id="changeNodeName"
-                  value={newItem.name}
-                  onChange={e => handleChange(e,newItem.id)}
-
-                />
-
-
-
-              </PictureRowTitle>
-            </Row>
-            <Row>
-              <PictureRowTitle as={Col} lg={12}>
-                  <StyledInputDescription
-                  rows="2"
-                  placeholder='Your Description of the node'
-                  aria-label={newItem.text}
-                  aria-describedby={newItem.text}
-                  id="changeNodeDescription"
-                  value={newItem.text}
-                  onChange={e => handleChange(e,newItem.id)}
-                  type='textarea'
-                />
-              </PictureRowTitle>
-            </Row>
-
-  */
-                    } <
-                    Message > Click on a Node, Port or Link < /Message></ >
-                } {
-                  //   <AddNode
-                  // onClick={handleConfigureNode}
-                  // node={{...newItem}}
-                  // itemRef={itemRef}
-                  // />
-                }
-
-
-
-                <
-                /StyledNodeInspector>)}
-
+                </StyledNodeInspector>
+)}
                 // <TreeView items={items} />
 
                 export default NodeInspector

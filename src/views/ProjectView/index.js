@@ -31,12 +31,15 @@ const emptyProject = (name) => {
 
 let item = (nodeNr,typeId) => {
   let type = 'screen'
+  let ports = {port1:{id:"port1",type:'input',properties:{value:"nolabel"}},port2:{id:"port2",type:'output',properties:{value:"nolabel"}}}
   switch (typeId) {
     case "addNewNode":
       type = 'screen'
+
       break;
     case "addNewDecisionNode":
       type = 'decision'
+      ports = {port1:{id:"port1",type:'input',properties:{value:"nolabel"}},port2:{id:"port2",type:'output',properties:{value:"no"}},port3:{id:"port3",type:'output',properties:{value:"yes"}}}
       break;
     case "addNewPointNode":
       type = 'point'
@@ -44,6 +47,28 @@ let item = (nodeNr,typeId) => {
     default:
       type = 'screen'
   }
+
+  function portConstructor(ports){
+    if (ports.length >= 1) {
+      Object.keys(ports).map(port =>{
+        console.log(port);
+        ports[port] = {
+        connected: false,
+        from: "",
+        id: ports[port].id,
+        position: {x: 250, y: 353},
+        properties: {value:ports[port].properties.value?ports[port].properties.value:"nolabel"},
+        to: "",
+        type: ports[port].type?ports[port].type:"input",
+        }
+      })
+    }
+
+   console.log(ports);
+   return ports
+  }
+
+
   let myNodeConstructor = {
     id: `node${nodeNr}`,
     type: "node",
@@ -60,27 +85,7 @@ let item = (nodeNr,typeId) => {
       width:146.7
     },
     size:{width:500,height:353},
-    ports: {
-      port1:{
-        connected: false,
-        from: "",
-        id: "port1",
-        position: {x: 250, y: 353},
-        properties: {label:"question"},
-        to: "",
-        type: "output"
-      },
-      port2: {
-        connected: false,
-        from: "",
-        id: "port2",
-        position: {x: 250, y: 353},
-        properties: {label:"yes"},
-        to: "",
-        type: "input",
-
-      }
-    }
+    ports: portConstructor(ports)
   }
   return myNodeConstructor
 }
@@ -489,6 +494,7 @@ const ProjectView = (props) => {
     const handleAddPort  = event => {
         let id = event.currentTarget.id
         let portAmount = Object.keys(newItem.ports)
+        console.log(portAmount);
         if (!portAmount.length <= 0) {
           portAmount = Math.max(...portAmount.toString().match(/\d+/g)) +1
         }
@@ -540,21 +546,22 @@ const ProjectView = (props) => {
                   // {// console.log(flowchartRef)}
                 }
                   <LeftPanel
-                    project={project}
-                    chart={chart}
-                    handleChange={handleChange}
-                    handleSelected={handleSelected}
-                    handleShowHide={handleShowHide}
-                    showHidePanel={showHidePanel}
-                    handleChangeSmartRouting={handleChangeSmartRouting}
-                    smartRouting={smartRouting}
+                    createNewNode={createNewNode}
+                    handleSave={handleSave}
+                    handlePrint={handlePrint}
                   />
                   <RightPanel
                     newItem={newItem}
                     itemRef={itemRef}
                     chart={chart}
+                    project={project}
+                    handleChange={handleChange}
+                    handleSelected={handleSelected}
+                    handleChangeSmartRouting={handleChangeSmartRouting}
+                    smartRouting={smartRouting}
+
                     chartRef={flowchartRef}
-                    handleSave={handleSave}
+
                     handleAddPort={handleAddPort}
                     handleDeletePort={handleDeletePort }
                     handleChange={handleChange}
@@ -566,7 +573,7 @@ const ProjectView = (props) => {
                     showHidePanelRight={showHidePanelRight}
                     uploadRef={uploadRef}
                     changePicture={changePicture}
-                    createNewNode={createNewNode}
+
                   />
                   <MyFlowChart
                     id={'projectFlowGraph'}
