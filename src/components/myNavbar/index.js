@@ -1,7 +1,6 @@
 import React from "react";
-import { Navbar, Form, FormControl, Button } from 'react-bootstrap';
+import { Navbar, NavbarBrand,Form, Button, Input } from 'reactstrap';
 import styled from 'styled-components';
-// import {A} from 'hookrouter';
 
 const Fixit = styled.div`
   position:fixed;
@@ -10,23 +9,21 @@ const Fixit = styled.div`
   opacity: 0.5;
 `
 
-
-const MyNavbar = ({name}) => {
-  if (name) {
+const MyNavbar = ({handleSearch,projectName}) => {
+  if (projectName) {
     return(<Fixit>
-      <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="/">{name}</Navbar.Brand>
+      <Navbar dark>
+        <NavbarBrand href="/" className="mr-auto">{projectName}</NavbarBrand>
       </Navbar>
     </Fixit>  )
   }
-  return (<Navbar bg="dark" variant="dark">
-      <Navbar.Brand href="/">flowy</Navbar.Brand>
+  return (<div><Navbar dark expand="lg">
+      <NavbarBrand href="/">flowy</NavbarBrand>
       <Form inline>
-              <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+              <Input type="search" placeholder="Search" id="searchBar" className="mr-lg-2" onChange={handleSearch}/>
               <Button variant="outline-info">Search</Button>
       </Form>
-
-    </Navbar>)
+    </Navbar></div>)
 }
 
 export default MyNavbar

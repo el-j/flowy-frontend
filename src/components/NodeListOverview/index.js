@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 
 // import CheckBox from '../CheckBox'
 
-import { projectDir } from '../../tools/fetchApi'
+import { projectDir,serverUrl,serverPort } from '../../tools/fetchApi'
 
 const StyledNodeListItem = styled.div`
   border-radius: 4px;
@@ -177,7 +177,7 @@ smartRouting,
             handleSelected(nowSelected)
           }}
           style= {{
-            backgroundImage: `url(${projectDir}/${chart.nodes[node].path})`,
+            backgroundImage: chart.nodes[node].path !== '/no_image.png'?`url(${projectDir}/${chart.nodes[node].path})`:`url(${serverUrl}:${serverPort}${chart.nodes[node].path})`,
             backgroundSize: 'cover',
         }}>
             <StyledH6> {chart.nodes[node].name}</StyledH6>

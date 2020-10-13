@@ -46,39 +46,26 @@ const DecisionInner = styled.div`
 `
 
 const CustomInnerNode = ({ node, config, handleImageHeight }: INodeInnerDefaultProps) => {
-  // console.log(node,config);
+
   let ref = useRef(`${node.id}_picId`)
 
   let thisProjectDir = projectDir
   let thisPicUrl = `${thisProjectDir}/${node.path}`
-
-
   if (node.path === "/no_image.png") {
     thisProjectDir = `${serverUrl}:${serverPort}`
     thisPicUrl = `${thisProjectDir}${node.path}`
-    // console.log(thisProjectDir);
   }
-
-  switch (node.displayType) {
-    case 'decision':
-    return (
-        <DecisionWrapper>
-          <DecisionInner>
-          <h5>{node.name}</h5>
-          <p>{node.text}</p>
-          <p className="figure-caption text-center" style={{padding: '4px',
-          margin: 0,
-          transform: 'translate(20px,10px )',
-          position: 'absolute',
-          zIndex: 1000}}><i >Display Type: {node.displayType}<br /> NodeId: {node.id}</i></p>
-          </DecisionInner>
-        </DecisionWrapper>
-    )
-      break;
-
-      case 'point':
-      return (
-          <PointWrapper>
+  return node.displayType==='decision'?(<DecisionWrapper>
+            <DecisionInner>
+            <h5>{node.name}</h5>
+            <p>{node.text}</p>
+            <p className="figure-caption text-center" style={{padding: '4px',
+            margin: 0,
+            transform: 'translate(20px,10px )',
+            position: 'absolute',
+            zIndex: 1000}}><i >Display Type: {node.displayType}<br /> NodeId: {node.id}</i></p>
+            </DecisionInner>
+          </DecisionWrapper>):(node.displayType === 'point')?(<PointWrapper>
             <PointInner>
             <h5>{node.name}</h5>
             <p>{node.text}</p>
@@ -88,37 +75,28 @@ const CustomInnerNode = ({ node, config, handleImageHeight }: INodeInnerDefaultP
             position: 'absolute',
             zIndex: 1000}}><i >Display Type: {node.displayType}<br /> NodeId: {node.id}</i></p>
             </PointInner>
-          </PointWrapper>
-      )
-        break;
+          </PointWrapper>):(<Outer id={node.id} >
+        <div style={{display:'block', width: '100%'}}>
+          <img
+            alt={node.name}
+            id={`${node.id}_picId`}
+            onLoad={config.handleImageHeight}
+            src={`${thisPicUrl}`}
+            style={{width:'inherit', height: 'inherit'}}
+            ref={ref}
+            />
+        </div>
+        <Inner>
+        <h5>{node.name}</h5>
+        <p>{node.text}</p>
 
-    default:
-    return (
-    <Outer id={node.id} >
-      <div style={{display:'block', width: '100%'}}>
-        <img
-          alt={node.name}
-          id={`${node.id}_picId`}
-          onLoad={config.handleImageHeight}
-          src={`${thisPicUrl}`}
-          style={{width:'inherit', height: 'inherit'}}
-          ref={ref}
-          />
-      </div>
-      <Inner>
-      <h5>{node.name}</h5>
-      <p>{node.text}</p>
-
-      </Inner>
-      <p className="figure-caption" style={{padding: '4px',
-      margin: 0,
-      transform: 'translateY(10px)',
-      position: 'absolute',
-      zIndex: 1000}}><i >Display Type: {node.displayType}<br /> NodeId: {node.id}</i></p>
-    </Outer>
-    )
+        </Inner>
+        <p className="figure-caption" style={{padding: '4px',
+        margin: 0,
+        transform: 'translateY(10px)',
+        position: 'absolute',
+        zIndex: 1000}}><i >Display Type: {node.displayType}<br /> NodeId: {node.id}</i></p>
+      </Outer>)
   }
-
-}
 
 export default CustomInnerNode
