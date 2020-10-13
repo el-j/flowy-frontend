@@ -1,5 +1,5 @@
-import React, { useRef, useLayoutEffect, useState}  from "react";
-import { FlowChartWithState, INodeDefaultProps } from "@mrblenny/react-flow-chart";
+import React, { useRef, useEffect, useState}  from "react";
+import { INodeDefaultProps, INodeInnerDefaultProps } from "@mrblenny/react-flow-chart";
 import styled from 'styled-components'
 import { createProject, uploadProjectData, removeProject, apiUrl, projectDir, serverUrl, serverPort } from '../../../../tools/fetchApi'
 
@@ -45,34 +45,19 @@ const DecisionInner = styled.div`
 
 `
 
-const CustomInnerNode = ({node,config}) => {
-
-  // let ref = useRef(`${node.id}_picId`)
+const CustomInnerNode = ({ node, config, handleImageHeight }: INodeInnerDefaultProps) => {
+  // console.log(node,config);
+  let ref = useRef(`${node.id}_picId`)
 
   let thisProjectDir = projectDir
   let thisPicUrl = `${thisProjectDir}/${node.path}`
-  // let picId = `${node.id}_picId`
-  // const [dimensions, setDimensions] = useState({ width:0, height: 0 });
+
 
   if (node.path === "/no_image.png") {
     thisProjectDir = `${serverUrl}:${serverPort}`
     thisPicUrl = `${thisProjectDir}${node.path}`
     // console.log(thisProjectDir);
   }
-
-  // useLayoutEffect(() => {
-  //
-  //   if (ref.current) {
-  //     node.picSize = {
-  //       width: ref.current.offsetWidth,
-  //       height: ref.current.offsetHeight
-  //     }
-  //     setDimensions({
-  //       width: ref.current.offsetWidth,
-  //       height: ref.current.offsetHeight
-  //     });
-  //   }
-  // }, []);
 
   switch (node.displayType) {
     case 'decision':
@@ -111,7 +96,13 @@ const CustomInnerNode = ({node,config}) => {
     return (
     <Outer id={node.id} >
       <div style={{display:'block', width: '100%'}}>
-        <img src={`${thisPicUrl}`} style={{width: 'inherit'}}/>
+        <img
+          id={`${node.id}_picId`}
+          onLoad={config.handleImageHeight}
+          src={`${thisPicUrl}`}
+          style={{width:'inherit', height: 'inherit'}}
+          ref={ref}
+          />
       </div>
       <Inner>
       <h5>{node.name}</h5>

@@ -10,6 +10,7 @@ import styled from 'styled-components'
 
 
 const MyFlowChart = React.forwardRef((props,ref) => {
+    let handleImageHeight = props.handleImageHeight
     let chartData = cloneDeep(props.chartData)
     let smartRoutingState = props.smartRouting
     return (
@@ -32,8 +33,10 @@ const MyFlowChart = React.forwardRef((props,ref) => {
       chart={chartData}
       config={{
         smartRouting: smartRoutingState,
-        showArrowHead: true
+        showArrowHead: true,
+        handleImageHeight: handleImageHeight
       }}
+
       />
       </div>
   )

@@ -127,7 +127,8 @@ const ProjectView = (props) => {
                return node
              }
            })
-           // // console.log("the selected node",chart.nodes[thisSelectedNode[0]]);
+           // console.log("the selected node",chart.nodes[thisSelectedNode[0]],itemRef);
+
            setNewItem(chart.nodes[thisSelectedNode[0]])
          }
          else if (chart.selected.type === 'link'){
@@ -171,17 +172,8 @@ const ProjectView = (props) => {
       const handleSave = (e) => {
         let response = {}
         let  thatData = project
-// console.log(
-console.log("this is current itemref",itemRef);
-  Object.keys(chart.nodes).map(node => {
-          // chart.nodes[node].picId = `${chart.nodes[node].id}_picId`
-          // console.log(chart.nodes[node].size,chart.nodes[node].picId,  document.getElementById(`${chart.nodes[node].picId}`));
-          // let height = document.getElementById(chart.nodes[node].picId).clientHeight;
-          let height = 400
-          chart.nodes[node].picSize = {height: height, width:chart.nodes[node].size.width}
-          console.log(height, chart.nodes[node].size);
-        })
-      // )
+
+
         thatData.projectJson = chart
 
 
@@ -200,7 +192,7 @@ console.log("this is current itemref",itemRef);
       }
 
       const handleChange = (event,nodeId) => {
-        // console.log(event.currentTarget.id,event.currentTarget.value,nodeId)
+        // console.log("itemRef and UploadRef from handleChange",flowchartRef,itemRef.current,event.target.clientHeight,uploadRef.current);
         let thisSelectedNode
         let thisSelectedNodeName
         let thisChart = chart
@@ -261,10 +253,6 @@ console.log("this is current itemref",itemRef);
         }
         setProject({...project, ...thisProject})
       }
-      const handleConfigureNode = (e) => {
-        setNewItemCreate(true)
-        // // console.log(e)
-      }
 
       const stateActionsCallbacks = Object.keys(actions).reduce((obj,key,idx) => {
          obj[key] = (...args)=>{
@@ -282,6 +270,7 @@ console.log("this is current itemref",itemRef);
        if (chart.selected) {
          if (chart.selected.type === 'node') {
          let name = chart.selected.id
+         // console.log("itemRef and UploadRef from handleChange",flowchartRef,itemRef.current,uploadRef.current);
          // // console.log("the selected node",chart);
          let thisSelectedNode = Object.keys(chart.nodes).filter(node => {
          if (node === name) {
@@ -303,8 +292,12 @@ console.log("this is current itemref",itemRef);
        let picName = e.currentTarget.files[0].name
        let saveChart = chart
        let picId = ''
+       console.log("itemRef and UploadRef from changePciture handler",itemRef,uploadRef);
        if (!saveChart.nodes[newItem.id].picId) {
-       picId = `${saveChart.nodes[newItem.id].id}:picId`
+       picId = `${saveChart.nodes[newItem.id].id}_picId`
+       }
+       else {
+         picId = saveChart.nodes[newItem.id].picId
        }
 
        picName = picName.split(' ').join('-')
@@ -374,7 +367,7 @@ console.log("this is current itemref",itemRef);
       if (selectedNodeObject.id === "") {
           selected = {}
       }
-      console.log(selected);
+      console.log(selected,itemRef);
         setChart({...chart, selected: selected})
     }
 
@@ -456,6 +449,24 @@ console.log("this is current itemref",itemRef);
       // setNewItem({...temp})
       setChart({...myChart})
       setLinks({...tempLinks})
+    }
+
+    const handleImageHeight = e => {
+      let thisNode = e.target.id.split('_')[0]
+      if (chart.nodes[thisNode].picSize) {
+      if (chart.nodes[thisNode].picSize.height != e.target.clientHeight) {
+        console.log(thisNode,e.target.clientHeight);
+        chart.nodes[thisNode].picSize = {height: e.target.clientHeight, width:chart.nodes[thisNode].size.width}
+      }
+      }
+      else {
+        chart.nodes[thisNode].picSize = {height: e.target.clientHeight, width:chart.nodes[thisNode].size.width}
+      }
+      // Object.keys(chart.nodes).filter(node => {
+      //     if (node === thisNode && chart.nodes[node]) {
+      //       chart.nodes[node].picSize = {height: e.target.clientHeight, width:chart.nodes[node].size.width}
+      //     }
+      //   })
     }
 
     const handleAddPort  = event => {
@@ -546,6 +557,7 @@ console.log("this is current itemref",itemRef);
                     ref={flowchartRef}
                     chartData={chart}
                     smartRouting={smartRouting}
+                    handleImageHeight={handleImageHeight}
                     />
                 </>
                 ):(null)}
