@@ -14,11 +14,11 @@ const ProjectCard = ({project, key, openProject, removeProject}) => {
   })
   // console.log(project);
   if (!preview) {
-    preview = {filename:'placeholder',type:'png'}
+    preview = {filename:'no_image',type:'png'}
   }
   return(<Row className={'projectCard'} style = {{
-                backgroundImage: `url(${projectDir}/${project.name}/${preview.filename}.${preview.type})`,
-                backgroundSize: 'cover'
+                backgroundImage: preview.filename!=='no_image'?`url(${projectDir}/${project.name}/${preview.filename}.${preview.type})`:null,
+                backgroundSize: 'cover',
               }}>
           <Col lg={12} className={'projectOverviewTextElements'}>
             <h3>{project.name}</h3>

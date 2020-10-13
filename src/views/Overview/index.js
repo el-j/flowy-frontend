@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { navigate } from "hookrouter";
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'
 /*bootstrap imports */
 import Col from 'react-bootstrap/Col';
@@ -18,6 +18,10 @@ position:absolut;
 `
 
 const Overview = (props) => {
+  const { searchResults } = props;
+
+  const history = useHistory();
+
   const myData = useFetchApi('getProjects')
   const [projects,setProjects] = useState()
   const [newProject,setNewProject] = useState({name:'',files:[]})
@@ -26,18 +30,22 @@ const Overview = (props) => {
   const [createProgress,setCreateProgress] = useState(false)
 
     useEffect(() => {
-          setProjects(myData)
-          setIsLoaded(true)
-    },[myData])
+      if (Object.keys(searchResults).length >= 1) {
+        setProjects(searchResults)
+      }else {
+        setProjects(myData)
+      }
+      setIsLoaded(true)
+    },[myData,searchResults])
 
   const handleOpenProject = (projectName) => {
     let path = `/project/:${projectName}`;
-    navigate(path);
+    history.push(path);
     }
 
   const handleNewProject = (projectName) => {
     let path = `/newproject/:${projectName}`;
-    navigate(path);
+    history.push(path);
     }
 
   const handleChange = (e) => {

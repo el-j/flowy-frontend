@@ -20,7 +20,6 @@ const useFetchApi = (url) => {
     response = await response.json()
     dataSet(response)
   }
-
   useEffect(() => {
     fetchMyApi();
   }, []);

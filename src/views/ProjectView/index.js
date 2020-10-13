@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+
 import { saveProject, uploadProjectData } from '../../tools/fetchApi'
 
 import MyFlowChart from '../../components/FlowChart'
@@ -34,7 +36,6 @@ let item = (nodeNr,typeId) => {
   switch (typeId) {
     case "addNewNode":
       type = 'screen'
-
       break;
     case "addNewDecisionNode":
       type = 'decision'
@@ -89,8 +90,9 @@ let item = (nodeNr,typeId) => {
 }
 
 const ProjectView = (props) => {
-      const myprojectName = props.projectName.slice(1)
-      const apiUrl = `loadProject/:${myprojectName}`
+      const {setProjectName} = props;
+      const {projectName} = useParams()
+      const apiUrl = `loadProject/${projectName}`
       const loadProject = useFetchApi(apiUrl)
       const [error,setError] = useState(null)
       const [isLoaded,setIsLoaded]= useState(false)
@@ -106,8 +108,9 @@ const ProjectView = (props) => {
       const uploadRef = React.createRef();
 
       useEffect(() => {
+
         if (loadProject.length === 0) {
-          let temp = emptyProject(myprojectName)
+          let temp = emptyProject(projectName)
           setProject(temp)
           setChart(temp.projectJson)
           setLinks(temp.projectJson.links)
@@ -121,14 +124,15 @@ const ProjectView = (props) => {
             setIsLoaded(true)
           }
           else {
-            let temp = emptyProject(myprojectName)
+            let temp = emptyProject(projectName)
             setProject(temp)
             setChart(temp.projectJson)
             setLinks(temp.projectJson.links)
             setIsLoaded(true)
           }
         }
-      },[loadProject,myprojectName])
+        setProjectName(`${projectName.substring(1)}`)
+      },[loadProject,projectName])
 
        useEffect(()=>{
          if (chart.selected) {
@@ -309,7 +313,7 @@ const ProjectView = (props) => {
        picName = picName.split(' ').join('-')
        saveChart.nodes[newItem.id].picId = picId
        saveChart.nodes[newItem.id].picture = picName
-       saveChart.nodes[newItem.id].path = `${myprojectName}/${picName}`
+       saveChart.nodes[newItem.id].path = `${projectName}/${picName}`
        setChart({...saveChart})
        // console.log(e.currentTarget.files,newItem,chart);
        var formData = new FormData();
@@ -319,11 +323,11 @@ const ProjectView = (props) => {
          formData.append('filename',files[i].name)
        }
 
-       formData.append('projectName',myprojectName)
-       uploadProjectData(formData,myprojectName).then(result =>{
+       formData.append('projectName',projectName)
+       uploadProjectData(formData,projectName).then(result =>{
          // console.log("DONE",result);
          handleSave()
-         // setChart(result[myprojectName].projectJson)
+         // setChart(result[projectName].projectJson)
        } ,(error) => {
          // console.log("ERROR",error);
              })
@@ -331,44 +335,30 @@ const ProjectView = (props) => {
 
 
     const handleDeletePort = port => {
-
-      // TODO: WE CANNOT REMOVE A PORT THAT IS CONNECTED!!!
-      //
       if (chart.links) {
         let thisLinkedNode = Object.keys(chart.links).filter(link => {
           if (chart.links[link].from.nodeId === chart.selected.id || chart.links[link].to.nodeId === chart.selected.id) {
             return link
           }
         })
-        console.log("WE HAVE A LINKED NODE",chart.links[thisLinkedNode[0]]);
-
         let temp = chart.links
         delete temp[thisLinkedNode[0]]
-        console.log("WE HAVE it Deleted:",temp,thisLinkedNode[0]);
-
       }
       let ports = newItem.ports
       delete ports[port]
       let temp = ports
-      console.log(temp,ports,links);
-
       setNewItem({...newItem,ports:{...temp}})
     }
 
     const handlePrint = () => {
-      // console.log(flowchartRef.current);
-
-     //  return print(){
-     //   window.print()
-     // }
-
     }
+
     const handleSelected = selectedNodeObject => {
       let selected = selectedNodeObject
       if (selectedNodeObject.id === "") {
           selected = {}
       }
-      console.log(selected,itemRef);
+      // console.log(selected,itemRef);
         setChart({...chart, selected: selected})
     }
 
@@ -381,17 +371,17 @@ const ProjectView = (props) => {
       const deltaY = centerY/chart.scale
       let nodeCount = Object.keys(thisChart.nodes).length
       let newcount = nodeCount+1
-      console.log(nodeCount,newcount,e.currentTarget.id,e);
       let myNewitem = {}
       let newName = `node${newcount}`
+      // console.log("see my new noede",nodeCount,newcount,e.currentTarget.id,e);
       myNewitem = item(newcount,e.currentTarget.id)
-
       myNewitem.id = `${newName}`
       myNewitem.picId = `${newName}_picId`
       myNewitem.name = `New ${newName}`
       myNewitem.position.x = deltaX
       myNewitem.position.y = deltaY
       thisChart.nodes = {...thisChart.nodes,[newName]:myNewitem}
+      // console.log("see my new item now",myNewitem);
       setChart({...chart,...thisChart})
     }
     const handleShowHideRight = () => {

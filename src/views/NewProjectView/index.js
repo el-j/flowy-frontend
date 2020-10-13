@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { navigate } from "hookrouter";
+import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components'
 /*bootstrap imports */
 import Col from 'react-bootstrap/Col';
@@ -43,7 +43,9 @@ const emptyProject = (name) => {
 }
 
 const NewProjectView = (props) => {
-  const myprojectName = props.projectName.slice(1)
+  const history = useHistory();
+  const {projectName} = useParams()
+  const myprojectName = projectName.slice(1)
   const [newProject,setNewProject]= useState(emptyProject(myprojectName))
   const [uploaded,setUploaded] = useState(false)
   const [createProgress,setCreateProgress] = useState(false)
@@ -70,7 +72,7 @@ const NewProjectView = (props) => {
 
   const handleOpenProject = (projectName) => {
     let path = `/project/:${projectName}`;
-    navigate(path);
+    history.push(path);
     }
 
   const _handleDeleteImage = (e) => {
