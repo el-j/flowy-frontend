@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
-import SidebarItem from './SidebarItem'
+import NodeInspectorItem from './NodeInspectorItem'
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -63,7 +63,7 @@ const StyledNodePreviewCol = styled.div `
 `
 
 
-const StyledSidebar = styled.div `
+const StyledNodeInspector = styled.div `
   /* width: 350px;
   background: white;
   position:absolute;
@@ -194,7 +194,7 @@ const PortListItem = ({
 )
 
 const AddNode = (props) => ( <
-    SidebarItem itemRef = {
+    NodeInspectorItem itemRef = {
       props.itemRef
     }
     handleConfigureNode = {
@@ -205,7 +205,7 @@ const AddNode = (props) => ( <
     }
     />)
 
-    const Sidebar = ({
+    const NodeInspector = ({
         items,
         handleSave,
         newItem,
@@ -218,7 +218,7 @@ const AddNode = (props) => ( <
         handleChangePortLabel
       }) => {
         // console.log(selected)
-        return ( < StyledSidebar >
+        return ( < StyledNodeInspector >
 
             {
               (Object.keys(newItem).length > 0 && Object.keys(selected).length > 0) ? ( <
@@ -513,8 +513,8 @@ const AddNode = (props) => ( <
 
 
                 <
-                /StyledSidebar>)}
+                /StyledNodeInspector>)}
 
                 // <TreeView items={items} />
 
-                export default Sidebar
+                export default NodeInspector

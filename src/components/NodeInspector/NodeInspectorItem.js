@@ -23,7 +23,7 @@ export interface ISidebarItemProps {
   name: string
 }
 
-const SidebarItem = ({ node,itemRef,handleConfigureNode, }) => {
+const NodeInspectorItem = ({ node,itemRef,handleConfigureNode, }) => {
   let type = node.type
   let ports = node.ports
   let properties = node.properties
@@ -43,4 +43,4 @@ const SidebarItem = ({ node,itemRef,handleConfigureNode, }) => {
   )
 }
 
-export default SidebarItem
+export default NodeInspectorItem

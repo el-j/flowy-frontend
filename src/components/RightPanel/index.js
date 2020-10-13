@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components'
 import Button from 'react-bootstrap/Button';
 
-import Sidebar from '../SideBar'
+import NodeInspector from '../NodeInspector'
 
 const Outer = styled.div`
   background-color:#fff;
@@ -66,7 +66,7 @@ const RightPanel = ({
   return(<Outer>
     { showHidePanelRight===true ?(
       <>
-        <Sidebar
+        <NodeInspector
           items={items}
           newItem={newItem}
           selected={selected}
@@ -80,8 +80,9 @@ const RightPanel = ({
           changePicture={changePicture}
           />
           <Inner>
-            <p>Create Node</p>
-            <Button className={'btn-block'} onClick={(e)=>createNewNode(e)}>Add NODE</Button>
+            <Button id="addNewNode" className={'btn-block'} onClick={(e)=>createNewNode(e)}>Create NODE</Button>
+            <Button id="addNewDecisionNode" className={'btn-block'} onClick={(e)=>createNewNode(e)}>Create Decision</Button>
+            <Button id="addNewPointNode" className={'btn-block'} onClick={(e)=>createNewNode(e)}>Create Point</Button>
           </Inner>
           <Inner>
             <p>Save the current working State</p>

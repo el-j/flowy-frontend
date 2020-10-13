@@ -29,45 +29,60 @@ const emptyProject = (name) => {
   }})
 }
 
-let item = (nodeNr) => {
-return({
-  id: `node${nodeNr}`,
-  type: "node",
-  name: `node${nodeNr}`,
-  text: 'Your Node Description',
-  displayType: "screen",
-  path: "/no_image.png",
-  picture: "no_image.png",
-  picId:`node${nodeNr}_picId`,
-  position: {
-    x: 300,
-    y: 100,
-    height:39,
-    width:146.7
-  },
-  size:{width:500,height:353},
-  ports: {
-    port1:{
-      connected: false,
-      from: "",
-      id: "port1",
-      position: {x: 250, y: 353},
-      properties: {},
-      to: "",
-      type: "output"
+let item = (nodeNr,typeId) => {
+  let type = 'screen'
+  switch (typeId) {
+    case "addNewNode":
+      type = 'screen'
+      break;
+    case "addNewDecisionNode":
+      type = 'decision'
+      break;
+    case "addNewPointNode":
+      type = 'point'
+      break;
+    default:
+      type = 'screen'
+  }
+  let myNodeConstructor = {
+    id: `node${nodeNr}`,
+    type: "node",
+    name: `node${nodeNr}`,
+    text: 'Your Node Description',
+    displayType: type,
+    path: "/no_image.png",
+    picture: "no_image.png",
+    picId:`node${nodeNr}_picId`,
+    position: {
+      x: 300,
+      y: 100,
+      height:39,
+      width:146.7
     },
-    port2: {
-      connected: false,
-      from: "",
-      id: "port2",
-      position: {x: 250, y: 353},
-      properties: {},
-      to: "",
-      type: "input",
+    size:{width:500,height:353},
+    ports: {
+      port1:{
+        connected: false,
+        from: "",
+        id: "port1",
+        position: {x: 250, y: 353},
+        properties: {label:"question"},
+        to: "",
+        type: "output"
+      },
+      port2: {
+        connected: false,
+        from: "",
+        id: "port2",
+        position: {x: 250, y: 353},
+        properties: {label:"yes"},
+        to: "",
+        type: "input",
 
+      }
     }
   }
-})
+  return myNodeConstructor
 }
 
 const ProjectView = (props) => {
@@ -380,9 +395,11 @@ const ProjectView = (props) => {
       const deltaY = centerY/chart.scale
       let nodeCount = Object.keys(thisChart.nodes).length
       let newcount = nodeCount+1
-      console.log(nodeCount,newcount);
-      let myNewitem = item(newcount)
+      console.log(nodeCount,newcount,e.currentTarget.id,e);
+      let myNewitem = {}
       let newName = `node${newcount}`
+      myNewitem = item(newcount,e.currentTarget.id)
+
       myNewitem.id = `${newName}`
       myNewitem.picId = `${newName}_picId`
       myNewitem.name = `New ${newName}`
