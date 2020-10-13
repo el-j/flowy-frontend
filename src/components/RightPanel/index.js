@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import styled from 'styled-components'
-import Button from 'react-bootstrap/Button';
 
 import NodeInspector from '../NodeInspector'
 
@@ -38,13 +37,7 @@ const UiShowHide = styled.div`
     border-color: transparent #eee transparent transparent;}
 `
 
-const Inner = styled.div`
-  padding: 30px;
 
-  display:block;
-  left:0;
-  background: #fafafa;
-`
 const RightPanel = ({
   items,
   newItem,
@@ -84,7 +77,7 @@ const RightPanel = ({
           changePicture={changePicture}
           project={project}
           />
-    
+
           <UiShowHide onClick={handleShowHideRight} />
         </>
         ):<UiShowHide onClick={handleShowHideRight}

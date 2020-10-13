@@ -86,14 +86,10 @@ const Overview = (props) => {
    }
 
   const handleRemoveProject = (projectName) => {
-    let response = {}
-    // console.log("REMOVE NEW PROJECT NOW >>>> ",projectName);
-    removeProject(projectName).then(result =>{
-      // console.log("response result",result)
+      removeProject(projectName).then(result =>{
       setProjects(result)
       setIsLoaded(true)
     } ,(error) => {
-            // console.log("we got error response",error);
             setProjects([])
             setIsLoaded(false)
           })
@@ -101,7 +97,6 @@ const Overview = (props) => {
 
       return(
           <Container>
-
             <Row>
               <Col lg={12}>
                 <Outer>
@@ -118,7 +113,7 @@ const Overview = (props) => {
           <Row>
             <Col>
              {
-               projects?<YourProjects
+               projects&&isLoaded?<YourProjects
                  key='yourprojects'
                  projects={projects}
                  openProject={handleOpenProject}

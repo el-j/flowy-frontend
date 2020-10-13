@@ -1,7 +1,7 @@
-import React, { useRef, useEffect, useState}  from "react";
-import { INodeDefaultProps, INodeInnerDefaultProps } from "@mrblenny/react-flow-chart";
+import React, { useRef }  from "react";
+import { INodeInnerDefaultProps } from "@mrblenny/react-flow-chart";
 import styled from 'styled-components'
-import { createProject, uploadProjectData, removeProject, apiUrl, projectDir, serverUrl, serverPort } from '../../../../tools/fetchApi'
+import { projectDir, serverUrl, serverPort } from '../../../../tools/fetchApi'
 
 
 const Outer = styled.div`
@@ -97,6 +97,7 @@ const CustomInnerNode = ({ node, config, handleImageHeight }: INodeInnerDefaultP
     <Outer id={node.id} >
       <div style={{display:'block', width: '100%'}}>
         <img
+          alt={node.name}
           id={`${node.id}_picId`}
           onLoad={config.handleImageHeight}
           src={`${thisPicUrl}`}

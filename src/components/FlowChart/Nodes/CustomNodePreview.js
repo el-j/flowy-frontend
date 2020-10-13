@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import CustomNode from './CustomNode'
@@ -12,7 +12,7 @@ return (<>
   <CustomNode node={{...thisnode}} ref={ref} style={{position:'relative'}}>
   <Row className="justify-content-center">
       {
-      Object.keys(thisnode.ports).map((port,key) => {
+      Object.keys(thisnode.ports).filter((port,key) => {
         if (thisnode.ports[port].type === 'input') {
           return (
             <Col lg="1" key={key} style={{transform:'translate(-25%,10px)'}}>
@@ -24,7 +24,7 @@ return (<>
   <CustomInnerNode type='screen' node={{...thisnode}} />
   <Row className="justify-content-center">
     {
-    Object.keys(thisnode.ports).map((port,key) => {
+    Object.keys(thisnode.ports).filter((port,key) => {
       if (thisnode.ports[port].type === 'output') {
         return (
           <Col lg="1" key={key} style={{transform:'translate(-25%,-10px)'}}>

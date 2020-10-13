@@ -1,5 +1,3 @@
-import React from "react";
-
 export const serverPort = 9023
 export const serverUrl = 'http://localhost'
 export const serverSubDir = 'projects'

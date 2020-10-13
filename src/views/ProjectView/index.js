@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom'
-import { loadProject, loadFiles, saveProject, apiUrl,uploadProjectData } from '../../tools/fetchApi'
-import mermaid from 'mermaid'
+import { saveProject, uploadProjectData } from '../../tools/fetchApi'
+
 import MyFlowChart from '../../components/FlowChart'
   import RightPanel from '../../components/RightPanel'
 import LeftPanel from '../../components/LeftPanel'
@@ -9,7 +8,7 @@ import useFetchApi from '../../tools/fetchApi/useFetchApi.js'
 
 // import NewItemOverlay from '../../components/newItemOverlay'
 import { actions } from "@mrblenny/react-flow-chart";
-import { cloneDeep, mapValues } from 'lodash'
+// import { cloneDeep, mapValues } from 'lodash'
 
 const emptyProject = (name) => {
   return ({
@@ -52,7 +51,7 @@ let item = (nodeNr,typeId) => {
     if (ports.length >= 1) {
       Object.keys(ports).map(port =>{
         console.log(port);
-        ports[port] = {
+       ports[port] = {
         connected: false,
         from: "",
         id: ports[port].id,
@@ -61,10 +60,9 @@ let item = (nodeNr,typeId) => {
         to: "",
         type: ports[port].type?ports[port].type:"input",
         }
+      return port
       })
     }
-
-   console.log(ports);
    return ports
   }
 
@@ -99,10 +97,8 @@ const ProjectView = (props) => {
       const [project,setProject] = useState()
       const [chart, setChart] = useState(emptyProject)
       const [links, setLinks] = useState({})
-      const [showHidePanel,setShowHidePanel] = useState(true)
       const [showHidePanelRight,setShowHidePanelRight] = useState(true)
       const [newItem,setNewItem]= useState(()=>item(0))
-      const [newItemCreate,setNewItemCreate]= useState(false)
       const [smartRouting,setSmartRouting]= useState(false)
 
       const itemRef = React.createRef();
@@ -132,7 +128,7 @@ const ProjectView = (props) => {
             setIsLoaded(true)
           }
         }
-      },[loadProject])
+      },[loadProject,myprojectName])
 
        useEffect(()=>{
          if (chart.selected) {
@@ -147,17 +143,15 @@ const ProjectView = (props) => {
                return node
              }
            })
-           // console.log("the selected node",chart.nodes[thisSelectedNode[0]],itemRef);
-
            setNewItem(chart.nodes[thisSelectedNode[0]])
          }
          else if (chart.selected.type === 'link'){
-           let thisSelectedLink = Object.keys(chart.links).filter(mylink => {
+          let thisSelectedLink = Object.keys(chart.links).filter(mylink => {
              if (mylink === chart.selected.id) {
                return mylink
              }
            })
-           // console.log('we have selected',chart.links,chart.links[thisSelectedLink],chart.selected, chart.selected.id, chart.selected.type);
+           console.log("we have alink", thisSelectedLink);
            setNewItem(item)
          }
          }
@@ -190,13 +184,8 @@ const ProjectView = (props) => {
        // }
 
       const handleSave = (e) => {
-        let response = {}
         let  thatData = project
-
-
         thatData.projectJson = chart
-
-
         saveProject(project.projectId,thatData).then(
           (result) => {
             setProject(result)
@@ -289,21 +278,18 @@ const ProjectView = (props) => {
      useEffect(() => {
        if (chart.selected) {
          if (chart.selected.type === 'node') {
-         let name = chart.selected.id
-         // console.log("itemRef and UploadRef from handleChange",flowchartRef,itemRef.current,uploadRef.current);
-         // // console.log("the selected node",chart);
-         let thisSelectedNode = Object.keys(chart.nodes).filter(node => {
-         if (node === name) {
-           return node
-         }
-         })
-         let saveChart = chart
-         let saveNewItem = newItem
-         let thisItem = saveChart.nodes[thisSelectedNode[0]]
-         thisItem.ports = saveNewItem.ports
-         chart.nodes[thisSelectedNode[0]] = thisItem
-         setChart({...chart,...saveChart});
-         setNewItem(thisItem)
+           let saveChart = chart
+           let name = saveChart.selected.id
+           let thisSelectedNode = Object.keys(chart.nodes).filter(node => {
+             if (node === name) {
+               return node
+              }
+            })
+           let saveNewItem = newItem
+           let thisItem = saveChart.nodes[thisSelectedNode[0]]
+           thisItem.ports = saveNewItem.ports
+           saveChart.nodes[thisSelectedNode[0]] = thisItem
+           setNewItem(thisItem)
         }
        }
      },[newItem])
@@ -357,16 +343,11 @@ const ProjectView = (props) => {
         console.log("WE HAVE A LINKED NODE",chart.links[thisLinkedNode[0]]);
 
         let temp = chart.links
-        // if (temp[thisLinkedNode[0]].from.portId === port || temp[thisLinkedNode[0]].to.portId === port) {
-        //   console.log("we have the bastard",temp[thisLinkedNode[0]].from);
-        // }
         delete temp[thisLinkedNode[0]]
-        temp = temp
         console.log("WE HAVE it Deleted:",temp,thisLinkedNode[0]);
-        // setLinks({...temp})
+
       }
       let ports = newItem.ports
-      let allPorts = Object.keys(ports)
       delete ports[port]
       let temp = ports
       console.log(temp,ports,links);
@@ -418,10 +399,6 @@ const ProjectView = (props) => {
       // console.log(state,showHidePanelRight);
       setShowHidePanelRight(state)
     }
-    const handleShowHide = () => {
-      let state = !showHidePanel
-      setShowHidePanel(state)
-    }
 
     const handleChangeSmartRouting = () => {
       console.log("we chagne the smartRouting", smartRouting);
@@ -429,7 +406,7 @@ const ProjectView = (props) => {
     }
     useEffect(()=>{
       console.log("we want to rerender", smartRouting);
-      setChart(chart)
+      setChart(chart=>(chart={...chart}))
     },[smartRouting])
 
     const handleChangePortLabel = (e,port) => {
@@ -476,7 +453,7 @@ const ProjectView = (props) => {
     const handleImageHeight = e => {
       let thisNode = e.target.id.split('_')[0]
       if (chart.nodes[thisNode].picSize) {
-      if (chart.nodes[thisNode].picSize.height != e.target.clientHeight) {
+      if (chart.nodes[thisNode].picSize.height !== e.target.clientHeight) {
         console.log(thisNode,e.target.clientHeight);
         chart.nodes[thisNode].picSize = {height: e.target.clientHeight, width:chart.nodes[thisNode].size.width}
       }
@@ -559,15 +536,11 @@ const ProjectView = (props) => {
                     handleSelected={handleSelected}
                     handleChangeSmartRouting={handleChangeSmartRouting}
                     smartRouting={smartRouting}
-
                     chartRef={flowchartRef}
-
                     handleAddPort={handleAddPort}
                     handleDeletePort={handleDeletePort }
-                    handleChange={handleChange}
                     handleChangePortLabel={handleChangePortLabel}
                     handlePrint={handlePrint}
-                    handleClose={() =>setNewItemCreate(false)}
                     selected={chart.selected}
                     handleShowHideRight={handleShowHideRight}
                     showHidePanelRight={showHidePanelRight}

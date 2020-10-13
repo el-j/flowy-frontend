@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-import { FlowChart,  LinkDefault, INodeDefaultProps } from "@mrblenny/react-flow-chart";
-import { cloneDeep, mapValues } from 'lodash'
+import { FlowChart } from "@mrblenny/react-flow-chart";
+import { cloneDeep } from 'lodash'
 import CustomNode from './Nodes/CustomNode'
 import CustomInnerNode from './Nodes/CustomNode/CustomInnerNode'
 import CustomPort from './Nodes/CustomNode/CustomPort'
 import CustomLink from './Nodes/CustomNode/CustomLink'
-import styled from 'styled-components'
 
 
 const MyFlowChart = React.forwardRef((props,ref) => {

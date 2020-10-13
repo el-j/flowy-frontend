@@ -1,7 +1,7 @@
 import React from "react";
-import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
+import { Navbar, Form, FormControl, Button } from 'react-bootstrap';
 import styled from 'styled-components';
-import {A} from 'hookrouter';
+// import {A} from 'hookrouter';
 
 const Fixit = styled.div`
   position:fixed;

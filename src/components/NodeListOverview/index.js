@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components'
 
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-import CheckBox from '../CheckBox'
+// import CheckBox from '../CheckBox'
 
-import { createProject, uploadProjectData, removeProject, apiUrl, projectDir, serverUrl, serverPort } from '../../tools/fetchApi'
+import { projectDir } from '../../tools/fetchApi'
 
 const StyledNodeListItem = styled.div`
   border-radius: 4px;
@@ -100,36 +100,7 @@ const StyledInputTitle = styled.input`
   border-bottom: 1px solid #dadada;
   font-size: 1.5rem;
 `
-const UiShowHide = styled.div`
-  height:100%;
-  background:#dadada;
-  width:16px;
-  display:block;
-  position: absolute;
-  top:0;
-  left:100%;
-  &:after{
-    content: '';
-    z-index:1000;
-    position:absolute;
-    top:50%;
-    left:2px;
-    width: 0px;
-    height: 0px;
-    -webkit-transform:rotate(360deg);
-    border-style: solid;
-    border-width: 6px 12px 6px 0;
-    border-color: transparent #eee transparent transparent;}
-`
 
-const Outer = styled.div`
-  background-color:#fff;
-  max-width: 350px;
-  position: fixed;
-  height: 100%;
-  left: 0;
-  z-index:900;
-`
 const NodeListOverview = ({
 project,
 chart,

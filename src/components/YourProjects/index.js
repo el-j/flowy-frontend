@@ -3,7 +3,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 
-import { apiUrl, projectDir } from '../../tools/fetchApi'
+import { projectDir } from '../../tools/fetchApi'
 
 const ProjectCard = ({project, key, openProject, removeProject}) => {
 

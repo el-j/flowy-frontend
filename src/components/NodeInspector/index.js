@@ -1,17 +1,16 @@
 import React from 'react';
 import styled from 'styled-components'
-import NodeInspectorItem from './NodeInspectorItem'
+// import NodeInspectorItem from './NodeInspectorItem'
 import NodeListOverview from '../NodeListOverview'
 
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Dropdown from 'react-bootstrap/Dropdown';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import CustomNodePreviewEdit from '../FlowChart/Nodes/CustomNodePreviewEdit'
+// import Dropdown from 'react-bootstrap/Dropdown';
+// import Form from 'react-bootstrap/Form';
+// import InputGroup from 'react-bootstrap/InputGroup';
+// import CustomNodePreviewEdit from '../FlowChart/Nodes/CustomNodePreviewEdit'
 import {
-  apiUrl,
   projectDir,
   serverUrl,
   serverPort
@@ -58,13 +57,6 @@ const StyledPortList = styled.div `
 
 `
 
-const StyledNodePreviewCol = styled.div `
-    background: #dadada;
-    width: inherit;
-
-`
-
-
 const StyledNodeInspector = styled.div `
   /* width: 350px;
   background: white;
@@ -76,20 +68,7 @@ const StyledNodeInspector = styled.div `
   height: 100%; */
 `
 
-const Inner = styled.div `
-  padding: 30px;
 
-  display:block;
-  left:0;
-  background: #fafafa;
-`
-
-const Message = styled.div `
-margin-top:56px;
-margin-bottom: 10px;
-padding: 10px;
-background: rgba(0,0,0,0.05);
-`
 const PortList = ({
   thisnode,
   type,
@@ -195,18 +174,6 @@ const PortListItem = ({
   /StyledPortList>
 )
 
-const AddNode = (props) => ( <
-    NodeInspectorItem itemRef = {
-      props.itemRef
-    }
-    handleConfigureNode = {
-      props.onClick
-    }
-    node = {
-      props.node
-    }
-    />)
-
     const NodeInspector = ({
         items,
         handleSave,
@@ -257,7 +224,9 @@ const AddNode = (props) => ( <
                         changePicture
                       }
                       /> <
-                      img src = {
+                      img
+                      alt={`${newItem.name}`}
+                      src = {
                         newItem.path === '/no_image.png' ? `${serverUrl}:${serverPort}${newItem.path}` : `${projectDir}/${newItem.path}`
                       }
                       style = {

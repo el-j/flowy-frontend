@@ -5,7 +5,6 @@ import React, {
 import styled from 'styled-components'
 import {
   IPortDefaultProps,
-  PortDefault
 } from '@mrblenny/react-flow-chart'
 
 const PortDefaultOuter = styled.div `

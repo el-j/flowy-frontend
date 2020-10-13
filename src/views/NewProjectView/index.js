@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { navigate } from "hookrouter";
 import styled from 'styled-components'
 /*bootstrap imports */
@@ -7,13 +7,12 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 
 import InputGroup from 'react-bootstrap/InputGroup';
-import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { createProject, uploadProjectData, removeProject, apiUrl, serverUrl, serverPort } from '../../tools/fetchApi'
-import { loadProject, loadFiles, saveProject } from '../../tools/fetchApi'
-import useFetchApi from '../../tools/fetchApi/useFetchApi.js'
+import { uploadProjectData } from '../../tools/fetchApi'
+// import { loadFiles, saveProject } from '../../tools/fetchApi'
+// import useFetchApi from '../../tools/fetchApi/useFetchApi.js'
 
 
 
@@ -44,10 +43,7 @@ const emptyProject = (name) => {
 }
 
 const NewProjectView = (props) => {
-  console.log(props)
   const myprojectName = props.projectName.slice(1)
-  const projectUrl = `loadProject/:${myprojectName}`
-  const apiUpload = `${apiUrl}/uploadProjectData/:${myprojectName}`
   const [newProject,setNewProject]= useState(emptyProject(myprojectName))
   const [uploaded,setUploaded] = useState(false)
   const [createProgress,setCreateProgress] = useState(false)
@@ -67,6 +63,8 @@ const NewProjectView = (props) => {
               setNewProject({...newProject, mmd:temp})
               setMermaidPreview(temp)
         break;
+      default:
+        setNewProject({...newProject, name:temp, projectId:temp})
     }
   }
 
@@ -225,7 +223,7 @@ const NewProjectView = (props) => {
       {(imagePreviewUpload !== undefined && imagePreviewUpload.length > 0) ? <>
         <Row>
         {imagePreviewUpload.map((img,key) => {
-        return(<Col lg={3} onClick={_handleDeleteImage} key={img.name}><img id={img.name} style={{display:'inline-block', width: 'inherit'}} src={`${img.prev}`}/></Col>)
+        return(<Col lg={3} onClick={_handleDeleteImage} key={img.name}><img id={img.name} alt={img.name} style={{display:'inline-block', width: 'inherit'}} src={`${img.prev}`}/></Col>)
         })}
         </Row>
 

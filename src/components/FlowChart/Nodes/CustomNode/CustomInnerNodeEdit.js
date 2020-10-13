@@ -1,11 +1,8 @@
 import React from "react";
-import { FlowChartWithState, INodeDefaultProps } from "@mrblenny/react-flow-chart";
 import styled from 'styled-components'
 import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
 
 const Outer = styled.div`
    background-color:#fff;
@@ -58,7 +55,6 @@ const CustomInnerNodeEdit = ({node,config,handleChange,handlePictureChange},prop
       break;
     default:
     return (
-
     <Outer id={node.id} >
       <Inner>
       <Form.Group>

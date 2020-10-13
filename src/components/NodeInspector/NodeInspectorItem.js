@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { INode, REACT_FLOW_CHART } from "@mrblenny/react-flow-chart";
 import styled from 'styled-components'
 import CustomNodePreview from '../FlowChart/Nodes/CustomNodePreview'
@@ -9,11 +9,6 @@ const Outer = styled.div`
   background: #dadada;
   cursor: move;
   border-radius: 1rem;
-`
-const Inner = styled.div`
-  padding: 0.5rem;
-  background: #dadada;
-  cursor: move;
 `
 
 export interface ISidebarItemProps {

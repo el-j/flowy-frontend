@@ -1,5 +1,4 @@
 import React from "react";
-import { INodeDefaultProps } from "@mrblenny/react-flow-chart";
 import styled from 'styled-components'
 
 

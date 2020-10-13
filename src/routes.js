@@ -1,5 +1,4 @@
 import React from "react";
-import {useRoutes, useRedirect} from 'hookrouter';
 // import MerMaidProject from "./views/mermaid"
 import Overview from "./views/Overview"
 // import TextIdToScreen from "./views/textIdToScreen"

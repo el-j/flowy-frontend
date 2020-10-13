@@ -1,8 +1,7 @@
-import React from 'react';
 // import NewProject from './NewProject'
-import NewProjectInput from './NewProjectInput'
-import NewProjectDetails from './NewProjectDetails'
-import YourProjects from './YourProjects'
+// import NewProjectInput from './NewProjectInput'
+// import NewProjectDetails from './NewProjectDetails'
+// import YourProjects from './YourProjects'
 
 // export {default as NewProject} from './NewProject'
 export {default as NewProjectInput} from './NewProjectInput'
