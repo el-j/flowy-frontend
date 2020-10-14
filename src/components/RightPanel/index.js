@@ -50,7 +50,6 @@ const RightPanel = ({
   handleShowHideRight,
   handleChangePortLabel,
   handleSelected,
-  chart,
   project,
   chartRef,
   showHidePanelRight,
@@ -58,6 +57,7 @@ const RightPanel = ({
   changePicture,
   createNewNode,
 }) => {
+    let nodeNames = Object.keys(project.projectJson.nodes)
   return(<Outer>
     { showHidePanelRight===true ?(
       <>
@@ -71,7 +71,6 @@ const RightPanel = ({
           handleDeletePort={handleDeletePort }
           handleChangePortLabel={handleChangePortLabel}
           handleSelected={handleSelected}
-          chart={chart}
           handlePrint={handlePrint}
           uploadRef={uploadRef}
           changePicture={changePicture}

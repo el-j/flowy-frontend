@@ -10,7 +10,7 @@ import { projectDir,serverUrl,serverPort } from '../../tools/fetchApi'
 
 const StyledNodeListItem = styled.div`
   border-radius: 4px;
-  min-height: 48px;
+  // min-height: 16px;a
   margin-left: 1rem;
   margin-top: 0.25rem;
   margin-right: 0rem;
@@ -19,7 +19,7 @@ const StyledNodeListItem = styled.div`
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  padding: 1rem 1rem 0.35rem 1rem;
+  padding: 0.5rem;
   overflow: hidden;
   transition: all 0.5s;
   &:after {
@@ -36,7 +36,7 @@ const StyledNodeListItem = styled.div`
     right: 0;
     position: absolute;
     z-index: 1;
-    background-color:#000;
+    background-color: #aab;
 
   }
   &:hover {
@@ -68,17 +68,18 @@ const ProjectRow = styled.div`
   padding-right: 3rem;
 `
 const StyledH6 = styled.h6`
-z-index:10;
+  z-index:10;
   word-break: break-word;
   overflow: hidden;
   white-space: pre-wrap;
-  color: #fff;
+  color: #333;
   font-weight: 700;
+  margin: 0;
 `
 
 const StyledP = styled.p`
   z-index:10;
-  color: #fff;
+  color: #333;
 
   `
 
@@ -103,7 +104,6 @@ const StyledInputTitle = styled.input`
 
 const NodeListOverview = ({
 project,
-chart,
 handleChange,
 handleSelected,
 handleShowHide,
@@ -111,6 +111,8 @@ showHidePanel,
 handleChangeSmartRouting,
 smartRouting,
 }) => {
+  let chart = project.projectJson
+  let nodeNames = Object.keys(chart.nodes)
   return(<>
 
 <Row>
@@ -177,17 +179,17 @@ smartRouting,
             handleSelected(nowSelected)
           }}
           style= {{
-            backgroundImage: chart.nodes[node].path !== '/no_image.png'?`url(${projectDir}/${chart.nodes[node].path})`:`url(${serverUrl}:${serverPort}${chart.nodes[node].path})`,
+            // backgroundImage: chart.nodes[node].path !== '/no_image.png'?`url(${projectDir}/${chart.nodes[node].path})`:`url(${serverUrl}:${serverPort}${chart.nodes[node].path})`,
             backgroundSize: 'cover',
         }}>
-            <StyledH6> {chart.nodes[node].name}</StyledH6>
-            <StyledP className='figure-caption'>  {chart.nodes[node].text}</StyledP>
+            <StyledH6>{node.substring(4)}: {chart.nodes[node].name}</StyledH6>
+            <StyledP>{chart.nodes[node].displayType.toUpperCase()}</StyledP>
           </StyledNodeListItem>
         </Col>
       )
     })):null
   }
-</StyledNodeListRow>
-</>)}
+</StyledNodeListRow></>
+)}
 
 export default NodeListOverview
