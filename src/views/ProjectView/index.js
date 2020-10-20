@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
+import Container from '@material-ui/core/Container';
 import { saveProject, uploadProjectData } from '../../tools/fetchApi'
 
 import MyFlowChart from '../../components/FlowChart'
@@ -503,7 +503,7 @@ const ProjectView = (props) => {
       } else {
 
         return (
-        <div className='container-fluid'>
+        <Container className='container-fluid'>
               {project&&project.projectJson?(
                 <>
                 {
@@ -548,7 +548,7 @@ const ProjectView = (props) => {
                     />
                 </>
                 ):(null)}
-            </div>
+            </Container>
       );
     }
 }

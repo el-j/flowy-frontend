@@ -2,20 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'
 /*bootstrap imports */
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import Container from 'react-bootstrap/Container';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
 
 // import Projects from '../../dataMocks/projects.js'
 import {createProject,uploadProjectData, removeProject } from '../../tools/fetchApi'
 import useFetchApi from '../../tools/fetchApi/useFetchApi.js'
 
 import { NewProjectInput, YourProjects } from '../../components'
-
-const Outer= styled.div`
-position:absolut;
-  margin-top:100px;
-`
 
 const Overview = (props) => {
   const { searchResults } = props;
@@ -104,34 +98,31 @@ const Overview = (props) => {
       }
 
       return(
-          <Container>
-            <Row>
-              <Col lg={12}>
-                <Outer>
-                  <NewProjectInput
-                    handleChange={handleChange}
-                    value={newProject.name}
-                    handleCreateEmptyProject={handleCreateEmptyProject}
-                    handleSubmit={handleSubmit}
-                    />
-                </Outer>
-              </Col>
-
-          </Row>
-          <Row>
-            <Col>
-             {
-               projects&&isLoaded?<YourProjects
-                 key='yourprojects'
-                 projects={projects}
-                 openProject={handleOpenProject}
-                 removeProject={handleRemoveProject}
-                 />:<></>
-            }
-
-            </Col>
-        </Row>
-
+          <Container justify="center" spacing={2}>
+            <Grid item xs={12} lg={10}>
+              <Grid container   spacing={2}>
+                <Grid item xs={12}>
+                    <NewProjectInput
+                      handleChange={handleChange}
+                      value={newProject.name}
+                      handleCreateEmptyProject={handleCreateEmptyProject}
+                      handleSubmit={handleSubmit}
+                      />
+                </Grid>
+            </Grid>
+            <Grid container>
+              <Grid item xs={12}>
+               {
+                 projects&&isLoaded?<YourProjects
+                   key='yourprojects'
+                   projects={projects}
+                   openProject={handleOpenProject}
+                   removeProject={handleRemoveProject}
+                   />:<></>
+                 }
+              </Grid>
+              </Grid>
+          </Grid>
         </Container>
       )
     }

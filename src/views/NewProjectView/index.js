@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components'
 /*bootstrap imports */
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import Container from 'react-bootstrap/Container';
+import Grid from '@material-ui/core/Grid';
 
-import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import Container from '@material-ui/core/Container';
+
+import Input from '@material-ui/core/Input';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import FormGroup from '@material-ui/core/FormGroup';
 
 import { uploadProjectData } from '../../tools/fetchApi'
 // import { loadFiles, saveProject } from '../../tools/fetchApi'
@@ -162,29 +164,24 @@ const NewProjectView = (props) => {
    }
 
   return(
-    <Container>
-    <Row>
-      <Col lg={12}>
+    <Grid container>
+      <Grid item lg={12}>
         <Outer>
-          <Form>
-            <Form.Group controlId="projectName">
-            <Form.Label>Project Name</Form.Label>
-              <Form.Control
+        <FormGroup>
+            <Typography>Project Name</Typography>
+              <TextareaAutosize
                 placeholder="New Project Name"
                 aria-label="New Project Name"
                 id="newProjectName"
                 aria-describedby="basic-addon2"
                 onChange={handleChange}
                 value={newProject.name}
+                label={'The Name of your Project'}
               />
-            <Form.Text className="text-muted">
-            The Name of your Project
-            </Form.Text>
-          </Form.Group>
 
-          <Form.Group controlId="projectDescription">
-          <Form.Label>Project Description</Form.Label>
-            <Form.Control
+
+          <Typography>Project Description</Typography>
+            <TextareaAutosize
               as="textarea"
               rows="3"
               placeholder="New Project Description"
@@ -193,16 +190,15 @@ const NewProjectView = (props) => {
               aria-describedby="basic-addon2"
               onChange={handleChange}
               value={newProject.description}
+              label={'Descripe your Project with a few words.'}
             />
-          <Form.Text className="text-muted">
-          Descripe your Project with a few words.
-          </Form.Text>
-      </Form.Group>
 
-      <Form.Group controlId="projectImages">
-        <Form.Label>Project Images</Form.Label>
-        <InputGroup>
-          <input
+
+
+        <Typography>Project Images</Typography>
+
+          <Input
+              label={'Upload Image Files'}
               placeholder="+"
               aria-label="+"
               aria-describedby="upload files"
@@ -211,66 +207,46 @@ const NewProjectView = (props) => {
               type="file"
               multiple
             />
-            <label
-              htmlFor="uploadImageFiles"
-              className={'btn-block btn btn-outline-secondary'}
-              >
-              Upload Image Files
-            </label>
-        </InputGroup>
-        <Form.Text className="text-muted">
-          Upload your project images
-        </Form.Text>
-      </Form.Group>
+
+      </FormGroup>
       {(imagePreviewUpload !== undefined && imagePreviewUpload.length > 0) ? <>
-        <Row>
+        <Grid container>
         {imagePreviewUpload.map((img,key) => {
-        return(<Col lg={3} onClick={_handleDeleteImage} key={img.name}><img id={img.name} alt={img.name} style={{display:'inline-block', width: 'inherit'}} src={`${img.prev}`}/></Col>)
+        return(<Grid item lg={3} onClick={_handleDeleteImage} key={img.name}><img id={img.name} alt={img.name} style={{display:'inline-block', width: 'inherit'}} src={`${img.prev}`}/></Grid>)
         })}
-        </Row>
+        </Grid>
 
       </>:<>no images uploaded</>}
-      <Form.Group controlId="projectMermaid">
-        <Form.Label>Project Mermaid (mmd)</Form.Label>
-          <InputGroup>
-            <input
-              placeholder="+"
-              aria-label="+"
-              aria-describedby="upload files"
-              id="uploadMmdFile"
-              onChange={_handleMmdChange}
-              type="file"
-            />
-            <label
-              htmlFor="uploadMmdFile"
-              className={'btn-block btn btn-outline-secondary'}
-              >
-              Project Mermaid (mmd)
-            </label>
-          </InputGroup>
-          {console.log(mermaidPreview)}
-          {mermaidPreview ?   <Form.Control
-              as="textarea"
-              rows="5"
-              placeholder="New Project Description"
-              aria-label="New Project Description"
-              id="newProjectMmd"
-              aria-describedby="basic-addon2"
-              onChange={handleChange}
-              value={mermaidPreview}
-            />:null}
-        <Form.Text className="text-muted">
-        The Name of your Project
-        </Form.Text>
-      </Form.Group>
-      <Button variant="primary" type="submit" onClick={handleSubmit}>
-        Submit
-      </Button>
-    </Form>
+
+        <FormGroup controlId="projectMermaid">
+              <Input
+                  label={'Project Mermaid (mmd)'}
+                placeholder="+"
+                aria-label="+"
+                aria-describedby="upload files"
+                id="uploadMmdFile"
+                onChange={_handleMmdChange}
+                type="file"
+              />
+
+            {mermaidPreview ?   <TextareaAutosize
+                rowsMin={3}
+                placeholder="New Project Description"
+                aria-label="New Project Description as mermaid"
+                id="newProjectMmd"
+                aria-describedby="basic-addon2"
+                onChange={handleChange}
+                value={mermaidPreview}
+              />:null}
+
+        <Button variant="primary" type="submit" onClick={handleSubmit}>
+          Submit
+        </Button>
+      </FormGroup>
     </Outer>
-    </Col>
-    </Row>
-    </Container>
+    </Grid>
+    </Grid>
+
   )
 }
 

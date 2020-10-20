@@ -1,4 +1,6 @@
 import React from "react";
+import { useHistory, useLocation } from 'react-router-dom';
+
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -14,9 +16,10 @@ const useStyles = makeStyles((theme) => ({
   },
   fixed: {
     position: 'fixed',
-    maxWidth: '350px',
+    maxWidth: '16rem',
     zIndex:1000,
     opacity: 0.5,
+    left:0,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -71,11 +74,14 @@ const useStyles = makeStyles((theme) => ({
 
 
 const MyNavbar = ({handleSearch,projectName}) => {
+      const history = useHistory();
     const classes = useStyles();
-
-  if (projectName) {
+    const location = useLocation()
+    console.log(location);
+  if (projectName && location.pathname !== '/') {
     return(
-      <AppBar position="static">
+      <AppBar className={classes.fixed}
+      onClick={()=>history.push('/')}>
           <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             {projectName}
@@ -110,6 +116,7 @@ const MyNavbar = ({handleSearch,projectName}) => {
               input: classes.inputInput,
             }}
             inputProps={{ 'aria-label': 'search' }}
+            onChange={handleSearch}
           />
         </div>
       </Toolbar>

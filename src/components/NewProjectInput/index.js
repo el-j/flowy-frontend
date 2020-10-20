@@ -1,22 +1,22 @@
 import React from 'react';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import InputGroup from 'react-bootstrap/InputGroup';
-import FormControl from 'react-bootstrap/FormControl';
-import Button from 'react-bootstrap/Button';
+import Grid from '@material-ui/core/Grid';
+
+import Input from '@material-ui/core/Input';
+import FormGroup from '@material-ui/core/FormGroup';
+import Button from '@material-ui/core/Button';
 
 const NewProjectInput = ({handleChange,handleSubmit, value,handleCreateNewProject,handleCreateEmptyProject}) => {
   return (
-      <>
-      <Row style={{marginTop:'2rem'}}>
-        <Col>
+      <Grid container>
+      <Grid container>
+        <Grid item xs={10} >
           <h2>New Project</h2>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-        <InputGroup className="mb-3" >
-          <FormControl
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={10}>
+          <Input
+            label={'New Project Name'}
             placeholder="New Project Name"
             aria-label="New Project Name"
             id="newProjectName"
@@ -24,17 +24,13 @@ const NewProjectInput = ({handleChange,handleSubmit, value,handleCreateNewProjec
             onChange={handleChange}
             value={value}
           />
-          <InputGroup.Append>
-            <Button onClick={handleCreateEmptyProject}  className={'btn btn-outline-secondary'}>+</Button>
-
-          </InputGroup.Append>
-        </InputGroup>
-        </Col>
-      </Row>
-    </>)
+          <Button onClick={handleCreateEmptyProject}  className={'btn btn-outline-secondary'}>+</Button>
+        </Grid>
+      </Grid>
+    </Grid>)
 }
 
 // <form encType="multipart/form-data" method="post">
-// </form>
+// </FormGroup>
 
 export default NewProjectInput

@@ -1,24 +1,23 @@
 import React from 'react';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import InputGroup from 'react-bootstrap/InputGroup';
-import FormControl from 'react-bootstrap/FormControl';
-import Button from 'react-bootstrap/Button';
+import Grid from '@material-ui/core/Grid';
+
+import Input from '@material-ui/core/Input';
+import FormGroup from '@material-ui/core/FormGroup';
+import Button from '@material-ui/core/Button';
 
 const NewProjectDetails = ({handleRemove, handleChange, newProject, onSubmit}) => {
   // console.log(onSubmit);
 
   return(
     <>
-    <Row style={{marginTop:'2rem'}}>
-      <Col>
+    <Grid container style={{marginTop:'2rem'}}>
+      <Grid item>
         <h2>New Project</h2>
-      </Col>
-    </Row>
-    <Row>
-      <Col>
-      <InputGroup className="mb-3">
-        <FormControl
+      </Grid>
+    </Grid>
+    <Grid container>
+      <Grid item>
+        <Input
           placeholder={newProject.name}
           aria-label={newProject.name}
           id="newProjectName"
@@ -26,14 +25,14 @@ const NewProjectDetails = ({handleRemove, handleChange, newProject, onSubmit}) =
           readOnly
           value={newProject.name}
         />
-        <InputGroup.Append>
+
           <Button variant="outline-secondary" onClick={handleRemove}>-</Button>
-        </InputGroup.Append>
-      </InputGroup>
-      </Col>
-    </Row>
-    <div className="mb-3 custom-file">
-      <input
+
+
+      </Grid>
+    </Grid>
+    <Grid item className="mb-3 custom-file">
+      <Input
         placeholder="Sketch File"
         aria-label="Sketch File"
         aria-describedby="basic-addon2"
@@ -41,11 +40,12 @@ const NewProjectDetails = ({handleRemove, handleChange, newProject, onSubmit}) =
         onChange={handleChange}
         type="file"
         multiple
+        label="Sketch File"
       />
-      <label className="custom-file-label" htmlFor="newSketch">Sketch File</label>
-    </div>
-    <div className="mb-3 custom-file" >
-      <input
+
+    </Grid>
+    <Grid className="mb-3 custom-file" >
+      <Input
         placeholder="Mermaid File"
         aria-label="Mermaid File"
         aria-describedby="basic-addon2"
@@ -53,22 +53,21 @@ const NewProjectDetails = ({handleRemove, handleChange, newProject, onSubmit}) =
         onChange={handleChange}
         type="file"
         className="custom-file-input"
-
+        label="Mermaid File"
       />
-      <label className="custom-file-label" htmlFor="newMMD">Mermaid File</label>
-    </div>
-    <div className="mb-3 custom-file">
-      <input
+
+    </Grid>
+    <Grid className="mb-3 custom-file">
+      <Input
         placeholder="Textmanagement XML"
         aria-label="Textmanagement XML"
         aria-describedby="basic-addon2"
         id="newXML"
         onChange={handleChange}
           type="file"
+          label="Textmanagement XML"
       />
-      <label className="custom-file-label" htmlFor="newXML">Textmanagement XML</label>
-    </div>
-
+    </Grid>
         <Button type="submit" variant="outline-secondary" onClick={(e)=>onSubmit(e)}>Upload + Create</Button>
     </>
 

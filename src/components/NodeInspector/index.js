@@ -3,12 +3,12 @@ import styled from 'styled-components'
 // import NodeInspectorItem from './NodeInspectorItem'
 import NodeListOverview from '../NodeListOverview'
 
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-// import Dropdown from 'react-bootstrap/Dropdown';
-// import Form from 'react-bootstrap/Form';
-// import InputGroup from 'react-bootstrap/InputGroup';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+
+// import Dropdown from '@material-ui/core'Dropdown';
+// import FormGroup from '@material-ui/core/FormGroup';
+// import Input from '@material-ui/core/Input';
 // import CustomNodePreviewEdit from '../FlowChart/Nodes/CustomNodePreviewEdit'
 import {
   projectDir,
@@ -17,7 +17,7 @@ import {
 } from '../../tools/fetchApi'
 // import TreeView from '../TreeView'
 
-const StyledNodePreviewRow = styled.div `
+const StyledNodePreviewGrid = styled.div `
   padding: 16px;
 `
 
@@ -39,12 +39,12 @@ const StyledInputTitle = styled.input `
   font-size: 1.5rem;
 `
 
-const PictureRow = styled.div `
+const PictureGrid = styled.div `
   /* margin-top:56px; */
   position: relative;
 `
 
-const PictureRowTitle = styled.div `
+const PictureGridTitle = styled.div `
   margin-left: 1rem;
   margin-right: 0;
   margin-top: 0.5rem;
@@ -108,24 +108,19 @@ const PortListItem = ({
   handleChangePortLabel
 }) => ( <
   StyledPortList >
-  <
-  Row key = {
+  <Grid container key = {
     port + key
   }
   style = {
     {
       borderBottom: '2px solid #ddd',
       padding: '0.4rem',
-      backgroundColor: '#eee'
+      backgroundGridor: '#eee'
     }
   } >
-  <
-  Col lg = "3" > {
-    port
-  } <
-  /Col> <
-  Col lg = "6" >  <
-  input rows = "2"
+  <Grid lg = "3" > {port} </Grid> <
+  Grid lg = "6" >  <
+  input Grids = "2"
   placeholder = 'The Link Label'
   aria-label = {
     label
@@ -143,8 +138,8 @@ const PortListItem = ({
 
   <
   /input> <
-  /Col> <
-  Col lg = "3" >
+  /Grid> <
+  Grid lg = "3" >
   <
   Button variant = {
     'outline-danger'
@@ -169,8 +164,7 @@ const PortListItem = ({
   -
   <
   /Button> <
-  /Col> <
-  /Row> <
+  /Grid> </Grid> <
   /StyledPortList>
 )
 
@@ -205,7 +199,7 @@ const PortListItem = ({
                 {
                   selected.type === 'node' ? ( < >
                       <
-                      PictureRow id = "changeNodeImage"
+                      PictureGrid id = "changeNodeImage"
                       onClick = {
                         handleChange
                       } >
@@ -235,11 +229,10 @@ const PortListItem = ({
                         }
                       }
                       /> <
-                      /PictureRow> <
-                      Row >
+                      /PictureGrid> <Grid container >
                       <
-                      PictureRowTitle as = {
-                        Col
+                      PictureGridTitle as = {
+                        Grid
                       }
                       lg = {
                         12
@@ -248,12 +241,11 @@ const PortListItem = ({
                       p > {
                         newItem.id
                       } < /p> <
-                      /PictureRowTitle> <
-                      /Row> <
-                      Row >
+                      /PictureGridTitle> <
+                      /Grid> <Grid container  >
                       <
-                      PictureRowTitle as = {
-                        Col
+                      PictureGridTitle as = {
+                        Grid
                       }
                       lg = {
                         12
@@ -274,21 +266,19 @@ const PortListItem = ({
                         e => handleChange(e, newItem.id)
                       }
                       /> <
-                      /PictureRowTitle> <
-                      /Row>
+                      /PictureGridTitle> </Grid>
 
 
+                      <Grid>
                       <
-                      Row >
-                      <
-                      PictureRowTitle as = {
-                        Col
+                      PictureGridTitle as = {
+                        Grid
                       }
                       lg = {
                         12
                       } >
                       <
-                      StyledInputDescription rows = "2"
+                      StyledInputDescription Grids = "2"
                       placeholder = 'Your Description of the node'
                       aria-label = {
                         newItem.text
@@ -306,26 +296,23 @@ const PortListItem = ({
                       type = 'textarea' /
                       >
                       <
-                      /PictureRowTitle> <
-                      /Row> <
+                      /PictureGridTitle> </Grid> <
                       />):
                       ( < h1 > Decicsion < /h1>)
                       }
 
                       <
-                      StyledNodePreviewRow as = {
-                        Row
-                      } >
+                      StyledNodePreviewGrid as = {Grid} >
                       <
-                      Col lg = {
+                      Grid lg = {
                         {
                           span: 3
                         }
                       } >
                       <
                       h6 > Inputs < /h6> <
-                      /Col> <
-                      Col lg = {
+                      /Grid> <
+                      Grid lg = {
                         {
                           span: 9
                         }
@@ -349,8 +336,8 @@ const PortListItem = ({
                       Add Input +
                       <
                       /Button> <
-                      /Col> <
-                      Col lg = {
+                      /Grid> <
+                      Grid lg = {
                         {
                           span: 12
                         }
@@ -365,21 +352,18 @@ const PortListItem = ({
                         handleDeletePort
                       }
                       /> <
-                      /Col> <
-                      /StyledNodePreviewRow> <
-                      StyledNodePreviewRow as = {
-                        Row
-                      } >
+                      /Grid> <
+                      /StyledNodePreviewGrid> <StyledNodePreviewGrid as={Grid} >
                       <
-                      Col lg = {
+                      Grid lg = {
                         {
                           span: 3
                         }
                       } >
                       <
                       h6 > Outputs < /h6> <
-                      /Col> <
-                      Col lg = {
+                      /Grid> <
+                      Grid lg = {
                         {
                           span: 9
                         }
@@ -403,8 +387,8 @@ const PortListItem = ({
                       Add Output +
                       <
                       /Button> <
-                      /Col> <
-                      Col lg = {
+                      /Grid> <
+                      Grid lg = {
                         {
                           span: 12
                         }
@@ -419,8 +403,8 @@ const PortListItem = ({
                         handleDeletePort
                       }
                       /> <
-                      /Col> <
-                      /StyledNodePreviewRow></ >
+                      /Grid> <
+                      /StyledNodePreviewGrid></ >
                     ):(<NodeListOverview
                       project={project}
                       chart={chart}

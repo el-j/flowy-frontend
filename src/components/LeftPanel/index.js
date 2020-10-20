@@ -1,19 +1,23 @@
 import React from 'react';
 import styled from 'styled-components'
+import { makeStyles } from '@material-ui/core/styles';
 
-import Button from 'react-bootstrap/Button';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import IconButton from '@material-ui/core/Button';
+import SvgIcon from '@material-ui/core/SvgIcon';
+import SaveIcon from '@material-ui/icons/Save';
 
+import { ReactComponent as AddNodeSvgIcon } from './AddNodeSvgIcon.svg'
+import { ReactComponent as AddDecisionSvgIcon } from './AddDecisionSvgIcon.svg'
+import { ReactComponent as AddPointSvgIcon } from './AddPointSvgIcon.svg'
 
-const Inner = styled.div`
-  padding: 20px 10px;
-  display:block;
-  left:0;
-  `
 const Outer = styled.div`
-  top: 2rem;
+  top: 4rem;
   position: fixed;
   left: 0;
   z-index:900;
+  width: 4rem;
 `
 const OuterBottom = styled.div`
   bottom: 0.25rem;
@@ -22,24 +26,60 @@ const OuterBottom = styled.div`
   z-index:900;
 `
 
+const useStyles = makeStyles((theme) => ({
+  group:{
+    margin: theme.spacing(1),
+
+  },
+  margin: {
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+}));
 
 const LeftPanel = ({
 createNewNode,
 handleSave,
 handlePrint
 }) => {
+   const classes = useStyles();
+
   return(<>
     <Outer>
-      <Inner>
-        <Button id="addNewNode" className={'btn-block btn-node-add btn-md'} onClick={(e)=>createNewNode(e)}>+</Button>
-        <Button id="addNewDecisionNode" className={'btn-block btn-decision-add btn-md'} onClick={(e)=>createNewNode(e)}></Button>
-        <Button id="addNewPointNode" className={'btn-block btn-point-add btn-md'} onClick={(e)=>createNewNode(e)}>+</Button>
-      </Inner>
+
+      <ButtonGroup
+       orientation="vertical"
+       color="primary"
+       aria-label="add to Project"
+       variant="text"
+       className={classes.group} 
+     >
+        <IconButton id="addNewNode" aria-label="add Node" className={classes.margin} size="small" onClick={(e)=>createNewNode(e)}>
+            <SvgIcon component={AddNodeSvgIcon} fontSize="large" />
+          </IconButton>
+        <IconButton id="addNewDecisionNode" aria-label="add Decicsion" className={classes.margin} size="small" onClick={(e)=>createNewNode(e)}>
+            <SvgIcon component={AddDecisionSvgIcon} fontSize="large" />
+          </IconButton>
+        <IconButton id="addNewPointNode" aria-label="add Point" className={classes.margin} size="small" onClick={(e)=>createNewNode(e)}>
+            <SvgIcon component={AddPointSvgIcon} fontSize="large" />
+        </IconButton>
+    </ButtonGroup>
+
     </Outer>
     <OuterBottom>
-    <Inner>
-      <Button className={'btn-block'} onClick={(e)=>handleSave(e)}>Save</Button>
-    </Inner>
+
+    <Button
+    variant="contained"
+    color="primary"
+    size="large"
+    className={classes.button}
+    startIcon={<SaveIcon />}
+    onClick={(e)=>handleSave(e)}
+  >
+    Save
+  </Button>
+
     </OuterBottom>
   { /*
     <Inner>

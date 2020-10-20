@@ -1,8 +1,8 @@
 import React from "react";
 import styled from 'styled-components'
-import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
-import InputGroup from 'react-bootstrap/InputGroup';
+import FormGroup from '@material-ui/core/FormGroup';
+import Grid from '@material-ui/core/Grid';
+import Input from '@material-ui/core/Input';
 
 const Outer = styled.div`
    background-color:#fff;
@@ -59,8 +59,8 @@ const CustomInnerNodeEdit = ({node,config,handleChange,handlePictureChange},prop
       <Inner>
       <Form.Group>
         <Form.Row>
-          <Col>
-          <InputGroup>
+          <Grid item>
+          <Input>
             <input
               placeholder="+"
               aria-label="+"
@@ -77,12 +77,12 @@ const CustomInnerNodeEdit = ({node,config,handleChange,handlePictureChange},prop
             </label>
           </InputGroup>
 
-          </Col>
+          </Grid>
         </Form.Row>
       </Form.Group>
         <Form.Group controlId='changeNodeName'>
           <Form.Row>
-            <Col>
+            <Grid item>
               <Form.Control
               size="sm"
               type="text"
@@ -90,12 +90,12 @@ const CustomInnerNodeEdit = ({node,config,handleChange,handlePictureChange},prop
               value={node.name}
               onChange={e => handleChange(e,node.id)}
             />
-            </Col>
+            </Grid>
           </Form.Row>
         </Form.Group>
         <Form.Group controlId='changeNodeDescription'>
           <Form.Row>
-            <Col>
+            <Grid item>
               <Form.Control
               size="sm"
               type="text"
@@ -103,7 +103,7 @@ const CustomInnerNodeEdit = ({node,config,handleChange,handlePictureChange},prop
               value={node.text}
               onChange={e => handleChange(e,node.id)}
                />
-            </Col>
+            </Grid>
           </Form.Row>
         </Form.Group>
 

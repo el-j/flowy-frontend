@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>AddNodeSvgIcon</title>
+    <g id="AddNodeSvgIcon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="buttonRoot">
+            <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+            <rect id="Rectangle" x="0" y="0" width="24" height="24" rx="2"></rect>
+            <g id="Group" transform="translate(1.875000, 1.875000)" fill="#181818">
+                <g id="Group" transform="translate(0.000000, 1.031250)">
+                    <rect id="Rectangle" x="0" y="0.581775701" width="20.25" height="10.9766355"></rect>
+                    <rect id="Rectangle-Copy" x="0" y="12.6939252" width="20.25" height="3.78504673"></rect>
+                    <rect id="Rectangle" x="9.5625" y="0.0140186916" width="1.5" height="1.51401869"></rect>
+                    <rect id="Rectangle-Copy-2" x="9.5625" y="15.7219626" width="1.5" height="1.51401869"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
