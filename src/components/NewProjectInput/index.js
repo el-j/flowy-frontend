@@ -3,18 +3,17 @@ import Grid from '@material-ui/core/Grid';
 
 import Input from '@material-ui/core/Input';
 import FormGroup from '@material-ui/core/FormGroup';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography'
+import InputAdornment from '@material-ui/core/InputAdornment';
+import AddBoxIcon from '@material-ui/icons/AddBox';
 
 const NewProjectInput = ({handleChange,handleSubmit, value,handleCreateNewProject,handleCreateEmptyProject}) => {
-  return (
-      <Grid container>
-      <Grid container>
-        <Grid item xs={10} >
-          <h2>New Project</h2>
+  return (<Grid container spacing={2} alignItems="baseline">
+        <Grid item>
+        <Typography>Create a new Project:</Typography>
         </Grid>
-      </Grid>
-      <Grid container>
-        <Grid item xs={10}>
+        <Grid item xs={6}>
           <Input
             label={'New Project Name'}
             placeholder="New Project Name"
@@ -23,11 +22,20 @@ const NewProjectInput = ({handleChange,handleSubmit, value,handleCreateNewProjec
             aria-describedby="basic-addon2"
             onChange={handleChange}
             value={value}
+            endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleCreateEmptyProject}
+              >
+                <AddBoxIcon size={'large'}/>
+              </IconButton>
+            </InputAdornment>
+          }
           />
-          <Button onClick={handleCreateEmptyProject}  className={'btn btn-outline-secondary'}>+</Button>
+
         </Grid>
-      </Grid>
-    </Grid>)
+      </Grid>)
 }
 
 // <form encType="multipart/form-data" method="post">

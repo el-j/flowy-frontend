@@ -34,7 +34,7 @@ const NodeCard =({nodes,handleSelected}) => {
           backgroundColor: `rgba(0,0,0,0.4)`
       }}>
           <Typography>{node.substring(4)}: {nodes[node].name}</Typography>
-          <p>{nodes[node].displayType}</p>
+          <Typography variant={'p'}>{nodes[node].displayType}</Typography>
         </Button>
 </Grid>
 
@@ -103,14 +103,14 @@ smartRouting,
         {Object.keys(chart.nodes).length > 0? (
           <Grid container>
             <Grid item xs={6}>
-            <h2>Nodes:  {Object.keys(chart.nodes).length}</h2>
+            <Typography variant={'h2'}>Nodes:  {Object.keys(chart.nodes).length}</Typography>
             </Grid>
           </Grid>):
           (<Grid container><Grid item xs={4}>
-            <h2>Nodes:</h2>
+            <Typography variant={'h2'}>Nodes:</Typography>
             </Grid>
             <Grid item xs={6}>
-            <p>no Nodes in Project</p>
+            <Typography variant={'p'}>no Nodes in Project</Typography>
             </Grid></Grid>)
           }
         <Grid container spacing={4}>

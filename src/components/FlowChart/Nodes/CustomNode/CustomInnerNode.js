@@ -2,7 +2,7 @@ import React, { useRef }  from "react";
 import { INodeInnerDefaultProps } from "@mrblenny/react-flow-chart";
 import styled from 'styled-components'
 import { projectDir, serverUrl, serverPort } from '../../../../tools/fetchApi'
-
+import Typography from '@material-ui/core/Typography';
 
 const Outer = styled.div`
    background-color:#fff;
@@ -57,23 +57,23 @@ const CustomInnerNode = ({ node, config, handleImageHeight }: INodeInnerDefaultP
   }
   return node.displayType==='decision'?(<DecisionWrapper>
             <DecisionInner>
-            <h5>{node.name}</h5>
-            <p>{node.text}</p>
-            <p className="figure-caption text-center" style={{padding: '4px',
+            <Typography variante={'h5'}>{node.name}</Typography>
+            <Typography variant={'p'}>{node.text}</Typography>
+            <Typography variant={'p'} className="figure-caption text-center" style={{padding: '4px',
             margin: 0,
             transform: 'translate(20px,10px )',
             position: 'absolute',
-            zIndex: 1000}}><i >Display Type: {node.displayType}<br /> NodeId: {node.id}</i></p>
+            zIndex: 1000}}><i >Display Type: {node.displayType}<br /> NodeId: {node.id}</i></Typography>
             </DecisionInner>
           </DecisionWrapper>):(node.displayType === 'point')?(<PointWrapper>
             <PointInner>
-            <h5>{node.name}</h5>
-            <p>{node.text}</p>
-            <p className="figure-caption text-center" style={{padding: '4px',
+            <Typography variante={'h5'}>{node.name}</Typography>
+            <Typography variant={'p'}>{node.text}</Typography>
+            <Typography variant={'p'} className="figure-caption text-center" style={{padding: '4px',
             margin: 0,
             transform: 'translate(40px,10px )',
             position: 'absolute',
-            zIndex: 1000}}><i >Display Type: {node.displayType}<br /> NodeId: {node.id}</i></p>
+            zIndex: 1000}}><i >Display Type: {node.displayType}<br /> NodeId: {node.id}</i></Typography>
             </PointInner>
           </PointWrapper>):(<Outer id={node.id} >
         <div style={{display:'block', width: '100%'}}>
@@ -87,15 +87,15 @@ const CustomInnerNode = ({ node, config, handleImageHeight }: INodeInnerDefaultP
             />
         </div>
         <Inner>
-        <h5>{node.name}</h5>
-        <p>{node.text}</p>
+        <Typography variante={'h5'}>{node.name}</Typography>
+        <Typography variant={'p'}>{node.text}</Typography>
 
         </Inner>
-        <p className="figure-caption" style={{padding: '4px',
+        <Typography variant={'p'} className="figure-caption" style={{padding: '4px',
         margin: 0,
         transform: 'translateY(10px)',
         position: 'absolute',
-        zIndex: 1000}}><i >Display Type: {node.displayType}<br /> NodeId: {node.id}</i></p>
+        zIndex: 1000}}><i >Display Type: {node.displayType}<br /> NodeId: {node.id}</i></Typography>
       </Outer>)
   }
 

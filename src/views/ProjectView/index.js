@@ -12,82 +12,8 @@ import useFetchApi from '../../tools/fetchApi/useFetchApi.js'
 import { actions } from "@mrblenny/react-flow-chart";
 // import { cloneDeep, mapValues } from 'lodash'
 
-const emptyProject = (name) => {
-  return ({
-    projectId: name,
-    name: name,
-  files:[],
-  description: '',
-  projectJson:{
-    offset: {
-      x: 0,
-      y: 0
-    },
-    nodes: {},
-    links: {},
-    selected: {},
-    hovered: {}
-  }})
-}
-
-let item = (nodeNr,typeId) => {
-  let type = 'screen'
-  let ports = {port1:{id:"port1",type:'input',properties:{value:"nolabel"}},port2:{id:"port2",type:'output',properties:{value:"nolabel"}}}
-  switch (typeId) {
-    case "addNewNode":
-      type = 'screen'
-      break;
-    case "addNewDecisionNode":
-      type = 'decision'
-      ports = {port1:{id:"port1",type:'input',properties:{value:"nolabel"}},port2:{id:"port2",type:'output',properties:{value:"no"}},port3:{id:"port3",type:'output',properties:{value:"yes"}}}
-      break;
-    case "addNewPointNode":
-      type = 'point'
-      break;
-    default:
-      type = 'screen'
-  }
-
-  function portConstructor(ports){
-    if (ports.length >= 1) {
-      Object.keys(ports).map(port =>{
-        console.log(port);
-       ports[port] = {
-        connected: false,
-        from: "",
-        id: ports[port].id,
-        position: {x: 250, y: 353},
-        properties: {value:ports[port].properties.value?ports[port].properties.value:"nolabel"},
-        to: "",
-        type: ports[port].type?ports[port].type:"input",
-        }
-      return port
-      })
-    }
-   return ports
-  }
-
-
-  let myNodeConstructor = {
-    id: `node${nodeNr}`,
-    type: "node",
-    name: `node${nodeNr}`,
-    text: 'Your Node Description',
-    displayType: type,
-    path: "/no_image.png",
-    picture: "no_image.png",
-    picId:`node${nodeNr}_picId`,
-    position: {
-      x: 300,
-      y: 100,
-      height:39,
-      width:146.7
-    },
-    size:{width:500,height:353},
-    ports: portConstructor(ports)
-  }
-  return myNodeConstructor
-}
+import { emptyProject } from "../../models"
+import { nodeItem } from "../../models"
 
 const ProjectView = (props) => {
       const {setProjectName} = props;
@@ -100,7 +26,7 @@ const ProjectView = (props) => {
       const [chart, setChart] = useState(emptyProject)
       const [links, setLinks] = useState({})
       const [showHidePanelRight,setShowHidePanelRight] = useState(true)
-      const [newItem,setNewItem]= useState(()=>item(0))
+      const [newItem,setNewItem]= useState(()=>nodeItem(0))
       const [smartRouting,setSmartRouting]= useState(false)
 
       const itemRef = React.createRef();
@@ -138,7 +64,7 @@ const ProjectView = (props) => {
          if (chart.selected) {
          if (!chart.selected.type) {
            // // console.log("NOTHING SELECTED:",item);
-           setNewItem(item)
+           setNewItem(nodeItem)
          }
          else if (chart.selected.type === 'node'){
            // // console.log('we have selected', chart.selected.id);
@@ -156,7 +82,7 @@ const ProjectView = (props) => {
              }
            })
            console.log("we have alink", thisSelectedLink);
-           setNewItem(item)
+           setNewItem(nodeItem)
          }
          }
          // console.log('updateChart');
@@ -374,7 +300,7 @@ const ProjectView = (props) => {
       let myNewitem = {}
       let newName = `node${newcount}`
       // console.log("see my new noede",nodeCount,newcount,e.currentTarget.id,e);
-      myNewitem = item(newcount,e.currentTarget.id)
+      myNewitem = nodeItem(newcount,e.currentTarget.id)
       myNewitem.id = `${newName}`
       myNewitem.picId = `${newName}_picId`
       myNewitem.name = `New ${newName}`

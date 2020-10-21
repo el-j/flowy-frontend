@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components'
 /*bootstrap imports */
 import Grid from '@material-ui/core/Grid';
+import Divider from '@material-ui/core/Divider';
 
 import Container from '@material-ui/core/Container';
 
@@ -16,33 +17,8 @@ import { uploadProjectData } from '../../tools/fetchApi'
 // import { loadFiles, saveProject } from '../../tools/fetchApi'
 // import useFetchApi from '../../tools/fetchApi/useFetchApi.js'
 
+import { emptyProject } from "../../models"
 
-
-
-const Outer= styled.div`
-  position:absolut;
-  margin-top:100px;
-`
-
-const emptyProject = (name) => {
-  return ({
-    projectId: name,
-    name: name,
-    description: '',
-    mmd: '',
-    id: '',
-    files:[],
-    projectJson:{
-      offset: {
-        x: 0,
-        y: 0
-      },
-      nodes: {},
-      links: {},
-      selected: {},
-      hovered: {}
-  }})
-}
 
 const NewProjectView = (props) => {
   const history = useHistory();
@@ -164,12 +140,13 @@ const NewProjectView = (props) => {
    }
 
   return(
-    <Grid container>
-      <Grid item lg={12}>
-        <Outer>
-        <FormGroup>
-            <Typography>Project Name</Typography>
-              <TextareaAutosize
+    <Container justify="center" spacing={2}>
+      <Grid item xs={12}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} lg={8}>
+              <Typography variant={'h5'}>Project Name</Typography>
+              <Input
+                fullWidth
                 placeholder="New Project Name"
                 aria-label="New Project Name"
                 id="newProjectName"
@@ -177,11 +154,12 @@ const NewProjectView = (props) => {
                 onChange={handleChange}
                 value={newProject.name}
                 label={'The Name of your Project'}
-              />
-
-
-          <Typography>Project Description</Typography>
+                />
+          </Grid>
+          <Grid item xs={12} lg={8}>
+            <Typography variant={'h5'}>Project Description</Typography>
             <TextareaAutosize
+              fullWidth
               as="textarea"
               rows="3"
               placeholder="New Project Description"
@@ -192,12 +170,12 @@ const NewProjectView = (props) => {
               value={newProject.description}
               label={'Descripe your Project with a few words.'}
             />
+          </Grid>
+          <Grid item lg={12}>
+            <Typography variant={'h5'}>Project Images</Typography>
+            <input
+              accept='image/*'
 
-
-
-        <Typography>Project Images</Typography>
-
-          <Input
               label={'Upload Image Files'}
               placeholder="+"
               aria-label="+"
@@ -207,47 +185,46 @@ const NewProjectView = (props) => {
               type="file"
               multiple
             />
-
-      </FormGroup>
-      {(imagePreviewUpload !== undefined && imagePreviewUpload.length > 0) ? <>
-        <Grid container>
-        {imagePreviewUpload.map((img,key) => {
-        return(<Grid item lg={3} onClick={_handleDeleteImage} key={img.name}><img id={img.name} alt={img.name} style={{display:'inline-block', width: 'inherit'}} src={`${img.prev}`}/></Grid>)
-        })}
+              <label htmlFor="uploadImageFiles"><Typography variant={'h6'}>+ upload Pictures</Typography></label>
+              {(imagePreviewUpload !== undefined && imagePreviewUpload.length > 0) ? <>
+              <Grid container justify="left" spacing={2}>
+                {imagePreviewUpload.map((img,key) => {
+                  return(<Grid item lg={3} onClick={_handleDeleteImage} key={img.name}><img id={img.name} alt={img.name} style={{display:'inline-block', width: '100%', border: 'solid 1px #dadada'}} src={`${img.prev}`}/></Grid>)
+                })}
+              </Grid>
+              </>:
+              <Grid item lg={3}><Typography variant={'h7'}>no images uploaded</Typography></Grid>
+              }
+          </Grid>
+          <Grid item lg={7}>
+          <Button color="primary" variant={'contained'} type="submit" onClick={handleSubmit}>
+            Submit
+          </Button>
         </Grid>
-
-      </>:<>no images uploaded</>}
-
-        <FormGroup controlId="projectMermaid">
-              <Input
-                  label={'Project Mermaid (mmd)'}
-                placeholder="+"
-                aria-label="+"
-                aria-describedby="upload files"
-                id="uploadMmdFile"
-                onChange={_handleMmdChange}
-                type="file"
-              />
-
-            {mermaidPreview ?   <TextareaAutosize
-                rowsMin={3}
-                placeholder="New Project Description"
-                aria-label="New Project Description as mermaid"
-                id="newProjectMmd"
-                aria-describedby="basic-addon2"
-                onChange={handleChange}
-                value={mermaidPreview}
-              />:null}
-
-        <Button variant="primary" type="submit" onClick={handleSubmit}>
-          Submit
-        </Button>
-      </FormGroup>
-    </Outer>
+      </Grid>
     </Grid>
-    </Grid>
-
-  )
+  </Container>)
 }
 
+// <FormGroup controlId="projectMermaid">
+//       <Input
+//           label={'Project Mermaid (mmd)'}
+//         placeholder="+"
+//         aria-label="+"
+//         aria-describedby="upload files"
+//         id="uploadMmdFile"
+//         onChange={_handleMmdChange}
+//         type="file"
+//       />
+//
+//     {mermaidPreview ?   <TextareaAutosize
+//         rowsMin={3}
+//         placeholder="New Project Description"
+//         aria-label="New Project Description as mermaid"
+//         id="newProjectMmd"
+//         aria-describedby="basic-addon2"
+//         onChange={handleChange}
+//         value={mermaidPreview}
+//       />:null}
+// </FormGroup>
 export default NewProjectView

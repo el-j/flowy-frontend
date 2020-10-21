@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
 import FormGroup from '@material-ui/core/FormGroup';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 const NewProjectDetails = ({handleRemove, handleChange, newProject, onSubmit}) => {
   // console.log(onSubmit);
@@ -12,7 +13,7 @@ const NewProjectDetails = ({handleRemove, handleChange, newProject, onSubmit}) =
     <>
     <Grid container style={{marginTop:'2rem'}}>
       <Grid item>
-        <h2>New Project</h2>
+        <Typography variant={'h2'}>New Project</Typography>
       </Grid>
     </Grid>
     <Grid container>

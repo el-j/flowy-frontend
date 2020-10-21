@@ -4,12 +4,15 @@ import styled from 'styled-components'
 /*bootstrap imports */
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
 
 // import Projects from '../../dataMocks/projects.js'
 import {createProject,uploadProjectData, removeProject } from '../../tools/fetchApi'
 import useFetchApi from '../../tools/fetchApi/useFetchApi.js'
 
-import { NewProjectInput, YourProjects } from '../../components'
+import { NewProjectInput, YourProjects, SureDialog } from '../../components'
+import { openProject, createNewProject } from './handlers'
 
 const Overview = (props) => {
   const { searchResults } = props;
@@ -18,29 +21,29 @@ const Overview = (props) => {
 
   const myData = useFetchApi('getProjects')
   const [projects,setProjects] = useState()
+  const [removeProjectName,setRemoveProjectName] = useState()
+  const [showRemoveAlert,setShowRemoveAlert] = useState(false)
   const [newProject,setNewProject] = useState({name:'',files:[]})
   const [isLoaded,setIsLoaded] = useState(false)
   const [uploaded,setUploaded] = useState(false)
   const [createProgress,setCreateProgress] = useState(false)
 
-    useEffect(() => {
-      if (Object.keys(searchResults).length >= 1) {
-        setProjects(searchResults)
-      }else {
-        setProjects(myData)
-      }
-      setIsLoaded(true)
-    },[myData,searchResults])
+  useEffect(() => {
+    if (Object.keys(searchResults).length >= 1) {
+      setProjects(searchResults)
+    }else {
+      setProjects(myData)
+    }
+    setIsLoaded(true)
+  },[myData,searchResults])
 
   const handleOpenProject = (projectName) => {
-    let path = `/project/:${projectName}`;
-    history.push(path);
-    }
+    history.push(openProject(projectName))
+  }
 
   const handleNewProject = (projectName) => {
-    let path = `/newproject/:${projectName}`;
-    history.push(path);
-    }
+    history.push(createNewProject(projectName));
+  }
 
   const handleChange = (e) => {
     const temp = e.target.value
@@ -88,21 +91,36 @@ const Overview = (props) => {
    }
 
   const handleRemoveProject = (projectName) => {
-      removeProject(projectName).then(result =>{
-      setProjects(result)
-      setIsLoaded(true)
-    } ,(error) => {
-            setProjects([])
-            setIsLoaded(false)
-          })
+      if (!showRemoveAlert && !removeProjectName) {
+        setShowRemoveAlert(true)
+        setRemoveProjectName(projectName)
       }
 
+      console.log("here we are", projectName,removeProjectName,showRemoveAlert);
+      if (removeProjectName && showRemoveAlert) {
+        removeProject(projectName).then(result =>{
+        setProjects(result)
+        setIsLoaded(true)
+        setShowRemoveAlert(false)
+        setRemoveProjectName()
+      } ,(error) => {
+              setProjects([])
+              setIsLoaded(false)
+            })
+      }
+      else {
+        setShowRemoveAlert(true)
+      }
+    }
       return(
-          <Container justify="center" spacing={2}>
-            <Grid item xs={12} lg={10}>
-              <Grid container   spacing={2}>
-                <Grid item xs={12}>
-                    <NewProjectInput
+          <Container justify="center">
+            <Grid item xs={12}>
+              <Grid container alignItems="baseline" spacing={2}>
+              <Grid item xs={12} lg={6}>
+                  <Typography variant={'h1'}>Hi, welcome back to flowy</Typography>
+              </Grid>
+              <Grid item xs={12} lg={6}>
+                  <NewProjectInput
                       handleChange={handleChange}
                       value={newProject.name}
                       handleCreateEmptyProject={handleCreateEmptyProject}
@@ -110,8 +128,13 @@ const Overview = (props) => {
                       />
                 </Grid>
             </Grid>
-            <Grid container>
-              <Grid item xs={12}>
+            <Divider />
+
+            <Grid container spacing={1}>
+              <Grid item xs={12} lg={12}>
+                <Typography variant={'h2'}>Your Projects:</Typography>
+              </Grid>
+              <Grid item xs={12} lg={12}>
                {
                  projects&&isLoaded?<YourProjects
                    key='yourprojects'
@@ -121,7 +144,13 @@ const Overview = (props) => {
                    />:<></>
                  }
               </Grid>
-              </Grid>
+            </Grid>
+            <SureDialog
+            handleOk={handleRemoveProject}
+            showAlert={showRemoveAlert}
+            setShowAlert={setShowRemoveAlert}
+            topic={removeProjectName}
+            />
           </Grid>
         </Container>
       )

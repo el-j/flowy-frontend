@@ -83,7 +83,7 @@ handlePrint
     </OuterBottom>
   { /*
     <Inner>
-      <p>Print the current working State</p>
+      <Typography variant={'p'}>Print the current working State</Typography>
       <Button className={'btn-block'} onClick={handlePrint}>Print</Button>
    </Inner>
    */}

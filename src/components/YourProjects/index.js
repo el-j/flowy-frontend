@@ -7,8 +7,11 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Icon from '@material-ui/core/Icon';
+import Typography from '@material-ui/core/Typography';
+
 import LaunchIcon from '@material-ui/icons/Launch';
 import DeleteIcon from '@material-ui/icons/Delete';
+
 
 import { projectDir } from '../../tools/fetchApi'
 
@@ -31,26 +34,28 @@ const ProjectCard = ({project, key, openProject, removeProject}) => {
   if (!preview) {
     preview = {filename:'no_image',type:'png'}
   }
-  return(<Grid container justify="center" className={'projectCard'} style = {{
+  return(<Grid container className={'projectCard'} style = {{
                 backgroundImage: preview.filename!=='no_image'?`url(${projectDir}/${project.name}/${preview.filename}.${preview.type})`:null,
                 backgroundSize: 'cover',
-              }}>
+              }}
+              // onClick={()=>openProject(project.projectId)}
+              >
           <Grid item xs={12} className={'projectOverviewTextElements'}>
-            <h3>{project.name}</h3>
-            <p>{project.info}</p>
+            <Typography variante={'h3'}>{project.name}</Typography>
+            <Typography variant={'p'}>{project.info}</Typography>
           </Grid>
+          <Button variant="contained"
+            color="secondary"
+            className={classes.button}
+            startIcon={<DeleteIcon />}
+            onClick={()=>removeProject(project.projectId)}>Delete Project</Button>
 
-            <Button  variant="contained"
-              color="primary"
-              className={classes.button}
-              startIcon={<LaunchIcon />}
-               onClick={()=>openProject(project.projectId)}>Open Project</Button>
+          <Button  variant="contained"
+            color="primary"
+            className={classes.button}
+            startIcon={<LaunchIcon />}
+             onClick={()=>openProject(project.projectId)}>Open Project</Button>
 
-            <Button variant="contained"
-              color="secondary"
-              className={classes.button}
-              startIcon={<DeleteIcon />}
-              onClick={()=>removeProject(project.projectId)}>Delete Project</Button>
 
         </Grid>
     )
@@ -62,17 +67,17 @@ const YourProjects = ({projects,inkey,openProject,removeProject}) => {
 return(
 
     <>
-    <Grid container justify="center" xs={12} spacing={4}>
+    <Grid container xs={12} spacing={1}>
   {(Object.keys(projects).length !== 0)?(
     Object.keys(projects).map((project,key) => {
         return(
-          <Grid item key={'project'+key+project.name} xs={12} lg={6} className={'projectCardWrapper'}>
+          <Grid item key={'project'+key+project.name} xs={12} sm={6} md={6} lg={4} className={'projectCardWrapper'}>
             <ProjectCard project={projects[project]} openProject={openProject} removeProject={removeProject}/>
         </Grid>
           )
       })):(<>
             <Grid item key={'noproject'}>
-              <h5>you do not have any Projects yet or there is a problem with the server connection ...</h5>
+              <Typography variante={'h5'}>you do not have any Projects yet or there is a problem with the server connection ...</Typography>
             </Grid>
             </>)
     }</Grid>

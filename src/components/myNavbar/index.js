@@ -83,7 +83,7 @@ const MyNavbar = ({handleSearch,projectName}) => {
       <AppBar className={classes.fixed}
       onClick={()=>history.push('/')}>
           <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Typography variant={'h5'} className={classes.title}  noWrap>
             {projectName}
           </Typography>
 
@@ -102,7 +102,7 @@ const MyNavbar = ({handleSearch,projectName}) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography className={classes.title} variant="h6" noWrap>
+        <Typography variant={'h5'} className={classes.title}  noWrap>
           flowy
         </Typography>
         <div className={classes.search}>
