@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import {createProject,uploadProjectData, removeProject } from '../../tools/fetchApi'
 import useFetchApi from '../../tools/fetchApi/useFetchApi.js'
 
-import { NewProjectInput, YourProjects, SureDialog } from '../../components'
+import { NewProjectInput, YourProjects, SureDialog, Spacer } from '../../components'
 import { openProject, createNewProject } from './handlers'
 
 const Overview = (props) => {
@@ -113,11 +113,12 @@ const Overview = (props) => {
       }
     }
       return(
-          <Container justify="center">
-            <Grid item xs={12}>
+          <Container justify="center" spacing={2}>
+            <Spacer spacing={2}/>
+            <Grid item xs={12} spacing={2}>
               <Grid container alignItems="baseline" spacing={2}>
-              <Grid item xs={12} lg={6}>
-                  <Typography variant={'h1'}>Hi, welcome back to flowy</Typography>
+              <Grid item xs={12} lg={12} spacing={2}>
+                  <Typography variant={'p'}>Hi, welcome back to flowy</Typography>
               </Grid>
               <Grid item xs={12} lg={6}>
                   <NewProjectInput
@@ -128,12 +129,14 @@ const Overview = (props) => {
                       />
                 </Grid>
             </Grid>
+            <Spacer spacing={2}/>
             <Divider />
-
+            <Spacer spacing={2}/>
             <Grid container spacing={1}>
               <Grid item xs={12} lg={12}>
-                <Typography variant={'h2'}>Your Projects:</Typography>
+                <Typography variant={'h5'}>Your Projects:</Typography>
               </Grid>
+
               <Grid item xs={12} lg={12}>
                {
                  projects&&isLoaded?<YourProjects

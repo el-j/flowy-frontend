@@ -13,7 +13,7 @@ const NewProjectDetails = ({handleRemove, handleChange, newProject, onSubmit}) =
     <>
     <Grid container style={{marginTop:'2rem'}}>
       <Grid item>
-        <Typography variant={'h2'}>New Project</Typography>
+        <Typography variant={'h3'}>New Project</Typography>
       </Grid>
     </Grid>
     <Grid container>

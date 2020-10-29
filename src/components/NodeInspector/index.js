@@ -6,17 +6,16 @@ import NodeListOverview from "../NodeListOverview";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Input from '@material-ui/core/Input';
+import Input from "@material-ui/core/Input";
+import TextField from "@material-ui/core/TextField";
 
+import Spacer from "../Spacer";
 // import Dropdown from '@material-ui/core'Dropdown';
 // import FormGroup from '@material-ui/core/FormGroup';
 // import CustomNodePreviewEdit from '../FlowChart/Nodes/CustomNodePreviewEdit'
 import {projectDir, serverUrl, serverPort} from "../../tools/fetchApi";
-// import TreeView from '../TreeView'
 
-const StyledNodePreviewGrid = styled.div`
-  padding: 16px;
-`;
+// import TreeView from '../TreeView'
 
 const StyledInputDescription = styled.textarea`
   width: inherit;
@@ -41,18 +40,18 @@ const PictureGrid = styled.div`
   position: relative;
 `;
 
-const PictureGridTitle = styled.div`
-  margin-left: 1rem;
+const PictureGridTitle = styled(Grid)`
+  /* margin-left: 1rem;
   margin-right: 0;
   margin-top: 0.5rem;
-  padding-right: 3rem;
+  padding-right: 3rem; */
 `;
 
 const StyledPortList = styled.div`
   padding: 4px 1rem;
 `;
 
-const StyledNodeInspector = styled.div`
+const StyledNodeInspector = styled(Grid)`
   /* width: 350px;
   background: white;
   position:absolute;
@@ -91,9 +90,10 @@ const PortListItem = ({
   label,
   handleChangePortLabel
 }) => (
-  <StyledPortList>
+  <Grid container>
     <Grid
-      container
+      item
+      xs={12}
       key={port + key}
       style={{
         borderBottom: "2px solid #ddd",
@@ -130,7 +130,7 @@ const PortListItem = ({
         </Button>
       </Grid>
     </Grid>
-  </StyledPortList>
+  </Grid>
 );
 
 const NodeInspector = ({
@@ -154,15 +154,13 @@ const NodeInspector = ({
 }) => {
   // console.log(selected)
   return (
-    <StyledNodeInspector>
+    <StyledNodeInspector container justify="center" spacing={2}>
+
       {Object.keys(newItem).length > 0 && Object.keys(selected).length > 0 ? (
         <>
-          {
-            // console.log(newItem, selected)
-          }
           {selected.type === "node" ? (
             <>
-              <PictureGrid id="changeNodeImage" onClick={handleChange}>
+              <Grid item id="changeNodeImage" onClick={handleChange}>
                 <Input
                   type="file"
                   id="picctureChange"
@@ -183,121 +181,96 @@ const NodeInspector = ({
                     width: "100%"
                   }}
                 />
-              </PictureGrid>
-              <Grid container>
-                <PictureGridTitle as={Grid} lg={12}>
-                  <p> {newItem.id} </p>
-                </PictureGridTitle>
               </Grid>
-              <Grid container>
 
-                <PictureGridTitle as={Grid} lg={12}>
-                  <StyledInputTitle
-                    placeholder="Your Node Name"
-                    aria-label={newItem.name}
-                    aria-describedby={newItem.name}
+                <Grid item xs={11}>
+                  <p> {newItem.id} </p>
+
+                  <TextField
+                    fullWidth
+                    value={newItem.name}
+                    label="Node Name"
                     id="changeNodeName"
                     value={newItem.name}
                     onChange={e => handleChange(e, newItem.id)}
                   />
-                </PictureGridTitle>
-              </Grid>
-              <Grid>
-                <PictureGridTitle as={Grid} lg={12}>
-                  <StyledInputDescription
-                    Grids="2"
+                  <Spacer spacing={2} />
+                  <TextField
+                    fullWidth
                     placeholder="Your Description of the node"
-                    aria-label={newItem.text}
-                    aria-describedby={newItem.text}
+                    label={"Node Description"}
                     id="changeNodeDescription"
                     value={newItem.text}
                     onChange={e => handleChange(e, newItem.id)}
-                    type="textarea"
+                    multiline
+                    rowsMax={4}
                   />
-                </PictureGridTitle>
-              </Grid>
-            </>
-          ) : (
-             <Typography variant={'h1'}> Decicsion </Typography>
-          )}
-          <StyledNodePreviewGrid as={Grid}>
-            <Grid
-              lg={{
-                span: 3
-              }}
-            >
-              <Typography variant={'h6'}> Inputs </Typography>
-            </Grid>
-            <Grid
-              lg={{
-                span: 9
-              }}
-            >
-              <Button
-                id={"addInput"}
-                style={{
-                  height: "2rem",
-                  lineHeight: "1rem"
-                }}
-                className={"btn-block"}
-                onClick={handleAddPort}
-              >
-                Add Input +
-              </Button>
-            </Grid>
-            <Grid
-              lg={{
-                span: 12
-              }}
-            >
-              <PortList
-                thisnode={newItem}
-                handleChangePortLabel={handleChangePortLabel}
-                type="input"
-                handleDeletePort={handleDeletePort}
-              />
-            </Grid>
-          </StyledNodePreviewGrid>
-          <StyledNodePreviewGrid as={Grid}>
+                </Grid>
 
-            <Grid
-              lg={{
-                span: 3
-              }}
-            >
-              <Typography variant={'h6'}> Outputs </Typography>
+            </>
+            ) : (<><Typography variant={"h2"}> Decicsion </Typography></>)}
+            <>
+              <Grid container item xs={11}>
+                <Grid item xs={7}>
+                  <Typography variant={"h6"}> Inputs </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={5}
+                >
+                  <Button
+                    fullWidth
+                    id={"addInput"}
+                    style={{
+                      height: "2rem",
+                      lineHeight: "1rem"
+                    }}
+                    variant={'outlined'}
+                    color={'primary'}
+                    className={"btn-block"}
+                    onClick={handleAddPort}
+                  >
+                  Add Input +
+                </Button>
+              </Grid>
             </Grid>
-            <Grid
-              lg={{
-                span: 9
-              }}
-            >
-              <Button
-                id={"addOutput"}
-                style={{
-                  height: "2rem",
-                  lineHeight: "1rem"
-                }}
-                className={"btn-block"}
-                onClick={handleAddPort}
-              >
-                Add Output +
-              </Button>
+            <Grid container item xs={11}>
+                <PortList
+                  thisnode={newItem}
+                  handleChangePortLabel={handleChangePortLabel}
+                  type="input"
+                  handleDeletePort={handleDeletePort}
+                />
             </Grid>
-            <Grid
-              lg={{
-                span: 12
-              }}
-            >
-              <PortList
-                thisnode={newItem}
-                handleChangePortLabel={handleChangePortLabel}
-                type="output"
-                handleDeletePort={handleDeletePort}
-              />
+            <Grid container>
+              <Grid lg={3} >
+                <Typography variant={"h6"}> Outputs </Typography>
+              </Grid>
+              <Grid lg={9} >
+                <Button
+                  id={"addOutput"}
+                  style={{
+                    height: "2rem",
+                    lineHeight: "1rem"
+                  }}
+                  className={"btn-block"}
+                  onClick={handleAddPort}
+                >
+                  Add Output +
+                </Button>
+              </Grid>
+              <Grid lg={12}>
+                <PortList
+                  thisnode={newItem}
+                  handleChangePortLabel={handleChangePortLabel}
+                  type="output"
+                  handleDeletePort={handleDeletePort}
+                />
+              </Grid>
             </Grid>
-          </StyledNodePreviewGrid>
+
         </>
+          </>
       ) : (
         <NodeListOverview
           project={project}
@@ -310,6 +283,7 @@ const NodeInspector = ({
           smartRouting={smartRouting}
         />
       )}
+    
     </StyledNodeInspector>
   );
 };

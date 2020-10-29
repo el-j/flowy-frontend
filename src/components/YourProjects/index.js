@@ -41,8 +41,8 @@ const ProjectCard = ({project, key, openProject, removeProject}) => {
               // onClick={()=>openProject(project.projectId)}
               >
           <Grid item xs={12} className={'projectOverviewTextElements'}>
-            <Typography variante={'h3'}>{project.name}</Typography>
-            <Typography variant={'p'}>{project.info}</Typography>
+            <Typography variant={'h4'}>{project.name}</Typography>
+            <Typography variant={'p'}>{project.description}</Typography>
           </Grid>
           <Button variant="contained"
             color="secondary"

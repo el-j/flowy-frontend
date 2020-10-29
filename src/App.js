@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { HashRouter as Router } from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/core/styles';
+import theme from './theme';
 
 import useFetchApi from './tools/fetchApi/useFetchApi.js'
 import Routes from "./routes";
@@ -34,11 +36,13 @@ export default function App() {
   }
   return (
     <Router basename="/">
+    <ThemeProvider theme={theme}>
       <MyNavbar
         handleSearch={handleSearch}
         projectName={projectName?projectName:null}
         />
       <Routes searchResults={searchResults} setProjectName={setProjectName}/>
+      </ThemeProvider>
     </Router>
   );
 }

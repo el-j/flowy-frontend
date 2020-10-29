@@ -25,11 +25,17 @@ body, #root {
   z-index: 1000;
   position: relative;
   border-radius: 0.5rem;
+
+}
+.projectCard > div > h4,
+.projectCard > div > span {
+  color: rgb(50, 50, 55); 
+    mix-blend-mode: difference;
 }
 .projectCard::before {
   content: '';
   display: block;
-  background: rgba(0, 0, 0,0.4);
+  background: rgba(255, 255,255,0.4);
   position: absolute;
   border-radius: 0.5rem;
   z-index: 0;
@@ -37,6 +43,8 @@ body, #root {
   bottom: 0;
   left: 0;
   right: 0;
+  border: 2px solid #dadada;
+  border-radius: 4px;
 }
 
 
