@@ -17,39 +17,6 @@ import {projectDir, serverUrl, serverPort} from "../../tools/fetchApi";
 
 // import TreeView from '../TreeView'
 
-const StyledInputDescription = styled.textarea`
-  width: inherit;
-  border: none;
-  font-size: 1rem;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: 1px solid #dadada;
-`;
-const StyledInputTitle = styled(Input)`
-  width: inherit;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: 1px solid #dadada;
-  font-size: 1.5rem;
-`;
-
-const PictureGrid = styled.div`
-  /* margin-top:56px; */
-  position: relative;
-`;
-
-const PictureGridTitle = styled(Grid)`
-  /* margin-left: 1rem;
-  margin-right: 0;
-  margin-top: 0.5rem;
-  padding-right: 3rem; */
-`;
-
-const StyledPortList = styled.div`
-  padding: 4px 1rem;
-`;
 
 const StyledNodeInspector = styled(Grid)`
   /* width: 350px;
@@ -161,7 +128,7 @@ const NodeInspector = ({
           {selected.type === "node" ? (
             <>
               <Grid item id="changeNodeImage" onClick={handleChange}>
-                <Input
+                <input
                   type="file"
                   id="picctureChange"
                   ref={uploadRef}
@@ -283,7 +250,7 @@ const NodeInspector = ({
           smartRouting={smartRouting}
         />
       )}
-    
+
     </StyledNodeInspector>
   );
 };

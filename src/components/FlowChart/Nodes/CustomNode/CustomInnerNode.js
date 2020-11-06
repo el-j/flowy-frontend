@@ -58,8 +58,8 @@ const CustomInnerNode = ({ node, config, handleImageHeight }: INodeInnerDefaultP
   return node.displayType==='decision'?(<DecisionWrapper>
             <DecisionInner>
             <Typography variante={'h5'}>{node.name}</Typography>
-            <Typography variant={'p'}>{node.text}</Typography>
-            <Typography variant={'p'} className="figure-caption text-center" style={{padding: '4px',
+            <Typography variant={'caption'}>{node.text}</Typography>
+            <Typography variant={'caption'} className="figure-caption text-center" style={{padding: '4px',
             margin: 0,
             transform: 'translate(20px,10px )',
             position: 'absolute',
@@ -68,8 +68,8 @@ const CustomInnerNode = ({ node, config, handleImageHeight }: INodeInnerDefaultP
           </DecisionWrapper>):(node.displayType === 'point')?(<PointWrapper>
             <PointInner>
             <Typography variante={'h5'}>{node.name}</Typography>
-            <Typography variant={'p'}>{node.text}</Typography>
-            <Typography variant={'p'} className="figure-caption text-center" style={{padding: '4px',
+            <Typography variant={'caption'}>{node.text}</Typography>
+            <Typography variant={'caption'} className="figure-caption text-center" style={{padding: '4px',
             margin: 0,
             transform: 'translate(40px,10px )',
             position: 'absolute',
@@ -88,10 +88,10 @@ const CustomInnerNode = ({ node, config, handleImageHeight }: INodeInnerDefaultP
         </div>
         <Inner>
         <Typography variante={'h5'}>{node.name}</Typography>
-        <Typography variant={'p'}>{node.text}</Typography>
+        <Typography variant={'caption'}>{node.text}</Typography>
 
         </Inner>
-        <Typography variant={'p'} className="figure-caption" style={{padding: '4px',
+        <Typography variant={'caption'} className="figure-caption" style={{padding: '4px',
         margin: 0,
         transform: 'translateY(10px)',
         position: 'absolute',

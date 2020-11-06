@@ -118,7 +118,7 @@ const Overview = (props) => {
             <Grid item xs={12} spacing={2}>
               <Grid container alignItems="baseline" spacing={2}>
               <Grid item xs={12} lg={12} spacing={2}>
-                  <Typography variant={'p'}>Hi, welcome back to flowy</Typography>
+                  <Typography variant={'caption'}>Hi, welcome back to flowy</Typography>
               </Grid>
               <Grid item xs={12} lg={6}>
                   <NewProjectInput

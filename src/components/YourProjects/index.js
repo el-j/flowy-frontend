@@ -42,7 +42,7 @@ const ProjectCard = ({project, key, openProject, removeProject}) => {
               >
           <Grid item xs={12} className={'projectOverviewTextElements'}>
             <Typography variant={'h4'}>{project.name}</Typography>
-            <Typography variant={'p'}>{project.description}</Typography>
+            <Typography variant={'caption'}>{project.description}</Typography>
           </Grid>
           <Button variant="contained"
             color="secondary"

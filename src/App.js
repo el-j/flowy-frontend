@@ -13,7 +13,7 @@ export default function App() {
   const [projectName,setProjectName] = useState(null)
   const allProjects = useFetchApi('getProjects')
 
-  const handleSearch =(e) => {
+  const handleSearch = (e) => {
     let searchValue = e.target.value
     let allProjectNames = Object.keys(allProjects)
     let searchResultNames = []
@@ -22,6 +22,9 @@ export default function App() {
         searchResultNames = allProjectNames.filter(name => {
           if (name.includes(searchValue)) {
               return allProjects[name]
+          }
+          else {
+            return null
           }
         })
         searchResultNames.map(name => {
@@ -33,6 +36,7 @@ export default function App() {
       searchResults = allProjects
     }
     setSearchResults(searchResults)
+
   }
   return (
     <Router basename="/">

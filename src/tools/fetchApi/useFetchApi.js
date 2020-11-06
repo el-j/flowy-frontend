@@ -9,20 +9,20 @@ import { useState, useEffect } from "react";
 
 const useFetchApi = (url) => {
    const [data, dataSet] = useState(false)
-   let api =`http://localhost:9023/api`
-
-  if (url !== undefined) {
-      api =`${api}/${url}`
+   useEffect(() => {
+    if (!data) {
+      let api =`http://localhost:9023/api`
+      if (url !== undefined) {
+          api =`${api}/${url}`
+        }
+      async function fetchMyApi() {
+        let response = await fetch(api)
+        response = await response.json()
+        dataSet(response)
+      }
+      fetchMyApi();
     }
-
-  async function fetchMyApi() {
-    let response = await fetch(api)
-    response = await response.json()
-    dataSet(response)
-  }
-  useEffect(() => {
-    fetchMyApi();
-  }, []);
+  }, [data,url]);
   return data
 }
 export default useFetchApi

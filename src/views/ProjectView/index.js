@@ -17,8 +17,9 @@ import { nodeItem } from "../../models"
 
 const ProjectView = (props) => {
       const {setProjectName} = props;
-      const {projectName} = useParams()
-      const apiUrl = `loadProject/${projectName}`
+      let {projectName} = useParams()
+        projectName= projectName.substring(1)
+      const apiUrl = `loadProject/:${projectName}`
       const loadProject = useFetchApi(apiUrl)
       const [error,setError] = useState(null)
       const [isLoaded,setIsLoaded]= useState(false)
@@ -225,10 +226,11 @@ const ProjectView = (props) => {
      },[newItem])
 
      const changePicture = (e) => {
+       console.log(e.currentTarget.files);
        let picName = e.currentTarget.files[0].name
        let saveChart = chart
        let picId = ''
-       console.log("itemRef and UploadRef from changePciture handler",itemRef,uploadRef);
+       console.log("itemRef and UploadRef from changePciture handler",itemRef,uploadRef,projectName.substring(1),newItem.id);
        if (!saveChart.nodes[newItem.id].picId) {
        picId = `${saveChart.nodes[newItem.id].id}_picId`
        }
@@ -368,6 +370,8 @@ const ProjectView = (props) => {
 
     const handleImageHeight = e => {
       let thisNode = e.target.id.split('_')[0]
+
+      console.log("we handle imageHeight",chart.nodes[thisNode],e.target.id);
       if (chart.nodes[thisNode].picSize) {
       if (chart.nodes[thisNode].picSize.height !== e.target.clientHeight) {
         console.log(thisNode,e.target.clientHeight);

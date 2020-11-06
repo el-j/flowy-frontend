@@ -32,7 +32,7 @@ const MyFlowChart = React.forwardRef((props,ref) => {
       chart={chartData}
       config={{
         smartRouting: smartRoutingState,
-        showArrowHead: true,
+        showArrowHead: false,
         handleImageHeight: handleImageHeight
       }}
 

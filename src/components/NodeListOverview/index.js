@@ -10,11 +10,10 @@ import TextField from '@material-ui/core/TextField';
 import Spacer from "../../components/Spacer";
 import { projectDir,serverUrl,serverPort } from '../../tools/fetchApi'
 
-const NodeCard =({nodes,handleSelected}) => {
-  return Object.keys(nodes).map(node => {
-    console.log(node);
+const NodeCard =({nodes,nodeNames,handleSelected}) => {
+  return nodeNames.map(node => {
     return (
-      <Grid item xs={11}>
+      <Grid item xs={11} key={`${nodes[node].id}_Card`}>
       <Button
         fullWidth
         key={node}
@@ -41,7 +40,7 @@ const NodeCard =({nodes,handleSelected}) => {
       <Grid item xs={12}>
           <Typography variant={'h6'} align={'left'}>{node.substring(4)}: {nodes[node].name}</Typography></Grid>
           <Grid item xs={1}>
-          <Typography variant={'p'} align={'left'}>{nodes[node].displayType}</Typography></Grid>
+          <Typography variant={'caption'} align={'left'}>{nodes[node].displayType}</Typography></Grid>
           </Grid>
         </Button>
 </Grid>
@@ -77,6 +76,7 @@ smartRouting,
     const classes = useStyles();
   let chart = project.projectJson
   let nodeNames = Object.keys(chart.nodes)
+  let nodeMaxCount = nodeNames.length
   return(
     <>
     <Grid container justify="center"  className={classes.root}>
@@ -101,28 +101,27 @@ smartRouting,
           id="changeProjectDescription"
           value={project.description}
           onChange={e => handleChange(e)}
-          textarea
-        />
+          />
       </Grid>
       </Grid>
       <Spacer spacing={10} />
       <Grid container justify="center"  className={classes.root}>
-        {Object.keys(chart.nodes).length > 0? (
+        {nodeMaxCount > 0? (
             <Grid item xs={11}>
-            <Typography variant={'h5'}>Nodes:  {Object.keys(chart.nodes).length}</Typography>
+            <Typography variant={'h5'}>Nodes:  {nodeNames.length}</Typography>
             </Grid>
           ):
           (<Grid item xs={11}>
             <Typography variant={'h5'}>Nodes: 0</Typography>
-            <Typography variant={'p'}>begin to add Nodes to your Projects</Typography>
+            <Typography variant={'caption'}>begin to add Nodes to your Projects</Typography>
             </Grid>
           )
           }
         <Grid container spacing={4}>
           <Grid item xs={12}>
             <Grid container justify="center" spacing={2}>
-              {Object.keys(chart.nodes).length > 0? (
-                <NodeCard nodes={chart.nodes} handleSelected={handleSelected}/>):null
+              {nodeMaxCount > 0? (
+                <NodeCard nodes={chart.nodes} nodeNames={nodeNames} handleSelected={handleSelected}/>):null
               }
             </Grid>
           </Grid>

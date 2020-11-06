@@ -158,7 +158,6 @@ const NewProjectView = props => {
             <TextField
               fullWidth
               placeholder="Project Name"
-              label="Project Name"
               id="newProjectName"
               aria-describedby="basic-addon2"
               onChange={handleChange}
