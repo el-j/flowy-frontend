@@ -4,13 +4,13 @@ flowy is a little react based tool.
 it creates flow graphs with pictures and has a simple project handling.
 
 **this is an MVP**
-![image](https://github.com/el-j/flowy-frontend/assets/2795534/69b8509d-2d66-429e-a2f6-e32f4e4ad859)
-![image](https://github.com/el-j/flowy-frontend/assets/2795534/68021ee3-ba61-42a1-b3d6-f26ebb624099)
+<img width="1351" alt="Screenshot 2023-06-07 at 12 59 16" src="https://github.com/el-j/flowy-frontend/assets/2795534/ecb182cd-2802-4097-937e-612a8a4a619b">
+<img width="1351" alt="Screenshot 2023-06-07 at 13 00 55" src="https://github.com/el-j/flowy-frontend/assets/2795534/95acc51f-8aa4-4d19-a7f7-6028c8b66a82">
 
 
 
 flowy sketch plugin:
-[[https://github.com/el-j/flowy-frontend](https://github.com/el-j/flowy_import.sketchplugin)](https://github.com/el-j/flowy_import.sketchplugin)
+https://github.com/el-j/flowy_import.sketchplugin
 
 # flowy backend server
 you need to have the flowybackendserver running with some projects. otherwise you cannot the frontend.
