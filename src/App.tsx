@@ -3,7 +3,7 @@ import { HashRouter as Router } from 'react-router-dom';
 
 import useFetchApi from './tools/fetchApi/useFetchApi';
 import Routes from "./routes";
-import MyNavbar from "./components/MyNavbar";
+import MyNavbar from "./components/myNavbar";
 import { Projects, SearchResults } from "./types";
 
 export default function App() {
