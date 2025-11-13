@@ -32,7 +32,7 @@ interface LeftPanelProps {
 const LeftPanel: React.FC<LeftPanelProps> = ({
   createNewNode,
   handleSave,
-  handlePrint
+  handlePrint: _handlePrint
 }) => {
   return (
     <>

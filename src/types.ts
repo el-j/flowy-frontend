@@ -140,7 +140,7 @@ export interface ChartComponentProps {
 // ReactFlow-specific types
 import { Node as ReactFlowNode, Edge as ReactFlowEdge } from '@xyflow/react';
 
-export interface FlowNodeData {
+export interface FlowNodeData extends Record<string, unknown> {
   name: string;
   text: string;
   displayType: NodeDisplayType;
@@ -157,7 +157,7 @@ export interface FlowNodeData {
 
 export type FlowNode = ReactFlowNode<FlowNodeData>;
 
-export interface FlowEdgeData {
+export interface FlowEdgeData extends Record<string, unknown> {
   label?: string;
   sourcePort?: string;
   targetPort?: string;

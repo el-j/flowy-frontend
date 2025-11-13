@@ -10,7 +10,6 @@ import {
   Node,
   Link,
   FlowNodeData,
-  ChartOffset,
   Selected,
 } from '../types';
 

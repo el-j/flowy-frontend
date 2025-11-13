@@ -48,8 +48,8 @@ const NewProjectView: React.FC = () => {
   const { projectName } = useParams<{ projectName: string }>();
   const myprojectName = projectName?.slice(1) || '';
   const [newProject, setNewProject] = useState(emptyProject(myprojectName));
-  const [uploaded, setUploaded] = useState(false);
-  const [createProgress, setCreateProgress] = useState(false);
+  const [_uploaded, setUploaded] = useState(false);
+  const [_createProgress, setCreateProgress] = useState(false);
   const [imagePreviewUpload, setImagePreviewUpload] = useState<ImagePreview[]>([]);
   const [mermaidPreview, setMermaidPreview] = useState('');
 
@@ -149,7 +149,7 @@ const NewProjectView: React.FC = () => {
     formData.append('projectDescription', description);
     formData.append('projectMermaid', mermaid);
     uploadProjectData(formData, name).then(
-      result => {
+      _result => {
         setUploaded(true);
         setCreateProgress(true);
         handleOpenProject(name);

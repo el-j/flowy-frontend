@@ -36,14 +36,12 @@ const NewProjectInput: React.FC<NewProjectInputProps> = ({
               onChange={handleChange}
               value={value}
             />
-            <InputGroup.Append>
-              <Button
-                onClick={handleCreateEmptyProject}
-                className={'btn btn-outline-secondary'}
-              >
-                +
-              </Button>
-            </InputGroup.Append>
+            <Button
+              onClick={handleCreateEmptyProject}
+              className={'btn btn-outline-secondary'}
+            >
+              +
+            </Button>
           </InputGroup>
         </Col>
       </Row>

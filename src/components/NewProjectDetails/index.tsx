@@ -36,11 +36,9 @@ const NewProjectDetails: React.FC<NewProjectDetailsProps> = ({
               readOnly
               value={newProject.name}
             />
-            <InputGroup.Append>
-              <Button variant="outline-secondary" onClick={handleRemove}>
-                -
-              </Button>
-            </InputGroup.Append>
+            <Button variant="outline-secondary" onClick={handleRemove}>
+              -
+            </Button>
           </InputGroup>
         </Col>
       </Row>

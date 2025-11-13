@@ -169,7 +169,7 @@ const FlowChartInner: React.FC<FlowChartInnerProps> = ({
 // Wrapper component with ReactFlowProvider
 interface FlowChartProps extends FlowChartInnerProps {}
 
-const FlowChart = React.forwardRef<HTMLDivElement, FlowChartProps>((props, ref) => {
+const FlowChart = React.forwardRef<HTMLDivElement, FlowChartProps>((props, _ref) => {
   return (
     <ReactFlowProvider>
       <FlowChartInner {...props} />
