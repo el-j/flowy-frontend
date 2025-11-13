@@ -136,3 +136,41 @@ export interface ChartComponentProps {
   handleImageHeight?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
   id?: string;
 }
+
+// ReactFlow-specific types
+import { Node as ReactFlowNode, Edge as ReactFlowEdge } from '@xyflow/react';
+
+export interface FlowNodeData {
+  name: string;
+  text: string;
+  displayType: NodeDisplayType;
+  picture: string;
+  picId: string;
+  path: string;
+  size: Size;
+  picSize?: PicSize;
+  ports: Ports;
+  onEdit?: (nodeId: string, field: string, value: any) => void;
+  onDelete?: (nodeId: string) => void;
+  onImageLoad?: (nodeId: string, height: number) => void;
+}
+
+export type FlowNode = ReactFlowNode<FlowNodeData>;
+
+export interface FlowEdgeData {
+  label?: string;
+  sourcePort?: string;
+  targetPort?: string;
+}
+
+export type FlowEdge = ReactFlowEdge<FlowEdgeData>;
+
+// Conversion helpers between old and new format
+export interface LegacyChartData {
+  offset: ChartOffset;
+  nodes: Nodes;
+  links: Links;
+  selected: Selected;
+  hovered: Hovered;
+  scale?: number;
+}
