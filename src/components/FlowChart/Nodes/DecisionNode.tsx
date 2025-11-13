@@ -1,16 +1,17 @@
 import React from 'react';
-import { Handle, Position, NodeProps } from '@xyflow/react';
+import { Handle, Position } from '@xyflow/react';
 import styled from 'styled-components';
+import type { NodeProps } from '@xyflow/react';
 import { FlowNodeData } from '../../../types';
 
-const DiamondContainer = styled.div<{ selected: boolean }>`
+const DiamondContainer = styled.div<{ $selected: boolean }>`
   position: relative;
   width: 150px;
   height: 150px;
   background: white;
-  border: 2px solid ${props => props.selected ? '#3b82f6' : '#ddd'};
+  border: 2px solid ${props => props.$selected ? '#3b82f6' : '#ddd'};
   transform: rotate(45deg);
-  box-shadow: ${props => props.selected ? '0 4px 12px rgba(59, 130, 246, 0.3)' : '0 2px 6px rgba(0,0,0,0.1)'};
+  box-shadow: ${props => props.$selected ? '0 4px 12px rgba(59, 130, 246, 0.3)' : '0 2px 6px rgba(0,0,0,0.1)'};
   transition: all 0.2s;
   
   &:hover {
@@ -39,14 +40,14 @@ const NodeText = styled.div`
   color: #666;
 `;
 
-const PortLabel = styled.div<{ position: string }>`
+const PortLabel = styled.div<{ $position: string }>`
   font-size: 10px;
   color: #888;
   position: absolute;
   transform: rotate(-45deg);
   white-space: nowrap;
   ${props => {
-    switch (props.position) {
+    switch (props.$position) {
       case 'top':
         return 'top: -30px; left: 50%; transform: translateX(-50%) rotate(-45deg);';
       case 'left':
@@ -59,11 +60,10 @@ const PortLabel = styled.div<{ position: string }>`
   }}
 `;
 
-interface DecisionNodeProps extends NodeProps<FlowNodeData> {}
-
-const DecisionNode: React.FC<DecisionNodeProps> = ({ data, selected, id }) => {
-  const inputPort = Object.entries(data.ports).find(([_, port]) => port.type === 'input');
-  const outputPorts = Object.entries(data.ports).filter(([_, port]) => port.type === 'output');
+const DecisionNode: React.FC<NodeProps> = ({ data, selected }) => {
+  const nodeData = data as unknown as FlowNodeData;
+  const inputPort = Object.entries(nodeData.ports).find(([_, port]) => port.type === 'input');
+  const outputPorts = Object.entries(nodeData.ports).filter(([_, port]) => port.type === 'output');
   
   return (
     <>
@@ -77,15 +77,15 @@ const DecisionNode: React.FC<DecisionNodeProps> = ({ data, selected, id }) => {
             style={{ background: '#3b82f6', top: '-10px' }}
           />
           {inputPort[1].properties.value && inputPort[1].properties.value !== 'nolabel' && (
-            <PortLabel position="top">{inputPort[1].properties.value}</PortLabel>
+            <PortLabel $position="top">{inputPort[1].properties.value}</PortLabel>
           )}
         </>
       )}
 
-      <DiamondContainer selected={selected || false}>
+      <DiamondContainer $selected={selected || false}>
         <ContentWrapper>
-          <NodeName>{data.name}</NodeName>
-          {data.text && <NodeText>{data.text}</NodeText>}
+          <NodeName>{nodeData.name}</NodeName>
+          {nodeData.text && <NodeText>{nodeData.text}</NodeText>}
         </ContentWrapper>
       </DiamondContainer>
 
@@ -99,7 +99,7 @@ const DecisionNode: React.FC<DecisionNodeProps> = ({ data, selected, id }) => {
             style={{ background: '#ef4444', left: '-10px' }}
           />
           {outputPorts[0][1].properties.value && (
-            <PortLabel position="left">{outputPorts[0][1].properties.value}</PortLabel>
+            <PortLabel $position="left">{outputPorts[0][1].properties.value}</PortLabel>
           )}
         </>
       )}
@@ -113,7 +113,7 @@ const DecisionNode: React.FC<DecisionNodeProps> = ({ data, selected, id }) => {
             style={{ background: '#10b981', right: '-10px' }}
           />
           {outputPorts[1][1].properties.value && (
-            <PortLabel position="right">{outputPorts[1][1].properties.value}</PortLabel>
+            <PortLabel $position="right">{outputPorts[1][1].properties.value}</PortLabel>
           )}
         </>
       )}
@@ -122,3 +122,4 @@ const DecisionNode: React.FC<DecisionNodeProps> = ({ data, selected, id }) => {
 };
 
 export default DecisionNode;
+

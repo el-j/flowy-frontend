@@ -1,15 +1,16 @@
 import React from 'react';
-import { Handle, Position, NodeProps } from '@xyflow/react';
+import { Handle, Position } from '@xyflow/react';
 import styled from 'styled-components';
+import type { NodeProps } from '@xyflow/react';
 import { FlowNodeData } from '../../../types';
 
-const NodeContainer = styled.div<{ selected: boolean }>`
+const NodeContainer = styled.div<{ $selected: boolean }>`
   background: white;
-  border: 2px solid ${props => props.selected ? '#3b82f6' : '#ddd'};
+  border: 2px solid ${props => props.$selected ? '#3b82f6' : '#ddd'};
   border-radius: 8px;
   padding: 10px;
   min-width: 180px;
-  box-shadow: ${props => props.selected ? '0 4px 12px rgba(59, 130, 246, 0.3)' : '0 2px 6px rgba(0,0,0,0.1)'};
+  box-shadow: ${props => props.$selected ? '0 4px 12px rgba(59, 130, 246, 0.3)' : '0 2px 6px rgba(0,0,0,0.1)'};
   transition: all 0.2s;
   
   &:hover {
@@ -38,30 +39,29 @@ const NodeText = styled.div`
   margin-bottom: 8px;
 `;
 
-const PortLabel = styled.div<{ position: string }>`
+const PortLabel = styled.div<{ $position: string }>`
   font-size: 10px;
   color: #888;
   position: absolute;
-  ${props => props.position === 'top' ? 'top: -20px' : 'bottom: -20px'};
+  ${props => props.$position === 'top' ? 'top: -20px' : 'bottom: -20px'};
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
 `;
 
-interface ScreenNodeProps extends NodeProps<FlowNodeData> {}
-
-const ScreenNode: React.FC<ScreenNodeProps> = ({ data, selected, id }) => {
-  const inputPorts = Object.entries(data.ports).filter(([_, port]) => port.type === 'input');
-  const outputPorts = Object.entries(data.ports).filter(([_, port]) => port.type === 'output');
+const ScreenNode: React.FC<NodeProps> = ({ data, selected, id }) => {
+  const nodeData = data as unknown as FlowNodeData;
+  const inputPorts = Object.entries(nodeData.ports).filter(([_, port]) => port.type === 'input');
+  const outputPorts = Object.entries(nodeData.ports).filter(([_, port]) => port.type === 'output');
   
   const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    if (data.onImageLoad) {
-      data.onImageLoad(id, e.currentTarget.clientHeight);
+    if (nodeData.onImageLoad) {
+      nodeData.onImageLoad(id, e.currentTarget.clientHeight);
     }
   };
 
   return (
-    <NodeContainer selected={selected || false}>
+    <NodeContainer $selected={selected || false}>
       {/* Input Handles */}
       {inputPorts.map(([portId, port]) => (
         <React.Fragment key={portId}>
@@ -72,23 +72,23 @@ const ScreenNode: React.FC<ScreenNodeProps> = ({ data, selected, id }) => {
             style={{ background: '#3b82f6' }}
           />
           {port.properties.value && port.properties.value !== 'nolabel' && (
-            <PortLabel position="top">{port.properties.value}</PortLabel>
+            <PortLabel $position="top">{port.properties.value}</PortLabel>
           )}
         </React.Fragment>
       ))}
 
       {/* Node Content */}
-      {data.picture && data.picture !== 'no_image.png' && (
+      {nodeData.picture && nodeData.picture !== 'no_image.png' && (
         <NodeImage
-          src={data.path.startsWith('/') ? data.path : `/${data.path}`}
-          alt={data.name}
+          src={nodeData.path.startsWith('/') ? nodeData.path : `/${nodeData.path}`}
+          alt={nodeData.name}
           onLoad={handleImageLoad}
           id={`${id}_picId`}
         />
       )}
       
-      <NodeName>{data.name}</NodeName>
-      {data.text && <NodeText>{data.text}</NodeText>}
+      <NodeName>{nodeData.name}</NodeName>
+      {nodeData.text && <NodeText>{nodeData.text}</NodeText>}
 
       {/* Output Handles */}
       {outputPorts.map(([portId, port]) => (
@@ -100,7 +100,7 @@ const ScreenNode: React.FC<ScreenNodeProps> = ({ data, selected, id }) => {
             style={{ background: '#10b981' }}
           />
           {port.properties.value && port.properties.value !== 'nolabel' && (
-            <PortLabel position="bottom">{port.properties.value}</PortLabel>
+            <PortLabel $position="bottom">{port.properties.value}</PortLabel>
           )}
         </React.Fragment>
       ))}
@@ -109,3 +109,4 @@ const ScreenNode: React.FC<ScreenNodeProps> = ({ data, selected, id }) => {
 };
 
 export default ScreenNode;
+
